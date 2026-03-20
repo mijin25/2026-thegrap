@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>개인정보 처리방침 — THE GRAP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <script src="gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/grap-header.js"></script>
+  <style>
+    .privacy-wrap {
+      padding: clamp(140px,18vw,220px) var(--gutter) clamp(80px,10vw,140px);
+      max-width: 820px;
+    }
+    .privacy-label {
+      font-size: var(--text-sm); letter-spacing: .15em;
+      text-transform: uppercase; color: var(--c-secondary);
+      margin-bottom: 40px;
+    }
+    .privacy-title {
+      font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: .92; letter-spacing: -.03em;
+      text-transform: uppercase; color: var(--c-on-bg);
+      margin-bottom: 48px;
+    }
+    .privacy-meta {
+      font-size: var(--text-sm); color: var(--c-on-bg);
+      margin-bottom: 56px;
+    }
+    .privacy-intro {
+      font-size: var(--text-base); line-height: 1.8;
+      color: var(--c-on-bg); margin-bottom: 56px;
+      word-break: keep-all;
+    }
+    .privacy-block { margin-bottom: 48px; }
+    .privacy-block h2 {
+      font-family: 'PP Neue Montreal', sans-serif; font-weight: 500;
+      font-size: clamp(1rem, 1.6vw, 1.25rem);
+      letter-spacing: -.01em; color: var(--c-on-bg);
+      margin-bottom: 16px;
+    }
+    .privacy-block p {
+      font-size: var(--text-base); line-height: 1.8;
+      color: var(--c-on-bg); word-break: keep-all;
+      margin-bottom: 12px;
+    }
+    .privacy-block ul { padding-left: 20px; margin: 8px 0 12px; }
+    .privacy-block li {
+      font-size: var(--text-base); line-height: 1.8;
+      color: var(--c-on-bg); margin-bottom: 6px; word-break: keep-all;
+    }
+    .privacy-block strong { color: var(--c-on-bg); font-weight: 500; }
+    .privacy-contact { margin-top: 64px; padding: 32px 0; }
+    .privacy-contact p {
+      font-size: var(--text-base); color: var(--c-on-bg); line-height: 1.9; margin-bottom: 0;
+    }
+    .privacy-contact a { color: var(--c-on-bg); text-decoration: none; transition: color .2s; }
+    .privacy-contact a:hover { color: var(--c-primary); }
+    /* 언어별 콘텐츠 */
+    [data-lang-content] { display: none; }
+    [data-lang-content].active { display: block; }
+  </style>
+</head>
+<body>
+  <div id="grain"></div>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <grap-header active=""></grap-header>
+
+  <section class="privacy-wrap">
+
+    <!-- 언어별 제목 -->
+    <h1 class="privacy-title">
+      <span data-lang-content="ko" class="active">개인정보 처리방침</span>
+      <span data-lang-content="en">Privacy Policy</span>
+      <span data-lang-content="zh">隐私政策</span>
+      <span data-lang-content="ja">プライバシーポリシー</span>
+    </h1>
+
+    <!-- 언어별 시행일 -->
+    <p class="privacy-meta">
+      <span data-lang-content="ko" class="active">시행일: 2025년 12월 3일</span>
+      <span data-lang-content="en">Effective: December 3, 2025</span>
+      <span data-lang-content="zh">生效日期：2025年12月3日</span>
+      <span data-lang-content="ja">施行日：2025年12月3日</span>
+    </p>
+
+    <!-- ── 한국어 본문 ── -->
+    <div data-lang-content="ko" class="active">
+      <p class="privacy-intro">
+        더그랩(THE GRAP)은 개인정보보호법 등 관련 법령을 준수하며, 이용자의 개인정보를 보호하고
+        관련 고충을 신속하고 원활하게 처리하기 위해 본 개인정보 처리방침을 수립합니다.
+      </p>
+      <div class="privacy-block">
+        <h2>1. 개인정보의 처리 목적</h2>
+        <ul>
+          <li><strong>서비스 제공 및 운영:</strong> 필요한 콘텐츠 제공, 서비스 환경 구성, 웹사이트 전반 운영</li>
+          <li><strong>고객 문의 및 상담 응대:</strong> 문의 접수, 본인 확인, 사실 확인을 위한 연락, 민원 처리</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>2. 처리하는 개인정보 항목</h2>
+        <ul>
+          <li><strong>필수 항목:</strong> 이름(또는 회사명), 이메일 주소, 연락처, 문의 내용</li>
+          <li><strong>자동 생성 정보:</strong> IP 주소, 쿠키, 서비스 이용 기록, 접속 로그, 방문 일시</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>3. 개인정보의 처리 및 보유 기간</h2>
+        <ul>
+          <li><strong>고객 문의:</strong> 처리 완료 후 1년 보관 (분쟁 발생 시 종결 시까지 연장)</li>
+          <li><strong>통신비밀보호법:</strong> 웹사이트 방문 기록 3개월 보관</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>4. 개인정보의 제3자 제공</h2>
+        <p>이용자의 사전 동의 없이 개인정보를 외부에 제공하지 않습니다. 단, 법령에 의한 경우 예외입니다.</p>
+      </div>
+      <div class="privacy-block">
+        <h2>5. 개인정보 처리 위탁</h2>
+        <ul>
+          <li><strong>수탁 업체:</strong> Webflow, Inc.</li>
+          <li><strong>위탁 업무:</strong> 웹사이트 호스팅 서비스 제공 및 시스템 환경 운영</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>6. 정보주체의 권리·의무 및 행사 방법</h2>
+        <p>이용자는 열람, 정정·삭제, 처리 정지를 언제든지 요구할 수 있으며 아래 담당자에게 이메일로 요청하시면 됩니다.</p>
+      </div>
+      <div class="privacy-block">
+        <h2>7. 개인정보의 파기 절차 및 방법</h2>
+        <ul>
+          <li>전자적 파일: 복구 불가능한 방법으로 영구 삭제</li>
+          <li>문서·출력물: 분쇄 또는 소각</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>8. 개인정보의 안전성 확보 조치</h2>
+        <ul>
+          <li><strong>관리적:</strong> 내부 관리 계획 수립, 정기 교육</li>
+          <li><strong>기술적:</strong> 접근 권한 관리, 암호화, 보안 프로그램 운영</li>
+          <li><strong>물리적:</strong> 전산실·자료보관실 접근 통제</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>9. 개인정보 보호책임자</h2>
+        <div class="privacy-contact">
+          <p>
+            <strong>개인정보 보호책임자 (CPO)</strong><br>
+            성명: 김정권 (대표이사) &nbsp;|&nbsp; 이메일: <a href="mailto:thegraper@thegrap.com">thegraper@thegrap.com</a>
+          </p>
+          <br>
+          <p>
+            <strong>개인정보 보호담당자</strong><br>
+            성명: 서미진 &nbsp;|&nbsp; 이메일: <a href="mailto:irene@thegrap.com">irene@thegrap.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>10. 개인정보 처리방침 변경 고지</h2>
+        <p>변경 시 최소 7일 전 웹사이트 공지를 통해 안내하며, 중대한 변경의 경우 30일 전 사전 고지합니다.</p>
+      </div>
+    </div>
+
+    <!-- ── 영문 본문 (EN / CN / JP 공통) ── -->
+    <div data-lang-content="en">
+      <p class="privacy-intro">
+        THE GRAP has established this privacy policy to protect user personal information
+        and process related complaints swiftly, in compliance with the Personal Information Protection Act.
+      </p>
+      <div class="privacy-block">
+        <h2>1. Purpose of Personal Information Processing</h2>
+        <ul>
+          <li><strong>Service provision:</strong> Content delivery, service environment, and website operations</li>
+          <li><strong>Customer inquiries:</strong> Inquiry handling, identity verification, and complaint resolution</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>2. Personal Information Items Processed</h2>
+        <ul>
+          <li><strong>Required:</strong> Name (or company name), email address, contact number, inquiry details</li>
+          <li><strong>Auto-generated:</strong> IP address, cookies, service usage records, access logs</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>3. Retention Period</h2>
+        <ul>
+          <li><strong>Customer inquiries:</strong> 1 year after resolution (extended if disputes arise)</li>
+          <li><strong>Website visit records:</strong> 3 months (Communications Secrets Protection Act)</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>4. Third-Party Information Sharing</h2>
+        <p>We do not provide personal information to external parties without prior consent, except as required by law.</p>
+      </div>
+      <div class="privacy-block">
+        <h2>5. Processing Delegation</h2>
+        <ul>
+          <li><strong>Contractor:</strong> Webflow, Inc.</li>
+          <li><strong>Scope:</strong> Website hosting and system environment operations</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>6. Data Subject Rights</h2>
+        <p>Users may request access, correction, deletion, or suspension of processing at any time by contacting the officer below.</p>
+      </div>
+      <div class="privacy-block">
+        <h2>7. Destruction Procedures</h2>
+        <ul>
+          <li>Electronic files: Permanently deleted using irreversible methods</li>
+          <li>Documents: Shredded or incinerated</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>8. Safety Measures</h2>
+        <ul>
+          <li><strong>Administrative:</strong> Internal management plans and regular training</li>
+          <li><strong>Technical:</strong> Access control, encryption, security program updates</li>
+          <li><strong>Physical:</strong> Controlled access to server and document storage areas</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>9. Privacy Officer</h2>
+        <div class="privacy-contact">
+          <p>
+            <strong>Chief Privacy Officer (CPO)</strong><br>
+            Kim Jung-kwon (CEO) &nbsp;|&nbsp; <a href="mailto:thegraper@thegrap.com">thegraper@thegrap.com</a>
+          </p>
+          <br>
+          <p>
+            <strong>Data Protection Officer</strong><br>
+            Seo Mi-jin &nbsp;|&nbsp; <a href="mailto:irene@thegrap.com">irene@thegrap.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>10. Policy Change Notification</h2>
+        <p>Changes will be announced at least 7 days in advance. Significant changes affecting user rights will be notified 30 days in advance.</p>
+      </div>
+    </div>
+
+    <!-- CN·JP → 영문과 동일 콘텐츠 (복사) -->
+    <!-- ── 중국어 간체 본문 ── -->
+    <div data-lang-content="zh">
+      <p class="privacy-intro">
+        THE GRAP依据《个人信息保护法》等相关法规，为保护用户个人信息、迅速妥善处理相关申诉，特制定本隐私政策。
+      </p>
+      <div class="privacy-block">
+        <h2>1. 个人信息处理目的</h2>
+        <ul>
+          <li><strong>服务提供与运营：</strong>提供必要内容、构建服务环境、运营网站整体</li>
+          <li><strong>客户咨询与服务：</strong>接受咨询、本人确认、事实核查联络、处理投诉</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>2. 处理的个人信息项目</h2>
+        <ul>
+          <li><strong>必填项目：</strong>姓名（或公司名称）、电子邮件地址、联系方式、咨询内容</li>
+          <li><strong>自动生成信息：</strong>IP地址、Cookie、服务使用记录、访问日志、访问时间</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>3. 个人信息处理及保留期限</h2>
+        <ul>
+          <li><strong>客户咨询：</strong>处理完成后保留1年（发生纠纷时延长至纠纷解决）</li>
+          <li><strong>通信秘密保护法：</strong>网站访问记录保留3个月</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>4. 个人信息第三方提供</h2>
+        <p>未经用户事先同意，不向外部提供个人信息。但法律法规规定的情形除外。</p>
+      </div>
+      <div class="privacy-block">
+        <h2>5. 个人信息处理委托</h2>
+        <ul>
+          <li><strong>受托方：</strong>Webflow, Inc.</li>
+          <li><strong>委托业务：</strong>网站托管服务提供及系统环境运营</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>6. 信息主体的权利义务及行使方法</h2>
+        <p>用户可随时请求查阅、更正·删除、暂停处理，请通过电子邮件联系以下负责人。</p>
+      </div>
+      <div class="privacy-block">
+        <h2>7. 个人信息销毁程序及方法</h2>
+        <ul>
+          <li>电子文件：以不可恢复的方式永久删除</li>
+          <li>文件·打印件：粉碎或焚烧</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>8. 个人信息安全保护措施</h2>
+        <ul>
+          <li><strong>管理层面：</strong>制定内部管理计划、定期培训</li>
+          <li><strong>技术层面：</strong>访问权限管理、加密、安全程序运营</li>
+          <li><strong>物理层面：</strong>机房及资料保管室访问控制</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>9. 个人信息保护负责人</h2>
+        <div class="privacy-contact">
+          <p>
+            <strong>首席隐私官 (CPO)</strong><br>
+            Kim Jung-kwon（CEO）&nbsp;|&nbsp; <a href="mailto:thegraper@thegrap.com">thegraper@thegrap.com</a>
+          </p>
+          <br>
+          <p>
+            <strong>个人信息保护担当</strong><br>
+            Seo Mi-jin &nbsp;|&nbsp; <a href="mailto:irene@thegrap.com">irene@thegrap.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>10. 隐私政策变更通知</h2>
+        <p>变更时将提前至少7天通过网站公告告知，重大变更将提前30天预先通知。</p>
+      </div>
+    </div>
+
+    <!-- ── 일본어 본문 ── -->
+    <div data-lang-content="ja">
+      <p class="privacy-intro">
+        THE GRAPは、個人情報保護法等の関連法令を遵守し、利用者の個人情報を保護し、関連する苦情を迅速かつ円滑に処理するため、本プライバシーポリシーを策定しております。
+      </p>
+      <div class="privacy-block">
+        <h2>1. 個人情報の処理目的</h2>
+        <ul>
+          <li><strong>サービスの提供・運営：</strong>必要なコンテンツの提供、サービス環境の構成、ウェブサイト全般の運営</li>
+          <li><strong>お客様対応：</strong>お問い合わせ受付、本人確認、事実確認のための連絡、苦情処理</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>2. 処理する個人情報の項目</h2>
+        <ul>
+          <li><strong>必須項目：</strong>氏名（または会社名）、メールアドレス、連絡先、お問い合わせ内容</li>
+          <li><strong>自動生成情報：</strong>IPアドレス、Cookie、サービス利用記録、アクセスログ、訪問日時</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>3. 個人情報の処理および保有期間</h2>
+        <ul>
+          <li><strong>お問い合わせ：</strong>処理完了後1年間保管（紛争発生時は解決まで延長）</li>
+          <li><strong>通信秘密保護法：</strong>ウェブサイト訪問記録3ヶ月保管</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>4. 個人情報の第三者提供</h2>
+        <p>利用者の事前同意なく個人情報を外部に提供しません。ただし、法令による場合は例外とします。</p>
+      </div>
+      <div class="privacy-block">
+        <h2>5. 個人情報処理の委託</h2>
+        <ul>
+          <li><strong>受託事業者：</strong>Webflow, Inc.</li>
+          <li><strong>委託業務：</strong>ウェブサイトホスティングサービスの提供およびシステム環境の運営</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>6. 情報主体の権利・義務および行使方法</h2>
+        <p>利用者はいつでも閲覧、訂正・削除、処理停止を請求することができ、下記の担当者にメールにてご連絡ください。</p>
+      </div>
+      <div class="privacy-block">
+        <h2>7. 個人情報の廃棄手続きおよび方法</h2>
+        <ul>
+          <li>電子ファイル：復元不可能な方法で永久削除</li>
+          <li>書類・印刷物：裁断または焼却</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>8. 個人情報の安全性確保措置</h2>
+        <ul>
+          <li><strong>管理的：</strong>内部管理計画の策定、定期的な教育</li>
+          <li><strong>技術的：</strong>アクセス権限管理、暗号化、セキュリティプログラムの運営</li>
+          <li><strong>物理的：</strong>サーバー室・資料保管室へのアクセス制御</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>9. 個人情報保護責任者</h2>
+        <div class="privacy-contact">
+          <p>
+            <strong>個人情報保護責任者（CPO）</strong><br>
+            Kim Jung-kwon（CEO）&nbsp;|&nbsp; <a href="mailto:thegraper@thegrap.com">thegraper@thegrap.com</a>
+          </p>
+          <br>
+          <p>
+            <strong>個人情報保護担当者</strong><br>
+            Seo Mi-jin &nbsp;|&nbsp; <a href="mailto:irene@thegrap.com">irene@thegrap.com</a>
+          </p>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>10. プライバシーポリシーの変更通知</h2>
+        <p>変更の際は最低7日前にウェブサイトのお知らせを通じてご案内し、重大な変更の場合は30日前に事前通知いたします。</p>
+      </div>
+    </div>
+
+  </section>
+
+  <grap-footer></grap-footer>
+  <script src="js/grap-footer.js"></script>
+  <script src="js/grap-init.js"></script>
+  <script>
+    // 언어 전환 처리
+    const applyLang = (lang) => {
+      document.title = {
+        ko: '개인정보 처리방침 — THE GRAP',
+        en: 'Privacy Policy — THE GRAP',
+        zh: '隐私政策 — THE GRAP',
+        ja: 'プライバシーポリシー — THE GRAP',
+      }[lang] || 'Privacy Policy — THE GRAP';
+
+      document.querySelectorAll('[data-lang-content]').forEach(el => {
+        el.classList.toggle('active', el.dataset.langContent === lang);
+      });
+    };
+
+    // 헤더 언어 변경 이벤트 수신 (먼저 등록)
+    document.addEventListener('grap:lang', e => applyLang(e.detail.lang));
+    // 초기 언어 적용 (localStorage에서 직접 읽기)
+    applyLang(localStorage.getItem('grap-lang') || 'ko');
+  </script>
+</body>
+</html>

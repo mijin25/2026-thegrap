@@ -6,211 +6,350 @@
   <title>ABOUT — THE GRAP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet" />
-  <style>
-    @font-face { font-family:'PP Neue Montreal'; src:url('fonts/PPNeueMontreal-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
-    @font-face { font-family:'PP Neue Montreal'; src:url('fonts/PPNeueMontreal-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; }
-    @font-face { font-family:'Pretendard'; src:url('fonts/Pretendard-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F; }
-    @font-face { font-family:'Pretendard'; src:url('fonts/Pretendard-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F; }
-    @font-face { font-family:'PretendardJP'; src:url('fonts/PretendardJP-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
-    @font-face { font-family:'PretendardJP'; src:url('fonts/PretendardJP-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; }
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <link rel="stylesheet" href="css/base.css" />
+  <script src="gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="js/grap-header.js"></script>
   <style>
-    :root {
-      --c-bg:        #000000;
-      --c-on-bg:     #FFFFFF;
-      --c-surface:   #1A1A1A;
-      --c-on-surface:#FFFFFF;
-      --c-primary:   #CCFF00;
-      --c-on-primary:#000000;
-      --c-secondary: #BDBDBD;
-      --c-outline:   #444444;
-      --gutter:      clamp(24px, 4vw, 60px);
+
+    /* ── HERO COPY ── */
+    .page-title--copy {
+      text-transform: none;
+      display: flex;
+      flex-direction: column;
+      clip-path: inset(-0.5em -9999px -0.25em -9999px); /* 하단 여유 확보 (디센더 보정) */
     }
-    *{box-sizing:border-box;margin:0;padding:0;user-select:none;-webkit-user-select:none;}
-    body{background: var(--c-bg);color:var(--c-on-bg);font-family:'PP Neue Montreal','Pretendard',sans-serif;cursor:none;overflow-x:hidden;}
-    :lang(ko){font-family:'PP Neue Montreal','Pretendard',sans-serif;}
-    :lang(zh-CN){font-family:'PP Neue Montreal','Noto Sans TC',sans-serif;}
-    :lang(ja){font-family:'PP Neue Montreal','PretendardJP',sans-serif;}
 
-    /* Grain */
-    #grain{position:fixed;inset:0;z-index:9989;pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)'/%3E%3C/svg%3E");
-      opacity:.05;mix-blend-mode:overlay;}
+    /* ── MANIFESTO ── */
+    .about-manifesto {
+      padding: clamp(32px,4vw,56px) var(--gutter) clamp(40px,5vw,64px);
+    }
+    .about-manifesto-text {
+      font-family: 'PP Neue Montreal', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.75rem, 3.6vw, 4.25rem);
+      line-height: 1.25;
+      letter-spacing: -.01em;
+      color: var(--c-on-bg);
+      max-width: 1300px;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    /* 중국어는 keep-all 불필요 (한자 사이 자유롭게 줄바꿈) */
+    html:lang(zh-CN) .about-manifesto-text { word-break: normal; }
+    @media (max-width: 768px) {
+      .about-manifesto-text br { display: none; }
+    }
 
-    /* Cursor */
-    #cursor{position:fixed;z-index:8888;pointer-events:none;width:32px;height:32px;border-radius:50%;background:#CCFF00;mix-blend-mode:exclusion;transform:translate(-50%,-50%);transition:width .22s,height .22s;}
-    #cursor-ring{position:fixed;z-index:8887;pointer-events:none;width:0;height:0;}
+    /* ── STORY ── */
+    .about-story {
+      padding: 0 var(--gutter) clamp(80px,10vw,140px);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 80px);
+    }
+    .about-story-text {
+      grid-column: 2;
+      font-size: clamp(1.125rem, 1.6vw, 1.875rem);
+      line-height: 1.4;
+      letter-spacing: -.01em;
+      font-weight: 500;
+      color: var(--c-on-bg);
+      word-break: keep-all;
+    }
+    html:lang(zh-CN) .about-story-text { word-break: normal; }
+    @media (max-width: 768px) {
+      .about-story { grid-template-columns: 1fr; }
+      .about-story-text { grid-column: 1; }
+    }
 
-    /* Header */
-    #header{position:fixed;top:0;left:0;right:0;z-index:900;padding:24px var(--gutter);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;pointer-events:none;transition:background .5s,padding .4s;}
-    #header.scrolled{background:rgba(0,0,0,.92);backdrop-filter:blur(16px);padding-top:16px;padding-bottom:16px;}
-    #header>*{pointer-events:all;}
-    .header-logo{color:var(--c-on-bg);text-decoration:none;display:flex;align-items:center;gap:10px;justify-self:start;}
-    .header-logo svg{width:clamp(80px,7vw,112px);height:auto;}
-    #desktop-nav{display:flex;gap:clamp(20px,2.5vw,44px);justify-self:center;}
-    #desktop-nav a{font-size:1rem;letter-spacing:.08em;text-transform:uppercase;color:var(--c-on-bg);text-decoration:none;transition:color .2s;white-space:nowrap;}
-    #desktop-nav a:hover,#desktop-nav a.active{color:var(--c-primary);}
-    #header-right{display:flex;align-items:center;gap:14px;justify-self:end;}
-    .lang-switcher { display: flex; align-items: center; gap: 4px; }
-    .lang-btn{font-family:'PP Neue Montreal',sans-serif;font-size:1rem;letter-spacing:.06em;text-transform:uppercase;padding:4px 6px;background:none;border:none;color:var(--c-on-bg);cursor:pointer;transition:color .2s;}
-    .lang-btn.active{color:var(--c-primary);}
-    .lang-btn:hover{color:rgba(255,255,255,.45);}
-    #hamburger{cursor:pointer;flex-direction:column;gap:5px;background:none;border:none;display:none;}
-    .ham-line{width:22px;height:1px;background:var(--c-on-bg);transition:transform .3s,opacity .3s;}
-    @media(max-width:768px){#desktop-nav{display:none;}#hamburger{display:flex!important;}}
-    #mobile-menu{position:fixed;inset:0;z-index:800;background: var(--c-bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transform:translateX(100%);transition:transform .5s cubic-bezier(.4,0,.2,1);}
-    #mobile-menu.open{transform:translateX(0);}
-    #mobile-menu a{font-family:'PP Neue Montreal',sans-serif;font-weight:500;font-size:clamp(2rem,8vw,3.5rem);letter-spacing:-.01em;color:var(--c-on-bg);text-decoration:none;transition:color .25s;}
+    /* ── CAPABILITIES ── */
+    .about-cap-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+      /* 세로 패딩 없음 — 각 컬럼에서 개별 처리 */
+    }
 
-    /* Page hero */
-    .page-hero{padding:clamp(140px,18vw,220px) clamp(28px,5vw,80px) clamp(60px,8vw,100px);border-bottom: 1px solid var(--c-outline);}
-    .page-label{font-size:0.875rem;letter-spacing:.2em;text-transform:uppercase;color: var(--c-secondary);margin-bottom:24px;}
-    .page-title{font-family:'PP Neue Montreal',sans-serif;font-weight:700;font-size:clamp(4rem,11vw,10rem);line-height:.88;letter-spacing:-.03em;text-transform:uppercase;color:var(--c-on-bg);overflow:hidden;}
-    .page-title span{display:inline-block;transform:translateY(110%);}
+    /* 좌: GSAP pin으로 처리 (CSS sticky 아님) */
+    .about-cap-left {
+      padding: clamp(80px,10vw,140px) var(--gutter);
+    }
+    .cap-label {
+      font-family: 'PP Neue Montreal', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.5rem, 3.125vw, 3.75rem);
+      line-height: 1;
+      letter-spacing: -.04em;
+      color: #ffffff;
+    }
 
-    /* Content */
-    .content-section{padding:clamp(80px,10vw,140px) clamp(28px,5vw,80px);}
-    .content-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;max-width:1200px;margin:0 auto;}
-    @media(max-width:768px){.content-grid{grid-template-columns:1fr;gap:40px;}}
-    .content-label{font-size:0.875rem;letter-spacing:.2em;text-transform:uppercase;color: var(--c-secondary);margin-bottom:16px;}
-    .content-heading{font-family:'PP Neue Montreal',sans-serif;font-weight:500;font-size:clamp(2rem,4vw,3.5rem);line-height:.93;letter-spacing:-.025em;color:var(--c-on-bg);margin-bottom:24px;}
-    .content-body{font-size:0.9375rem;line-height:1.88;color:var(--c-on-bg);}
-    .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;max-width:1200px;margin:80px auto 0;padding-top:40px;border-top: 1px solid var(--c-outline);}
-    @media(max-width:640px){.stats-row{grid-template-columns:1fr;gap:32px;}}
-    .stat-num{font-family:'PP Neue Montreal',sans-serif;font-weight:300;font-size:clamp(2.5rem,5vw,4rem);color:var(--c-on-bg);letter-spacing:-.025em;}
-    .stat-num span{color: var(--c-primary);}
-    .stat-label{font-size:0.875rem;letter-spacing:.15em;text-transform:uppercase;color: var(--c-secondary);margin-top:8px;}
-    .reveal{opacity:0;transform:translateY(22px);}
+    /* 우: 연속 스크롤 서비스 리스트 */
+    .about-cap-right {
+      padding: clamp(80px,10vw,140px) var(--gutter) clamp(80px,10vw,140px);
+    }
+    .cap-service {
+      font-family: 'PP Neue Montreal', sans-serif;
+      font-weight: 500;
+      font-size: clamp(1.5rem, 3.125vw, 3.75rem);
+      line-height: 1.25;
+      letter-spacing: -.02em;
+      color: #ffffff;
+      padding: clamp(10px,1.2vw,18px) 0;
+      will-change: opacity, filter;
+    }
+    .cap-group-gap { display: none; }
+
+    @media (max-width: 768px) {
+      .about-cap-section { grid-template-columns: 1fr; }
+      .about-cap-left { padding-bottom: clamp(24px, 3vw, 40px); }
+      .cap-label { font-size: clamp(1.5rem, 6vw, 2.25rem); }
+      .cap-service { filter: none !important; opacity: 1 !important; border-bottom: none; }
+    }
+
+    /* ── CLIENTS ── */
+    .about-clients {
+      padding: clamp(80px,10vw,140px) var(--gutter);
+    }
+    .about-clients-hl {
+      font-family: 'PP Neue Montreal', sans-serif;
+      font-weight: 700;
+      font-size: clamp(3rem, 7vw, 9rem);
+      line-height: 1;
+      letter-spacing: -.01em;
+      color: var(--c-on-bg);
+      margin-left: -0.02em;
+      margin-bottom: clamp(40px, 5vw, 72px);
+    }
+    .about-client-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: clamp(4px, 0.5vw, 8px) clamp(10px, 1.2vw, 20px);
+      align-items: baseline;
+    }
+    .about-client-list span {
+      font-family: 'PP Neue Montreal', sans-serif;
+      font-weight: 500;
+      font-size: clamp(1.25rem, 2.2vw, 2.75rem);
+      letter-spacing: 0;
+      color: var(--c-on-bg);
+      white-space: nowrap;
+      transition: color .2s;
+      word-break: keep-all;
+    }
+    .about-client-list span:hover { opacity: .6; }
+    .about-client-list span::after  { content: ','; color: var(--c-secondary); }
+    .about-client-list span:last-child::after { content: ''; }
+
+
   </style>
 </head>
 <body>
-<div id="grain"></div>
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+  <div id="grain"></div>
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
 
-<div id="mobile-menu">
-  <a href="index.html">Home</a>
-  <a href="about.html">About</a>
-  <a href="business.html">Business</a>
-  <a href="work.html">Work</a>
-  <a href="contact.html">Contact</a>
-</div>
+  <grap-header active="about"></grap-header>
 
-<header id="header">
-  <a href="index.html" class="header-logo">
-    <svg width="167" height="40" viewBox="0 0 167 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="THE GRAP">
-        <g clip-path="url(#clip0_492_793)">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M99.3898 0.0405149C108.3 -0.518512 112.651 4.7504 113.267 13.1933C116.269 13.4687 119.863 14.7331 122.122 16.769C127.46 21.5835 124.61 29.877 121.658 35.1961C121.183 36.0509 120.608 37.9853 119.961 38.686H105.376C108.968 34.2226 112.561 27.7234 114.111 22.1829C114.418 21.084 114.908 18.3316 113.371 17.9447C112.929 18.3745 112.649 19.8389 112.456 20.4716C110.831 25.7987 108.1 30.7024 103.858 34.3727C99.2102 38.0813 93.4097 39.2147 87.7871 37.2186C83.446 35.6769 81.6334 30.3308 83.5916 26.3314C86.7118 19.96 95.3748 15.202 102.145 13.6704C103.164 13.4396 104.187 13.3097 105.216 13.163C105.959 13.0646 107.616 13.2553 108.206 13.0206C108.288 12.4108 107.297 11.4058 106.736 11.3132C100.147 10.2264 90.1965 15.0785 84.474 17.5203C84.7777 12.9646 84.8529 8.4067 85.1153 3.8436C89.7525 1.78132 94.3068 0.373151 99.3898 0.0405149ZM104.886 18.0344C102.54 19.3598 91.746 25.3735 94.8702 28.6329C98.8696 30.1085 103.354 21.178 104.99 18.1993C104.997 18.1625 105.005 18.1258 105.013 18.0891L104.886 18.0344Z" fill="currentColor"/>
-          <path d="M22.2183 0.484188C22.3243 0.476437 22.4304 0.469752 22.5366 0.464125C30.6723 0.00387113 42.2983 2.47278 42.8768 12.4215C41.5241 12.7866 39.6357 13.5031 38.2685 13.9839L30.7209 16.6216C29.6953 14.2738 28.7217 11.9029 27.6473 9.55476C26.6254 7.32175 24.6809 3.88763 21.9016 3.68569C20.0077 3.5482 18.3215 5.15745 17.4395 6.71052C13.4786 13.6852 14.8666 28.6638 25.2176 28.8506C28.1006 28.9026 30.017 27.9651 32.0374 25.9946C31.2305 25.1219 29.8828 23.9136 28.9828 23.0908C27.3616 21.6079 25.5998 19.9304 23.9063 18.5509C25.616 18.4666 27.8511 18.5227 29.5886 18.5195L40.5685 18.5137L43.3124 18.5048L43.3445 38.6057C39.6086 38.5377 35.8319 38.6524 32.111 38.5696C32.5057 37.3879 34.7938 29.2795 34.5708 28.6404C34.5151 28.4801 34.4058 28.4779 34.2645 28.4121C34.1544 28.4302 34.0444 28.4482 33.9344 28.4673C33.6137 29.1107 33.2885 29.8943 33.0738 30.578C31.36 36.0448 26.6737 39.5325 20.8745 39.9434C10.1264 40.7036 0.704742 33.7441 0.0472991 22.6109C-0.770866 8.75379 9.1219 1.2189 22.2183 0.484188Z" fill="currentColor"/>
-          <path d="M46.1587 1.11491C51.559 1.04845 57.0101 1.11629 62.4179 1.09835C66.0674 1.16386 69.7098 0.889726 73.3332 1.3968C78.0633 2.05878 81.9788 4.37428 82.4743 9.50991C82.9131 13.1214 80.6743 16.5578 77.2191 17.7611C72.7672 19.3116 67.1985 19.6337 62.4612 20.1496C62.638 20.5823 62.7571 21.1042 62.8783 21.5613C65.5073 21.5439 68.2822 21.3173 70.9381 21.2329C71.5048 21.85 72.3577 23.014 72.9016 23.7094C73.9085 24.9941 74.926 26.2692 75.954 27.5369C78.767 31.0554 82.2245 35.2046 84.7895 38.7922C80.3481 38.669 75.7221 38.8516 71.2054 38.7624C66.6497 33.5738 62.1211 28.3619 57.6198 23.1276C56.4501 21.8726 55.5921 20.2772 54.0711 19.5292C53.6381 19.7839 53.332 19.8955 53.1473 20.35C53.1505 21.0516 62.606 36.7324 63.7239 38.806C57.8484 38.7136 51.775 38.789 45.873 38.7582C45.784 35.6665 45.8255 32.458 45.7867 29.3514C45.7635 27.5019 45.5811 24.0725 45.8176 22.3525C46.7423 15.626 52.6486 14.8349 58.0156 13.4267L67.7904 10.9149C68.8588 10.6343 72.1891 10.0883 72.2573 8.84814C71.4239 7.37406 68.2784 8.70353 66.9007 9.07057C59.8664 10.9444 52.6923 12.5 45.7047 14.5254C45.7093 13.038 45.6329 1.44968 45.7984 1.16206L46.1587 1.11491Z" fill="currentColor"/>
-          <path d="M128.76 1.11401C132.286 1.05201 135.934 1.0846 139.492 1.09023C146.857 1.11815 154.196 0.623611 160.858 4.40014C166.857 7.5442 168.751 16.8409 165.247 22.3991C159.983 30.7484 144.531 32.3591 138.925 23.4194C138.232 22.3131 137.389 20.7444 136.494 19.8727C136.058 19.447 134.76 19.8493 134.432 20.5135C134.443 21.2322 137.584 25.8337 138.194 26.7723L144.559 36.5709C145.011 37.2355 145.427 37.9915 145.839 38.6848C139.671 38.7368 133.504 38.7156 127.336 38.6848L127.251 29.3172C127.216 27.1089 127.159 25.0173 127.224 22.8079C127.446 15.2902 136.342 14.6203 142.315 13.435L153.772 11.1518C154.915 10.9325 158.4 10.6096 158.469 9.28382C158.164 8.59094 157.527 8.43073 156.827 8.53828C155.31 8.7709 153.801 9.09654 152.295 9.39764C149.332 9.97882 146.374 10.5844 143.421 11.2142C137.999 12.3648 132.699 13.2764 127.283 14.562L127.277 1.12888L128.76 1.11401Z" fill="currentColor"/>
-        </g>
-        <defs>
-          <clipPath id="clip0_492_793">
-            <rect width="167" height="40" fill="white"/>
-          </clipPath>
-        </defs>
-      </svg>
-  </a>
-  <nav id="desktop-nav">
-    <a href="about.html" class="active">ABOUT</a>
-    <a href="business.html">BUSINESS</a>
-    <a href="work.html">WORK</a>
-    <a href="contact.html">CONTACT</a>
-  </nav>
-  <div id="header-right">
-    <div class="lang-switcher">
-      <button class="lang-btn active" data-lang="ko">KR</button>
-      <button class="lang-btn" data-lang="en">EN</button>
-      <button class="lang-btn" data-lang="zh">CN</button>
-      <button class="lang-btn" data-lang="ja">JP</button>
+  <!-- HERO -->
+  <section class="page-hero">
+    <h1 class="page-title page-title--copy"><span>Culture,</span><span>Engineered.</span></h1>
+  </section>
+
+  <!-- MANIFESTO -->
+  <section class="about-manifesto">
+    <p class="about-manifesto-text reveal" data-i18n="about.manifesto">
+      We connect K-POP artists with global audiences — from digital experience to live stages, from concert production to artist IP merchandise. Every touchpoint of entertainment, engineered.
+    </p>
+  </section>
+
+  <!-- STORY -->
+  <section class="about-story">
+    <p class="about-story-text reveal" data-i18n="about.story.lead">
+      THE GRAP began as a digital design studio in Seoul in 2013. We've since expanded into K‑POP performance production and artist IP — two divisions, one design-first philosophy.
+    </p>
+  </section>
+
+  <!-- CAPABILITIES -->
+  <section class="about-cap-section">
+
+    <!-- 좌: sticky 카테고리 (고정, 스크롤 시 텍스트만 교체) -->
+    <div class="about-cap-left">
+      <div class="cap-label" data-i18n="about.cap.label.perf2">Performance</div>
     </div>
-    <button id="hamburger" aria-label="menu">
-      <span class="ham-line"></span>
-        <span class="ham-line"></span>
-    </button>
-  </div>
-</header>
 
-<!-- Page Hero -->
-<section class="page-hero">
-  <p class="page-label">Company</p>
-  <h1 class="page-title"><span>ABOUT</span></h1>
-</section>
+    <!-- 우: 연속 서비스 리스트 -->
+    <div class="about-cap-right">
 
-<!-- Content -->
-<section class="content-section">
-  <div class="content-grid">
-    <div>
-      <p class="content-label reveal">우리의 비전</p>
-      <h2 class="content-heading reveal">K-컬처,<br />글로벌로</h2>
-      <p class="content-body reveal">
-        더그랩(THE GRAP)은 K-POP 아티스트의 공연 기획부터 글로벌 굿즈 유통까지,
-        엔터테인먼트 비즈니스의 전 과정을 함께하는 글로벌 파트너입니다.<br /><br />
-        서울을 베이스로 아시아 전역과 북미, 유럽 시장에서 K-POP 문화를
-        현지 팬들과 직접 연결하는 경험을 만들고 있습니다.
-      </p>
+      <div class="cap-anchor" id="cap-perf"></div>
+      <div class="cap-service" data-i18n="about.cap.p1">Live Event Co-Production</div>
+      <div class="cap-service" data-i18n="about.cap.p2">Event Production</div>
+      <div class="cap-service" data-i18n="about.cap.p3">Fan Meeting Management</div>
+      <div class="cap-service" data-i18n="about.cap.p4">Artist Hospitality</div>
+      <div class="cap-service" data-i18n="about.cap.p5">Tour Management</div>
+
+      <div class="cap-group-gap"></div>
+      <div class="cap-anchor" id="cap-ip"></div>
+      <div class="cap-service" data-i18n="about.cap.i1">Artist IP Merchandise</div>
+      <div class="cap-service" data-i18n="about.cap.i2">Local Promotion</div>
+      <div class="cap-service" data-i18n="about.cap.i3">Media & PR</div>
+      <div class="cap-service" data-i18n="about.cap.i4">Content Distribution</div>
+      <div class="cap-service" data-i18n="about.cap.i5">Entertainment Web Platform</div>
+
+      <div class="cap-group-gap"></div>
+      <div class="cap-anchor" id="cap-dig"></div>
+      <div class="cap-service" data-i18n="about.cap.d1">Brand Identity</div>
+      <div class="cap-service" data-i18n="about.cap.d2">UX / UI Design</div>
+      <div class="cap-service" data-i18n="about.cap.d3">Web Development</div>
+      <div class="cap-service" data-i18n="about.cap.d4">Digital Strategy</div>
+      <div class="cap-service" data-i18n="about.cap.d5">E-Commerce</div>
+      <div class="cap-service" data-i18n="about.cap.d6">Motion & Video</div>
+      <div class="cap-service" data-i18n="about.cap.d7">Creative Direction</div>
+      <div class="cap-service" data-i18n="about.cap.d8">Content Strategy</div>
+
     </div>
-    <div>
-      <p class="content-label reveal">우리의 역할</p>
-      <h2 class="content-heading reveal">무대에서<br />손 안으로</h2>
-      <p class="content-body reveal">
-        공연장의 에너지를 굿즈로, 아티스트의 IP를 글로벌 상품으로.
-        더그랩은 무대 위의 순간을 팬들의 일상 속에 영원히 남기는
-        비즈니스를 설계합니다.<br /><br />
-        단순한 에이전시를 넘어, 아티스트와 팬을 잇는
-        진정한 엔터테인먼트 파트너를 지향합니다.
-      </p>
+
+  </section>
+
+  <!-- CLIENTS -->
+  <section class="about-clients">
+    <h2 class="about-clients-hl reveal">Our Clients</h2>
+    <div class="about-client-list">
+      <!-- Digital -->
+      <span class="reveal" data-i18n="client.samsung">삼성전자</span>
+      <span class="reveal" data-i18n="client.lg">LG전자</span>
+      <span class="reveal" data-i18n="client.lgcns">LG CNS</span>
+      <span class="reveal" data-i18n="client.sk">SK그룹</span>
+      <span class="reveal" data-i18n="client.line">LINE</span>
+      <span class="reveal" data-i18n="client.sm">SM엔터테인먼트</span>
+      <span class="reveal" data-i18n="client.kakao">카카오뱅크</span>
+      <span class="reveal" data-i18n="client.koreanair">대한항공</span>
+      <span class="reveal" data-i18n="client.jtbc">JTBC</span>
+      <span class="reveal" data-i18n="client.cjenm">CJ ENM</span>
+      <span class="reveal" data-i18n="client.cjshopping">CJ온스타일</span>
+      <span class="reveal" data-i18n="client.hanwha">한화</span>
+      <span class="reveal" data-i18n="client.kt">KT</span>
+      <span class="reveal" data-i18n="client.amore">아모레퍼시픽</span>
+      <span class="reveal" data-i18n="client.vw">폭스바겐 코리아</span>
+      <span class="reveal" data-i18n="client.samhwa">삼화페인트</span>
+      <span class="reveal" data-i18n="client.dankook">단국대학교</span>
+      <!-- Performance: Artists -->
+      <span class="reveal" data-i18n="client.gikwang">이기광</span>
+      <span class="reveal" data-i18n="client.yoseop">양요섭</span>
+      <span class="reveal" data-i18n="client.highlight">Highlight</span>
+      <span class="reveal" data-i18n="client.xin">X:IN</span>
+      <span class="reveal" data-i18n="client.xodiac">XODIAC</span>
+      <span class="reveal" data-i18n="client.justb">JUSTB</span>
+      <span class="reveal" data-i18n="client.shinhye">박신혜</span>
+      <span class="reveal" data-i18n="client.niziu">NiziU</span>
+      <span class="reveal" data-i18n="client.plave">Plave</span>
+      <span class="reveal" data-i18n="client.jackson">Jackson Wang</span>
+      <span class="reveal" data-i18n="client.mark">Mark Tuan</span>
+      <span class="reveal" data-i18n="client.kstallions">K Stallions</span>
+      <span class="reveal" data-i18n="client.kimyk">김영광</span>
+      <!-- Performance: Partners -->
+      <span class="reveal" data-i18n="client.farglory">Farglory Creative</span>
+      <span class="reveal" data-i18n="client.superdome">Super Dome</span>
+      <span class="reveal" data-i18n="client.ime">iMe</span>
+      <span class="reveal" data-i18n="client.ddconcert">DD Concert</span>
+      <span class="reveal" data-i18n="client.viu">Viu</span>
+      <span class="reveal" data-i18n="client.kham">KHAM INC.</span>
+      <span class="reveal" data-i18n="client.mmie">MMie Entertainment</span>
+      <span class="reveal" data-i18n="client.threeangles">Three Angles Production</span>
+      <span class="reveal" data-i18n="client.dshow">D.Show Entertainment</span>
+      <span class="reveal" data-i18n="client.feoh">Feoh Performing Arts</span>
+      <span class="reveal" data-i18n="client.alfa">ALFA MUSIC</span>
+      <span class="reveal" data-i18n="client.chillin">Chillin</span>
     </div>
-  </div>
+  </section>
 
-  <div class="stats-row">
-    <div>
-      <div class="stat-num reveal">50<span>+</span></div>
-      <div class="stat-label reveal">글로벌 공연 이벤트</div>
-    </div>
-    <div>
-      <div class="stat-num reveal">30<span>+</span></div>
-      <div class="stat-label reveal">아티스트 파트너십</div>
-    </div>
-    <div>
-      <div class="stat-num reveal">12<span>개국</span></div>
-      <div class="stat-label reveal">유통 네트워크</div>
-    </div>
-  </div>
-</section>
+  <grap-footer></grap-footer>
+  <script src="js/grap-footer.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/grap-init.js"></script>
+  <script>
+    /* ── Capabilities: 좌=pin 라벨, 우=blur focus ── */
+    (function () {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
-<script>
-  gsap.registerPlugin(ScrollTrigger);
-  const currentLang = localStorage.getItem('grap-lang') || 'ko';
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.lang === currentLang);
-    btn.addEventListener('click', () => {
-      localStorage.setItem('grap-lang', btn.dataset.lang);
-      document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === btn.dataset.lang));
-      document.documentElement.lang = { ko:'ko', en:'en', zh:'zh-CN', ja:'ja' }[btn.dataset.lang] || btn.dataset.lang;
-    });
-  });
-  document.documentElement.lang = { ko:'ko', en:'en', zh:'zh-CN', ja:'ja' }[currentLang] || currentLang;
+      const capLabel = document.querySelector('.cap-label');
+      const anchors  = [
+        document.getElementById('cap-perf'),
+        document.getElementById('cap-ip'),
+        document.getElementById('cap-dig'),
+      ];
+      if (!capLabel || !anchors[0]) return;
 
-  const cur = document.getElementById('cursor'), ring = document.getElementById('cursor-ring');
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove', e=>{mx=e.clientX;my=e.clientY;});
-  gsap.ticker.add(()=>{gsap.set(cur,{x:mx,y:my});rx+=(mx-rx)*.12;ry+=(my-ry)*.12;gsap.set(ring,{x:rx,y:ry});});
+      const isMobile = () => window.innerWidth <= 768;
 
-  window.addEventListener('scroll',()=>document.getElementById('header').classList.toggle('scrolled',window.scrollY>60));
+      /* ─ 왼쪽 pin: 라벨 중앙이 뷰포트 중앙에 닿으면 고정 ─ */
+      if (!isMobile()) {
+        ScrollTrigger.create({
+          trigger:    '.cap-label',
+          start:      'center center',
+          endTrigger: '.about-cap-right',
+          end:        'bottom center',
+          pin:        '.about-cap-left',
+          pinSpacing: false,
+        });
+      }
 
-  const ham=document.getElementById('hamburger'),menu=document.getElementById('mobile-menu');
-  let open=false;
-  ham.addEventListener('click',()=>{open=!open;menu.classList.toggle('open',open);});
+      /* ─ 왼쪽: 카테고리 라벨 교체 (페이드) ─ */
+      const LABELS = [
+        { i18n: 'about.cap.label.perf2', fallback: 'Performance' },
+        { i18n: 'about.cap.label.ip',    fallback: 'IP'          },
+        { i18n: 'about.cap.label.dig',   fallback: 'Digital'     },
+      ];
 
-  gsap.to('.page-title span',{y:0,duration:1.2,ease:'power4.out',delay:.1});
-  document.querySelectorAll('.reveal').forEach((el,i)=>{
-    gsap.to(el,{opacity:1,y:0,duration:.9,ease:'power3.out',scrollTrigger:{trigger:el,start:'top 82%'},delay:(i%4)*.07});
-  });
-</script>
+      const setLabel = (idx) => {
+        const info = LABELS[idx];
+        const lang = localStorage.getItem('grap-lang') || 'ko';
+        const text = (typeof GRAP_I18N !== 'undefined' && GRAP_I18N[info.i18n])
+          ? (GRAP_I18N[info.i18n][lang] || info.fallback)
+          : info.fallback;
+        if (capLabel.textContent === text) return;
+        gsap.timeline()
+          .to(capLabel, { opacity: 0, y: -10, duration: 0.15, ease: 'power2.in' })
+          .call(() => { capLabel.textContent = text; capLabel.dataset.i18n = info.i18n; })
+          .to(capLabel, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' });
+      };
+
+      anchors.forEach((anchor, i) => {
+        ScrollTrigger.create({
+          trigger: anchor,
+          start:   'top 50%',
+          onEnter:     () => setLabel(i),
+          onLeaveBack: () => setLabel(Math.max(0, i - 1)),
+        });
+      });
+
+      /* ─ 오른쪽: viewport 중심 거리 기반 blur/opacity ─ */
+      const services = [...document.querySelectorAll('.cap-service')];
+
+      const updateFocus = () => {
+        if (isMobile()) return;
+        const center  = window.innerHeight / 2;
+        const maxDist = window.innerHeight * 0.44;
+        services.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const dist = Math.abs(rect.top + rect.height / 2 - center);
+          const t    = Math.min(dist / maxDist, 1);
+          gsap.set(el, {
+            opacity: 1 - t * 0.8,
+            filter:  `blur(${t * 4}px)`,
+          });
+        });
+      };
+
+      window.addEventListener('scroll', updateFocus, { passive: true });
+      window.addEventListener('resize', updateFocus, { passive: true });
+      updateFocus();
+
+      document.addEventListener('grap:lang', () => {
+        const active = anchors.findIndex(a => a.getBoundingClientRect().top < window.innerHeight * 0.5);
+        setLabel(active >= 0 ? Math.min(active, 2) : 0);
+      });
+    })();
+  </script>
 </body>
 </html>
