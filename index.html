@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE GRAP — Global Entertainment & Merch</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- GSAP — local -->
+  <script src="gsap.min.js"></script>
+  <!-- Three.js — local r128 -->
+  <script src="three.min.js"></script>
+
+  <style>
+    /* ── LOCAL FONTS ── */
+    @font-face { font-family:'PP Neue Montreal'; src:url('fonts/PPNeueMontreal-Regular.woff2') format('woff2'),url('fonts/PPNeueMontreal-Regular.woff') format('woff'); font-weight:400; font-display:swap; }
+    @font-face { font-family:'PP Neue Montreal'; src:url('fonts/PPNeueMontreal-Medium.woff2') format('woff2'),url('fonts/PPNeueMontreal-Medium.woff') format('woff'); font-weight:500; font-display:swap; }
+    @font-face { font-family:'Pretendard'; src:url('fonts/Pretendard-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F,U+A960-A97F,U+D7B0-D7FF; }
+    @font-face { font-family:'Pretendard'; src:url('fonts/Pretendard-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F,U+A960-A97F,U+D7B0-D7FF; }
+    @font-face { font-family:'PretendardJP'; src:url('fonts/PretendardJP-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
+    @font-face { font-family:'PretendardJP'; src:url('fonts/PretendardJP-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; }
+
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --c-bg:         #000000;
+      --c-on-bg:      #FFFFFF;
+      --c-surface:    #1A1A1A;
+      --c-primary:    #CCFF00;
+      --c-on-primary: #000000;
+      --c-secondary:  #BDBDBD;
+      --c-outline:    #444444;
+      --gutter:       clamp(24px, 4vw, 60px);
+    }
+
+    /* ── RESET ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--c-bg);
+      color: var(--c-on-bg);
+      font-family: 'PP Neue Montreal', 'Pretendard', sans-serif;
+      overflow: hidden; /* single-page hero for now */
+    }
+    :lang(zh-CN) { font-family: 'PP Neue Montreal', 'Noto Sans TC', sans-serif; }
+    :lang(ja)    { font-family: 'PP Neue Montreal', 'PretendardJP', sans-serif; }
+    :lang(ko) .hero-desc { word-break: keep-all; }
+
+    /* ── CUSTOM CURSOR ── */
+    #cursor, #cursor-ring {
+      position: fixed; border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%, -50%);
+    }
+    #cursor {
+      width: 32px; height: 32px;
+      background: var(--c-primary);
+      mix-blend-mode: exclusion;
+      transition: width .22s ease, height .22s ease;
+    }
+    body.cursor-hover #cursor { width: 64px; height: 64px; }
+    #cursor-ring { width: 0; height: 0; }
+    @media (hover: none) {
+      #cursor, #cursor-ring { display: none; }
+      body { cursor: auto; }
+    }
+
+    /* ── LOADER ── */
+    #loader {
+      position: fixed; inset: 0; z-index: 8000;
+      background: var(--c-bg);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .loader-bar-wrap {
+      width: clamp(100px,18vw,180px); height: 1px;
+      background: var(--c-outline); overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%; background: var(--c-primary);
+      width: 0; animation: barfill 1.5s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    @keyframes barfill { 0%{width:0} 60%{width:68%} 100%{width:100%} }
+
+    /* ── HEADER ── */
+    #header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      padding: 24px var(--gutter);
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      pointer-events: none;
+      transition: background .5s, padding .4s;
+    }
+    #header.scrolled {
+      background: rgba(0,0,0,.9);
+      backdrop-filter: blur(16px);
+      padding-top: 14px; padding-bottom: 14px;
+    }
+    #header > * { pointer-events: all; }
+    .header-logo { color: var(--c-on-bg); text-decoration: none; justify-self: start; display: flex; }
+    .header-logo svg { width: clamp(80px,7vw,112px); height: auto; }
+    #desktop-nav {
+      display: flex; gap: clamp(20px,2.5vw,40px);
+      justify-self: center;
+    }
+    #desktop-nav a {
+      font-size: 1rem; text-transform: uppercase;
+      color: var(--c-on-bg); text-decoration: none;
+      transition: color .2s;
+    }
+    #desktop-nav a:hover { color: var(--c-primary); }
+    #header-right {
+      display: flex; align-items: center; gap: 12px;
+      justify-self: end; grid-column: 3;
+    }
+    .lang-switcher { display: flex; gap: 0; }
+    .lang-btn {
+      font-size: 1rem;
+      background: none; border: none; cursor: pointer;
+      color: var(--c-on-bg); padding: 4px 6px;
+      transition: color .2s; font-family: inherit;
+    }
+    .lang-btn.active { color: var(--c-primary); }
+    .lang-btn:hover { color: rgba(255,255,255,.45); }
+    #hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .ham-line { display: block; width: 22px; height: 1px; background: var(--c-on-bg); }
+
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      width: 100vw; height: 100svh;
+      overflow: hidden; background: var(--c-bg);
+    }
+    #hero-canvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+    }
+    /* Headline — bottom-anchored, oversized */
+    .hero-headline {
+      position: absolute; z-index: 2;
+      left: 0; right: 0;
+      bottom: clamp(90px,18vh,180px);
+      display: flex; flex-direction: column;
+      padding: 0 var(--gutter);
+      pointer-events: none;
+      overflow: visible;
+    }
+    .hero-line {
+      display: block;
+      width: 100%; min-width: 0; max-width: 100%;
+      overflow: visible;
+      clip-path: inset(-0.5em -9999px 0 -9999px);
+      font-family: 'PP Neue Montreal', sans-serif;
+      font-weight: 700; text-transform: uppercase;
+      font-size: clamp(2.5rem, 13.5vw, 11rem);
+      line-height: .86;
+      color: var(--c-on-bg);
+      letter-spacing: -.04em;
+      white-space: nowrap;
+    }
+    .hl-left  { text-align: left; }
+    .hl-right { text-align: right; }
+    .hl-inner { display: inline-block; transform: translateY(110%); }
+    .hero-headline--mobile { display: none; }
+
+    /* Description — bottom left */
+    .hero-desc {
+      position: absolute; z-index: 2;
+      left: var(--gutter);
+      bottom: clamp(22px,4vh,52px);
+      max-width: 340px;
+      font-size: clamp(1rem,1.2vw,1.125rem);
+      line-height: 1.5; letter-spacing: .02em; overflow-wrap: break-word;
+      color: var(--c-on-bg);
+      opacity: 0;
+    }
+
+    /* Scroll indicator — bottom right */
+
+    /* ── MOBILE MENU ── */
+    #mobile-menu {
+      position: fixed; inset: 0; z-index: 400;
+      background: var(--c-bg);
+      display: flex; flex-direction: column;
+      align-items: flex-start; justify-content: center;
+      padding: 0 var(--gutter);
+      gap: 8px;
+      clip-path: inset(0 0 100% 0);
+      pointer-events: none;
+    }
+    #mobile-menu.open { pointer-events: all; }
+    .menu-item-wrap {
+      overflow: hidden;
+      line-height: 1;
+    }
+    #mobile-menu a {
+      font-family: 'PP Neue Montreal', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.5rem, 12vw, 4rem);
+      letter-spacing: -.03em; text-transform: uppercase;
+      color: var(--c-on-bg); text-decoration: none;
+      display: block; transform: translateY(110%);
+      transition: color .2s;
+    }
+    #mobile-menu a:hover { color: var(--c-primary); }
+    #mobile-menu .menu-lang {
+      display: flex; gap: 4px;
+      margin-top: 32px;
+      overflow: hidden;
+    }
+    #mobile-menu .menu-lang .lang-btn {
+      font-size: 1rem; padding: 6px 10px;
+      transform: translateY(110%);
+    }
+
+    /* ── TABLET ── */
+    @media (max-width: 1024px) {
+      .hl-right { text-align: right; }
+    }
+
+    /* ── TABLET / SMALL DESKTOP (481-768px): 2-line headline + hamburger ── */
+    @media (max-width: 768px) {
+      #desktop-nav { display: none; }
+      #hamburger   { display: flex; }
+      .lang-switcher { display: none; }
+      .hero-headline { bottom: 22vh; }
+      .hero-desc { bottom: 8vh; }
+    }
+
+    /* ── MOBILE PHONE (≤480px): 4-line headline ── */
+    @media (max-width: 480px) {
+      .hero-headline--desktop { display: none; }
+      .hero-headline--mobile  { display: flex; flex-direction: column; }
+      .hero-headline { padding: 0 var(--gutter); bottom: 136px; }
+      .hero-line { font-size: calc((100vw - 48px) / 4.2); line-height: .88; }
+      .hero-desc { font-size: 1rem; max-width: 260px; bottom: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu">
+    <div class="menu-item-wrap"><a href="about.html">ABOUT</a></div>
+    <div class="menu-item-wrap"><a href="business.html">BUSINESS</a></div>
+    <div class="menu-item-wrap"><a href="work.html">WORK</a></div>
+    <div class="menu-item-wrap"><a href="contact.html">CONTACT</a></div>
+    <div class="menu-lang lang-switcher">
+      <button class="lang-btn active" data-lang="ko">KR</button>
+      <button class="lang-btn" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="zh">CN</button>
+      <button class="lang-btn" data-lang="ja">JP</button>
+    </div>
+  </div>
+
+  <!-- Loader -->
+  <div id="loader">
+    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+  </div>
+
+  <!-- Custom cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Header -->
+  <header id="header">
+    <a href="index.html" class="header-logo">
+      <svg width="167" height="40" viewBox="0 0 167 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="THE GRAP">
+        <g clip-path="url(#clip0_492_793)">
+          <path fill-rule="evenodd" clip-rule="evenodd" d="M99.3898 0.0405149C108.3 -0.518512 112.651 4.7504 113.267 13.1933C116.269 13.4687 119.863 14.7331 122.122 16.769C127.46 21.5835 124.61 29.877 121.658 35.1961C121.183 36.0509 120.608 37.9853 119.961 38.686H105.376C108.968 34.2226 112.561 27.7234 114.111 22.1829C114.418 21.084 114.908 18.3316 113.371 17.9447C112.929 18.3745 112.649 19.8389 112.456 20.4716C110.831 25.7987 108.1 30.7024 103.858 34.3727C99.2102 38.0813 93.4097 39.2147 87.7871 37.2186C83.446 35.6769 81.6334 30.3308 83.5916 26.3314C86.7118 19.96 95.3748 15.202 102.145 13.6704C103.164 13.4396 104.187 13.3097 105.216 13.163C105.959 13.0646 107.616 13.2553 108.206 13.0206C108.288 12.4108 107.297 11.4058 106.736 11.3132C100.147 10.2264 90.1965 15.0785 84.474 17.5203C84.7777 12.9646 84.8529 8.4067 85.1153 3.8436C89.7525 1.78132 94.3068 0.373151 99.3898 0.0405149ZM104.886 18.0344C102.54 19.3598 91.746 25.3735 94.8702 28.6329C98.8696 30.1085 103.354 21.178 104.99 18.1993C104.997 18.1625 105.005 18.1258 105.013 18.0891L104.886 18.0344Z" fill="currentColor"/>
+          <path d="M22.2183 0.484188C22.3243 0.476437 22.4304 0.469752 22.5366 0.464125C30.6723 0.00387113 42.2983 2.47278 42.8768 12.4215C41.5241 12.7866 39.6357 13.5031 38.2685 13.9839L30.7209 16.6216C29.6953 14.2738 28.7217 11.9029 27.6473 9.55476C26.6254 7.32175 24.6809 3.88763 21.9016 3.68569C20.0077 3.5482 18.3215 5.15745 17.4395 6.71052C13.4786 13.6852 14.8666 28.6638 25.2176 28.8506C28.1006 28.9026 30.017 27.9651 32.0374 25.9946C31.2305 25.1219 29.8828 23.9136 28.9828 23.0908C27.3616 21.6079 25.5998 19.9304 23.9063 18.5509C25.616 18.4666 27.8511 18.5227 29.5886 18.5195L40.5685 18.5137L43.3124 18.5048L43.3445 38.6057C39.6086 38.5377 35.8319 38.6524 32.111 38.5696C32.5057 37.3879 34.7938 29.2795 34.5708 28.6404C34.5151 28.4801 34.4058 28.4779 34.2645 28.4121C34.1544 28.4302 34.0444 28.4482 33.9344 28.4673C33.6137 29.1107 33.2885 29.8943 33.0738 30.578C31.36 36.0448 26.6737 39.5325 20.8745 39.9434C10.1264 40.7036 0.704742 33.7441 0.0472991 22.6109C-0.770866 8.75379 9.1219 1.2189 22.2183 0.484188Z" fill="currentColor"/>
+          <path d="M46.1587 1.11491C51.559 1.04845 57.0101 1.11629 62.4179 1.09835C66.0674 1.16386 69.7098 0.889726 73.3332 1.3968C78.0633 2.05878 81.9788 4.37428 82.4743 9.50991C82.9131 13.1214 80.6743 16.5578 77.2191 17.7611C72.7672 19.3116 67.1985 19.6337 62.4612 20.1496C62.638 20.5823 62.7571 21.1042 62.8783 21.5613C65.5073 21.5439 68.2822 21.3173 70.9381 21.2329C71.5048 21.85 72.3577 23.014 72.9016 23.7094C73.9085 24.9941 74.926 26.2692 75.954 27.5369C78.767 31.0554 82.2245 35.2046 84.7895 38.7922C80.3481 38.669 75.7221 38.8516 71.2054 38.7624C66.6497 33.5738 62.1211 28.3619 57.6198 23.1276C56.4501 21.8726 55.5921 20.2772 54.0711 19.5292C53.6381 19.7839 53.332 19.8955 53.1473 20.35C53.1505 21.0516 62.606 36.7324 63.7239 38.806C57.8484 38.7136 51.775 38.789 45.873 38.7582C45.784 35.6665 45.8255 32.458 45.7867 29.3514C45.7635 27.5019 45.5811 24.0725 45.8176 22.3525C46.7423 15.626 52.6486 14.8349 58.0156 13.4267L67.7904 10.9149C68.8588 10.6343 72.1891 10.0883 72.2573 8.84814C71.4239 7.37406 68.2784 8.70353 66.9007 9.07057C59.8664 10.9444 52.6923 12.5 45.7047 14.5254C45.7093 13.038 45.6329 1.44968 45.7984 1.16206L46.1587 1.11491Z" fill="currentColor"/>
+          <path d="M128.76 1.11401C132.286 1.05201 135.934 1.0846 139.492 1.09023C146.857 1.11815 154.196 0.623611 160.858 4.40014C166.857 7.5442 168.751 16.8409 165.247 22.3991C159.983 30.7484 144.531 32.3591 138.925 23.4194C138.232 22.3131 137.389 20.7444 136.494 19.8727C136.058 19.447 134.76 19.8493 134.432 20.5135C134.443 21.2322 137.584 25.8337 138.194 26.7723L144.559 36.5709C145.011 37.2355 145.427 37.9915 145.839 38.6848C139.671 38.7368 133.504 38.7156 127.336 38.6848L127.251 29.3172C127.216 27.1089 127.159 25.0173 127.224 22.8079C127.446 15.2902 136.342 14.6203 142.315 13.435L153.772 11.1518C154.915 10.9325 158.4 10.6096 158.469 9.28382C158.164 8.59094 157.527 8.43073 156.827 8.53828C155.31 8.7709 153.801 9.09654 152.295 9.39764C149.332 9.97882 146.374 10.5844 143.421 11.2142C137.999 12.3648 132.699 13.2764 127.283 14.562L127.277 1.12888L128.76 1.11401Z" fill="currentColor"/>
+        </g>
+        <defs>
+          <clipPath id="clip0_492_793">
+            <rect width="167" height="40" fill="white"/>
+          </clipPath>
+        </defs>
+      </svg>
+    </a>
+    <nav id="desktop-nav">
+      <a href="about.html">ABOUT</a>
+      <a href="business.html">BUSINESS</a>
+      <a href="work.html">WORK</a>
+      <a href="contact.html">CONTACT</a>
+    </nav>
+    <div id="header-right">
+      <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="ko">KR</button>
+        <button class="lang-btn"        data-lang="en">EN</button>
+        <button class="lang-btn"        data-lang="zh">CN</button>
+        <button class="lang-btn"        data-lang="ja">JP</button>
+      </div>
+      <button id="hamburger" aria-label="menu">
+        <span class="ham-line"></span>
+        <span class="ham-line"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- Desktop: 2줄 -->
+    <h1 class="hero-headline hero-headline--desktop">
+      <span class="hero-line hl-left"><span class="hl-inner">FROM GRID</span></span>
+      <span class="hero-line hl-right"><span class="hl-inner">TO GROUND</span></span>
+    </h1>
+    <!-- Mobile: 4줄 -->
+    <h1 class="hero-headline hero-headline--mobile">
+      <span class="hero-line hl-left"><span class="hl-inner">FROM</span></span>
+      <span class="hero-line hl-right"><span class="hl-inner">GRID</span></span>
+      <span class="hero-line hl-left"><span class="hl-inner">TO</span></span>
+      <span class="hero-line hl-right"><span class="hl-inner">GROUND</span></span>
+    </h1>
+
+    <p class="hero-desc" data-i18n="hero_desc">
+      정교한 그리드(Grid)에서 시작된 우리의 설계는, 이제 수만 명의 팬이 모이는 거대한 현장(Ground)으로 향합니다.
+    </p>
+
+  </section>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   HERO FLUID — Stable Fluids (Navier-Stokes on GPU)
+   Three.js WebGL ping-pong FBO implementation
+   Brand color: #CCFF00
+═══════════════════════════════════════════════════ */
+(function() {
+  if (typeof THREE === 'undefined') return;
+
+  /* file://에서 CSS 레이아웃이 완료된 후 초기화하기 위해 rAF로 감쌈 */
+  function initFluid() {
+  const canvas  = document.getElementById('hero-canvas');
+
+  /* ── Config ── */
+  const SIM       = 128;   // simulation grid resolution
+  const ITER      = 20;    // pressure Jacobi iterations
+  const CURL_STR  = 28;    // vorticity confinement strength
+  const VEL_DISS  = 0.982; // velocity decay per frame
+  const DYE_DISS  = 0.970; // dye decay per frame
+  const FORCE     = 90;    // mouse force multiplier
+  const SPLAT_R   = 0.004; // splat radius (UV units²)
+  const LIME      = [0.8, 1.0, 0.0]; // #CCFF00 normalized
+
+  /* ── Renderer / scene ── */
+  /* file://에서 CSS 미적용 상태로 실행될 수 있어 offsetWidth가 0이 될 수 있음 */
+  const W0 = canvas.offsetWidth  || window.innerWidth;
+  const H0 = canvas.offsetHeight || window.innerHeight;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
+  renderer.setPixelRatio(1);
+  renderer.setSize(W0, H0, false);
+  renderer.setClearColor(0x000000, 1);
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const quad   = new THREE.Mesh(new THREE.PlaneGeometry(2, 2));
+  scene.add(quad);
+
+  /* ── Helpers ── */
+  function rt(w, h) {
+    return new THREE.WebGLRenderTarget(w, h, {
+      minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter,
+      type: THREE.HalfFloatType, format: THREE.RGBAFormat,
+      depthBuffer: false, stencilBuffer: false,
+    });
+  }
+  function pp(w, h) {
+    const a = rt(w, h), b = rt(w, h);
+    return { r: a, w: b, swap() { const t=this.r; this.r=this.w; this.w=t; } };
+  }
+  function pass(mat, target) {
+    quad.material = mat;
+    renderer.setRenderTarget(target);
+    renderer.render(scene, camera);
+  }
+  const u  = v  => ({ value: v });
+  const V2 = (x,y) => new THREE.Vector2(x,y);
+  const V3 = (x,y,z) => new THREE.Vector3(x,y,z);
+  const VS = `varying vec2 vUv; void main(){ vUv=uv; gl_Position=vec4(position,1.0); }`;
+  function mat(fs, uniforms) {
+    return new THREE.ShaderMaterial({ vertexShader: VS, fragmentShader: fs, uniforms });
+  }
+
+  /* ── Render targets ── */
+  const vel  = pp(SIM, SIM);
+  const dye  = pp(SIM, SIM);
+  const pres = pp(SIM, SIM);
+  const divRT  = rt(SIM, SIM);
+  const curlRT = rt(SIM, SIM);
+  const ts = V2(1/SIM, 1/SIM);
+
+  /* ── Shaders ── */
+
+  // Splat — inject mouse force + dye
+  const mSplat = mat(`
+    precision highp float;
+    uniform sampler2D uT; uniform vec2 uPt; uniform vec3 uC;
+    uniform float uR, uA; varying vec2 vUv;
+    void main(){
+      vec2 p=vUv-uPt; p.x*=uA;
+      float s=exp(-dot(p,p)/uR);
+      gl_FragColor=vec4(texture2D(uT,vUv).xyz+s*uC,1.0);
+    }`, { uT:u(null), uPt:u(V2()), uC:u(V3()), uR:u(SPLAT_R), uA:u(1) });
+
+  // Curl — vorticity magnitude
+  const mCurl = mat(`
+    precision highp float;
+    uniform sampler2D uV; uniform vec2 uTs; varying vec2 vUv;
+    void main(){
+      float L=texture2D(uV,vUv-vec2(uTs.x,0)).y, R=texture2D(uV,vUv+vec2(uTs.x,0)).y;
+      float B=texture2D(uV,vUv-vec2(0,uTs.y)).x, T=texture2D(uV,vUv+vec2(0,uTs.y)).x;
+      gl_FragColor=vec4((R-L-T+B)*.5,0,0,1);
+    }`, { uV:u(null), uTs:u(ts.clone()) });
+
+  // Vorticity confinement — prevent artificial dissipation of swirls
+  const mVort = mat(`
+    precision highp float;
+    uniform sampler2D uV,uCurl; uniform float uStr,uDt; uniform vec2 uTs; varying vec2 vUv;
+    void main(){
+      float L=texture2D(uCurl,vUv-vec2(uTs.x,0)).x, R=texture2D(uCurl,vUv+vec2(uTs.x,0)).x;
+      float B=texture2D(uCurl,vUv-vec2(0,uTs.y)).x, T=texture2D(uCurl,vUv+vec2(0,uTs.y)).x;
+      float C=texture2D(uCurl,vUv).x;
+      vec2 f=normalize(vec2(abs(T)-abs(B),abs(R)-abs(L))+1e-5)*uStr*C;
+      gl_FragColor=vec4(texture2D(uV,vUv).xy+f*uDt,0,1);
+    }`, { uV:u(null), uCurl:u(null), uStr:u(CURL_STR), uDt:u(0.016), uTs:u(ts.clone()) });
+
+  // Divergence
+  const mDiv = mat(`
+    precision highp float;
+    uniform sampler2D uV; uniform vec2 uTs; varying vec2 vUv;
+    void main(){
+      float L=texture2D(uV,vUv-vec2(uTs.x,0)).x, R=texture2D(uV,vUv+vec2(uTs.x,0)).x;
+      float B=texture2D(uV,vUv-vec2(0,uTs.y)).y, T=texture2D(uV,vUv+vec2(0,uTs.y)).y;
+      gl_FragColor=vec4((R-L+T-B)*.5,0,0,1);
+    }`, { uV:u(null), uTs:u(ts.clone()) });
+
+  // Pressure solve — Jacobi iteration
+  const mPres = mat(`
+    precision highp float;
+    uniform sampler2D uP,uDiv; uniform vec2 uTs; varying vec2 vUv;
+    void main(){
+      float L=texture2D(uP,vUv-vec2(uTs.x,0)).x, R=texture2D(uP,vUv+vec2(uTs.x,0)).x;
+      float B=texture2D(uP,vUv-vec2(0,uTs.y)).x, T=texture2D(uP,vUv+vec2(0,uTs.y)).x;
+      gl_FragColor=vec4((L+R+B+T-texture2D(uDiv,vUv).x)*.25,0,0,1);
+    }`, { uP:u(null), uDiv:u(null), uTs:u(ts.clone()) });
+
+  // Gradient subtract — enforce incompressibility
+  const mGrad = mat(`
+    precision highp float;
+    uniform sampler2D uP,uV; uniform vec2 uTs; varying vec2 vUv;
+    void main(){
+      float L=texture2D(uP,vUv-vec2(uTs.x,0)).x, R=texture2D(uP,vUv+vec2(uTs.x,0)).x;
+      float B=texture2D(uP,vUv-vec2(0,uTs.y)).x, T=texture2D(uP,vUv+vec2(0,uTs.y)).x;
+      gl_FragColor=vec4(texture2D(uV,vUv).xy-.5*vec2(R-L,T-B),0,1);
+    }`, { uP:u(null), uV:u(null), uTs:u(ts.clone()) });
+
+  // Advection — semi-Lagrangian (velocity & dye)
+  const mAdv = mat(`
+    precision highp float;
+    uniform sampler2D uV,uSrc; uniform vec2 uTs; uniform float uDiss; varying vec2 vUv;
+    void main(){
+      gl_FragColor=uDiss*texture2D(uSrc,vUv-texture2D(uV,vUv).xy*uTs);
+    }`, { uV:u(null), uSrc:u(null), uTs:u(ts.clone()), uDiss:u(1) });
+
+  // ── Font atlas: characters rendered to offscreen canvas ──
+  const CHARS   = ' .·:-=+*GRAP2026'; // density: space=empty → #=dense
+  const NCHARS  = CHARS.length;        // 16
+  const CELL_PX = 9;                   // px per cell (determines grid density)
+  const atlasCv = document.createElement('canvas');
+  atlasCv.width  = NCHARS * CELL_PX;
+  atlasCv.height = CELL_PX;
+  const ax2d = atlasCv.getContext('2d');
+  ax2d.fillStyle = '#000';
+  ax2d.fillRect(0, 0, atlasCv.width, atlasCv.height);
+  ax2d.fillStyle = '#fff';
+  ax2d.font = `bold ${CELL_PX + 1}px "Courier New", monospace`;
+  ax2d.textAlign  = 'center';
+  ax2d.textBaseline = 'middle';
+  for (let i = 0; i < NCHARS; i++) {
+    ax2d.fillText(CHARS[i], i * CELL_PX + CELL_PX / 2, CELL_PX / 2);
+  }
+  const atlasTex = new THREE.CanvasTexture(atlasCv);
+  atlasTex.minFilter = THREE.LinearFilter;
+  atlasTex.magFilter = THREE.NearestFilter;
+
+  // Display — ASCII character mosaic + fluid warp + lime tint
+  const W = canvas.offsetWidth  || window.innerWidth;
+  const H = canvas.offsetHeight || window.innerHeight;
+  const mDisplay = mat(`
+    precision highp float;
+    uniform sampler2D uVideo;   /* video texture */
+    uniform sampler2D uVel;     /* fluid velocity */
+    uniform sampler2D uAtlas;   /* character strip atlas */
+    uniform vec2  uRes;         /* canvas resolution px */
+    uniform float uCell;        /* cell size px */
+    uniform float uNChars;      /* number of chars in atlas */
+    varying vec2 vUv;
+
+    void main() {
+      /* ── 1. Snap to cell centre ── */
+      vec2 cellSz  = vec2(uCell / uRes.x, uCell / uRes.y);
+      vec2 cellUV  = floor(vUv / cellSz) * cellSz + cellSz * 0.5;
+      vec2 localUV = fract(vUv / cellSz);          /* 0-1 inside the cell */
+
+      /* ── 2. Sample fluid velocity at cell centre ── */
+      vec2  vel    = texture2D(uVel, cellUV).xy;
+      float velMag = length(vel);
+
+      /* ── 3. Warp video UV by velocity ── */
+      vec2 videoUV = cellUV + vel * 0.038;
+      vec3 video   = texture2D(uVideo, videoUV).rgb;
+
+      /* ── 4. Luminance → character index ── */
+      float luma    = dot(video, vec3(0.299, 0.587, 0.114));
+      float charIdx = clamp(floor(luma * uNChars), 0.0, uNChars - 1.0);
+
+      /* ── 5. Sample atlas ── */
+      float atlasU = (charIdx + localUV.x) / uNChars;
+      float atlasV = 1.0 - localUV.y;              /* flip Y for canvas tex */
+      float glyph  = texture2D(uAtlas, vec2(atlasU, atlasV)).r;
+
+      /* ── 6. Colour: lime 50% at rest, full lime where disturbed ── */
+      vec3  lime        = vec3(0.8, 1.0, 0.0);
+      float disturbance = smoothstep(0.0, 1.4, velMag);
+      vec3  charColor   = mix(lime * 0.5, lime, disturbance);
+
+      /* ── 7. Ambient stage-floor glow (always-on base) ── */
+      float aax = (vUv.x - .5) * (uRes.x / uRes.y);
+      float aay = vUv.y - 1.08;
+      float amb = smoothstep(1.0, 0.0, sqrt(aax*aax + aay*aay) * 1.2) * 0.055;
+
+      vec3 finalColor = charColor * glyph + lime * amb * max(glyph, 0.15);
+      gl_FragColor = vec4(finalColor, 1.0);
+    }
+  `, {
+    uVideo:  u(null), uVel: u(null), uAtlas: u(atlasTex),
+    uRes:    u(V2(W, H)),
+    uCell:   u(CELL_PX),
+    uNChars: u(NCHARS),
+  });
+
+  /* ── Noise fallback texture (always-visible ASCII base) ── */
+  const noiseCv = document.createElement('canvas');
+  noiseCv.width = 256; noiseCv.height = 256;
+  const nCtx = noiseCv.getContext('2d');
+  const nImg = nCtx.createImageData(256, 256);
+  for (let i = 0; i < nImg.data.length; i += 4) {
+    const v = Math.random() * 180 + 20; // 20-200 brightness range
+    nImg.data[i] = v; nImg.data[i+1] = v; nImg.data[i+2] = v; nImg.data[i+3] = 255;
+  }
+  nCtx.putImageData(nImg, 0, 0);
+  const noiseTex = new THREE.CanvasTexture(noiseCv);
+  noiseTex.minFilter = THREE.LinearFilter;
+  noiseTex.magFilter = THREE.LinearFilter;
+  mDisplay.uniforms.uVideo.value = noiseTex;
+
+  /* ── Video texture ── */
+  const videoEl = document.createElement('video');
+  videoEl.src = 'assets/hero-bg.mp4';
+  videoEl.loop = true; videoEl.muted = true;
+  videoEl.playsInline = true; videoEl.autoplay = true;
+  /* crossOrigin 제거 — 같은 서버 자산은 CORS 불필요, file://에서도 안전 */
+  videoEl.play().catch(() => {});
+  const videoTex = new THREE.VideoTexture(videoEl);
+  videoTex.minFilter = THREE.LinearFilter;
+  videoTex.magFilter = THREE.LinearFilter;
+  videoEl.addEventListener('canplay', () => {
+    mDisplay.uniforms.uVideo.value = videoTex;
+  });
+  videoEl.addEventListener('error', () => {
+    /* 에러 시 노이즈 유지 — 이미 설정돼 있음 */
+  });
+
+  /* ── Splat helper ── */
+  function splat(x, y, dx, dy) {
+    const asp = canvas.offsetWidth / canvas.offsetHeight;
+    // velocity
+    mSplat.uniforms.uT.value = vel.r.texture;
+    mSplat.uniforms.uPt.value.set(x, y);
+    mSplat.uniforms.uC.value.set(dx * FORCE, dy * FORCE, 0);
+    mSplat.uniforms.uA.value = asp;
+    pass(mSplat, vel.w); vel.swap();
+    // dye
+    mSplat.uniforms.uT.value = dye.r.texture;
+    mSplat.uniforms.uC.value.set(LIME[0], LIME[1], LIME[2]);
+    pass(mSplat, dye.w); dye.swap();
+  }
+
+  /* ── Mouse ── */
+  let mx=.5, my=.5, pmx=.5, pmy=.5;
+  window.addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    mx = (e.clientX - r.left) / r.width;
+    my = 1 - (e.clientY - r.top)  / r.height;
+  });
+
+  /* ── Resize ── */
+  window.addEventListener('resize', () => {
+    const w = canvas.offsetWidth, h = canvas.offsetHeight;
+    renderer.setSize(w, h, false);
+    mDisplay.uniforms.uRes.value.set(w, h);
+    mDisplay.uniforms.uCell.value = CELL_PX;
+  });
+
+  /* ── Main loop ── */
+  const DT = 1 / 60;
+  function tick() {
+    requestAnimationFrame(tick);
+
+    // Mouse splat
+    const dx = mx - pmx, dy = my - pmy;
+    if (Math.abs(dx) > 4e-5 || Math.abs(dy) > 4e-5) splat(mx, my, dx, dy);
+    pmx = mx; pmy = my;
+
+    // 1. Curl
+    mCurl.uniforms.uV.value = vel.r.texture;
+    pass(mCurl, curlRT);
+
+    // 2. Vorticity
+    mVort.uniforms.uV.value    = vel.r.texture;
+    mVort.uniforms.uCurl.value = curlRT.texture;
+    mVort.uniforms.uDt.value   = DT;
+    pass(mVort, vel.w); vel.swap();
+
+    // 3. Divergence
+    mDiv.uniforms.uV.value = vel.r.texture;
+    pass(mDiv, divRT);
+
+    // 4. Pressure (Jacobi)
+    for (let i = 0; i < ITER; i++) {
+      mPres.uniforms.uP.value   = pres.r.texture;
+      mPres.uniforms.uDiv.value = divRT.texture;
+      pass(mPres, pres.w); pres.swap();
+    }
+
+    // 5. Gradient subtract → divergence-free velocity
+    mGrad.uniforms.uP.value = pres.r.texture;
+    mGrad.uniforms.uV.value = vel.r.texture;
+    pass(mGrad, vel.w); vel.swap();
+
+    // 6. Advect velocity
+    mAdv.uniforms.uV.value   = vel.r.texture;
+    mAdv.uniforms.uSrc.value = vel.r.texture;
+    mAdv.uniforms.uDiss.value = VEL_DISS;
+    pass(mAdv, vel.w); vel.swap();
+
+    // 7. Advect dye
+    mAdv.uniforms.uV.value   = vel.r.texture;
+    mAdv.uniforms.uSrc.value = dye.r.texture;
+    mAdv.uniforms.uDiss.value = DYE_DISS;
+    pass(mAdv, dye.w); dye.swap();
+
+    // 8. Display → screen (ASCII mosaic)
+    mDisplay.uniforms.uVel.value   = vel.r.texture;
+    mDisplay.uniforms.uAtlas.value = atlasTex;
+    quad.material = mDisplay;
+    renderer.setRenderTarget(null);
+    renderer.render(scene, camera);
+  }
+
+  tick();
+  } // end initFluid
+
+  requestAnimationFrame(initFluid);
+})();
+
+
+/* ═══════════════════════════════════════════════════
+   CURSOR
+═══════════════════════════════════════════════════ */
+const $cur  = document.getElementById('cursor');
+const $ring = document.getElementById('cursor-ring');
+let cx=0, cy=0, rx=0, ry=0;
+
+document.addEventListener('mousemove', e => {
+  cx = e.clientX; cy = e.clientY;
+  gsap.set($cur, { x: cx, y: cy });
+});
+gsap.ticker.add(() => {
+  rx += (cx - rx) * 0.10;
+  ry += (cy - ry) * 0.10;
+  gsap.set($ring, { x: rx, y: ry });
+});
+
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+});
+
+
+/* ═══════════════════════════════════════════════════
+   MOBILE MENU
+═══════════════════════════════════════════════════ */
+const $ham  = document.getElementById('hamburger');
+const $menu = document.getElementById('mobile-menu');
+const $menuItems = $menu.querySelectorAll('.menu-item-wrap a, .menu-lang .lang-btn');
+let menuOpen = false;
+function toggleMenu(force) {
+  menuOpen = force !== undefined ? force : !menuOpen;
+  $menu.classList.toggle('open', menuOpen);
+  const lines = $ham.querySelectorAll('.ham-line');
+  if (menuOpen) {
+    // 오버레이: 위에서 아래로 clip-path wipe
+    gsap.to($menu, { clipPath: 'inset(0 0 0% 0)', duration: 0.75, ease: 'expo.inOut' });
+    // 아이템: 아래→위 stagger 등장
+    gsap.fromTo($menuItems,
+      { y: '110%' },
+      { y: '0%', duration: 0.6, ease: 'expo.out', stagger: 0.07, delay: 0.3 }
+    );
+    gsap.to(lines[0], { rotate: 45,  y: 3,  duration: .25 });
+    gsap.to(lines[1], { rotate: -45, y: -3, duration: .25 });
+  } else {
+    // 아이템 먼저 퇴장
+    gsap.to($menuItems, { y: '110%', duration: 0.3, ease: 'expo.in', stagger: 0.03 });
+    // 오버레이: 아래→위 clip-path wipe
+    gsap.to($menu, { clipPath: 'inset(0 0 100% 0)', duration: 0.6, ease: 'expo.inOut', delay: 0.15 });
+    gsap.to(lines[0], { rotate: 0, y: 0, duration: .25 });
+    gsap.to(lines[1], { rotate: 0, y: 0, duration: .25 });
+  }
+}
+$ham.addEventListener('click', () => toggleMenu());
+$menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => toggleMenu(false)));
+
+
+/* ═══════════════════════════════════════════════════
+   HEADER SCROLL STATE
+═══════════════════════════════════════════════════ */
+window.addEventListener('scroll', () => {
+  document.getElementById('header').classList.toggle('scrolled', scrollY > 60);
+}, { passive: true });
+
+
+/* ═══════════════════════════════════════════════════
+   i18n
+═══════════════════════════════════════════════════ */
+const T = {
+  ko: { nav_about:'소개', nav_biz:'사업', nav_work:'작업', nav_contact:'문의',
+        hero_desc:'정교한 그리드(Grid)에서 시작된 우리의 설계는, 이제 수만 명의 팬이 모이는 거대한 현장(Ground)으로 향합니다.' },
+  en: { nav_about:'ABOUT', nav_biz:'BUSINESS', nav_work:'WORK', nav_contact:'CONTACT',
+        hero_desc:'Our designs begin with a precise grid, and arrive at the ground where tens of thousands gather.' },
+  zh: { nav_about:'关于', nav_biz:'业务', nav_work:'作品', nav_contact:'联系',
+        hero_desc:'我们的设计始于精密的网格，终于汇聚数万名粉丝的宏大舞台。' },
+  ja: { nav_about:'概要', nav_biz:'事業', nav_work:'実績', nav_contact:'お問い合わせ',
+        hero_desc:'精密なグリッドから始まった私たちのデザインは、数万人のファンが集まる巨大な現場へと向かいます。' },
+};
+let currentLang = 'ko';
+function applyLang(l) {
+  currentLang = l;
+  document.documentElement.lang = { ko:'ko', en:'en', zh:'zh-CN', ja:'ja' }[l];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = T[l]?.[el.dataset.i18n];
+    if (k !== undefined) el.innerHTML = k;
+  });
+  document.querySelectorAll('.lang-btn').forEach(b =>
+    b.classList.toggle('active', b.dataset.lang === l));
+}
+document.querySelectorAll('.lang-btn').forEach(b =>
+  b.addEventListener('click', () => {
+    applyLang(b.dataset.lang);
+    if (menuOpen) toggleMenu(false);
+  }));
+applyLang('ko');
+
+
+/* ═══════════════════════════════════════════════════
+   LOADER → HERO ENTRANCE
+═══════════════════════════════════════════════════ */
+setTimeout(() => {
+  const loader = document.getElementById('loader');
+  gsap.to(loader, {
+    opacity: 0, duration: 0.5,
+    onComplete() { loader.style.display = 'none'; }
+  });
+  gsap.to('.hl-inner', {
+    y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.13, delay: 0.15
+  });
+  gsap.to('.hero-desc', {
+    opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.7
+  });
+}, 1500);
+</script>
+</body>
+</html>
