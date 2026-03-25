@@ -16,26 +16,11 @@
   <!-- Three.js — local r128 -->
   <script src="three.min.js"></script>
   <script src="js/grap-header.js"></script>
+  <script src="js/i18n.js?v=2"></script>
 
   <style>
     /* index.html-specific overrides */
     :lang(ko) .hero-desc { word-break: keep-all; }
-
-    /* ── LOADER ── */
-    #loader {
-      position: fixed; inset: 0; z-index: 8000;
-      background: var(--c-bg);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .loader-bar-wrap {
-      width: clamp(100px,18vw,180px); height: 1px;
-      background: var(--c-outline); overflow: hidden;
-    }
-    .loader-bar {
-      height: 100%; background: var(--c-primary);
-      width: 0; animation: barfill 1.5s cubic-bezier(.4,0,.2,1) forwards;
-    }
-    @keyframes barfill { 0%{width:0} 60%{width:68%} 100%{width:100%} }
 
     /* ── HERO ── */
     #hero {
@@ -111,11 +96,6 @@
   </style>
 </head>
 <body>
-
-  <!-- Loader -->
-  <div id="loader">
-    <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
-  </div>
 
   <!-- Custom cursor -->
   <div id="cursor"></div>
@@ -531,21 +511,14 @@ applyLang(localStorage.getItem('grap-lang') || 'ko');
 
 
 /* ═══════════════════════════════════════════════════
-   LOADER → HERO ENTRANCE
+   HERO ENTRANCE
 ═══════════════════════════════════════════════════ */
-setTimeout(() => {
-  const loader = document.getElementById('loader');
-  gsap.to(loader, {
-    opacity: 0, duration: 0.5,
-    onComplete() { loader.style.display = 'none'; }
-  });
-  gsap.to('.hl-inner', {
-    y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.13, delay: 0.15
-  });
-  gsap.to('.hero-desc', {
-    opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.7
-  });
-}, 1500);
+gsap.to('.hl-inner', {
+  y: 0, duration: 1.1, ease: 'expo.out', stagger: 0.13, delay: 0.15
+});
+gsap.to('.hero-desc', {
+  opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.7
+});
 </script>
 
 <grap-footer></grap-footer>

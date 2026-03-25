@@ -80,12 +80,6 @@ class GrapHeader extends HTMLElement {
   }
 
   _init() {
-    // ── Scroll state ──
-    window.addEventListener('scroll', () => {
-      document.getElementById('header')
-        .classList.toggle('scrolled', window.scrollY > 60);
-    }, { passive: true });
-
     // ── Mobile menu ──
     const $ham   = document.getElementById('hamburger');
     const $menu  = document.getElementById('mobile-menu');

@@ -60,7 +60,7 @@ html:lang(ja), html:lang(ja) * {
   word-break: auto-phrase; /* 일본어 문절 단위 줄바꿈 (지원 브라우저) */
   overflow-wrap: break-word;
 }
-html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"]):not([class*="lead"]) {
+html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"]):not([class*="lead"]):not([class*="hero-desc"]) {
   line-height: 1.75;
 }
 
@@ -98,16 +98,12 @@ body.cursor-hover #cursor { width: 64px; height: 64px; }
   display: grid; grid-template-columns: 1fr auto 1fr;
   align-items: center;
   pointer-events: none;
-  transition: background .5s, padding .4s;
-}
-#header.scrolled {
-  background: rgba(0,0,0,.9);
-  backdrop-filter: blur(16px);
-  padding-top: 14px; padding-bottom: 14px;
 }
 #header > * { pointer-events: all; }
-.header-logo { color: var(--c-on-bg); text-decoration: none; justify-self: start; display: flex; }
+.header-logo { color: var(--c-on-bg); text-decoration: none; justify-self: start; display: flex; mix-blend-mode: difference; }
 .header-logo svg { width: clamp(64px,5vw,100px); height: auto; }
+#desktop-nav { mix-blend-mode: difference; }
+#header-right { mix-blend-mode: difference; }
 
 /* ── DESKTOP NAV ── */
 #desktop-nav {
@@ -197,7 +193,7 @@ body.cursor-hover #cursor { width: 64px; height: 64px; }
   font-family: 'PP Neue Montreal', sans-serif;
   font-weight: 700;
   font-size: clamp(4rem,11vw,10rem);
-  line-height: .88; letter-spacing: -.03em;
+  line-height: .88; letter-spacing: -.02em;
   text-transform: uppercase; color: var(--c-on-bg);
   clip-path: inset(-0.5em -9999px 0 -9999px);
   margin-left: -0.04em;
@@ -235,7 +231,7 @@ body.cursor-hover #cursor { width: 64px; height: 64px; }
   display: block;
   font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
   font-size: clamp(3rem, 6.5vw, 8rem);
-  line-height: .88; letter-spacing: -.04em;
+  line-height: .88; letter-spacing: -.02em;
   text-transform: uppercase; color: var(--c-on-bg);
   overflow: hidden;
   margin-left: -0.04em;
@@ -247,7 +243,7 @@ body.cursor-hover #cursor { width: 64px; height: 64px; }
   display: inline-flex; align-items: center; gap: 8px;
   margin-top: clamp(28px,3.5vw,44px);
   font-size: var(--text-base); text-transform: uppercase; letter-spacing: .02em;
-  color: var(--c-secondary); text-decoration: none;
+  color: var(--c-on-bg); text-decoration: none;
   transition: color .25s;
   width: fit-content;
 }
@@ -278,9 +274,9 @@ body.cursor-hover #cursor { width: 64px; height: 64px; }
   display: flex; align-items: center;
   justify-content: space-between;
 }
-.footer-copy { font-size: var(--text-sm); color: var(--c-secondary); }
+.footer-copy { font-size: var(--text-sm); color: var(--c-on-bg); }
 .footer-privacy {
-  font-size: var(--text-sm); color: var(--c-secondary);
+  font-size: var(--text-sm); color: var(--c-on-bg);
   text-decoration: none; transition: color .2s;
 }
 .footer-privacy:hover { color: var(--c-on-bg); }

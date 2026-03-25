@@ -29,7 +29,7 @@
       font-weight: 700;
       font-size: clamp(1.75rem, 3.6vw, 4.25rem);
       line-height: 1.25;
-      letter-spacing: -.01em;
+      letter-spacing: 0;
       color: var(--c-on-bg);
       max-width: 1300px;
       word-break: keep-all;
@@ -37,6 +37,7 @@
     }
     /* 중국어는 keep-all 불필요 (한자 사이 자유롭게 줄바꿈) */
     html:lang(zh-CN) .about-manifesto-text { word-break: normal; }
+    html:lang(ja) .about-client-list span { line-height: 1.2; }
     @media (max-width: 768px) {
       .about-manifesto-text br { display: none; }
     }
@@ -52,7 +53,7 @@
       grid-column: 2;
       font-size: clamp(1.125rem, 1.6vw, 1.875rem);
       line-height: 1.4;
-      letter-spacing: -.01em;
+      letter-spacing: 0;
       font-weight: 500;
       color: var(--c-on-bg);
       word-break: keep-all;
@@ -80,7 +81,7 @@
       font-weight: 700;
       font-size: clamp(1.5rem, 3.125vw, 3.75rem);
       line-height: 1;
-      letter-spacing: -.04em;
+      letter-spacing: -.02em;
       color: #ffffff;
     }
 
@@ -93,10 +94,9 @@
       font-weight: 500;
       font-size: clamp(1.5rem, 3.125vw, 3.75rem);
       line-height: 1.25;
-      letter-spacing: -.02em;
+      letter-spacing: 0;
       color: #ffffff;
       padding: clamp(10px,1.2vw,18px) 0;
-      will-change: opacity, filter;
     }
     .cap-group-gap { display: none; }
 
@@ -104,7 +104,7 @@
       .about-cap-section { grid-template-columns: 1fr; }
       .about-cap-left { padding-bottom: clamp(24px, 3vw, 40px); }
       .cap-label { font-size: clamp(1.5rem, 6vw, 2.25rem); }
-      .cap-service { filter: none !important; opacity: 1 !important; border-bottom: none; }
+      .cap-service { border-bottom: none; }
     }
 
     /* ── CLIENTS ── */
@@ -265,7 +265,7 @@
 
   <grap-footer></grap-footer>
   <script src="js/grap-footer.js"></script>
-  <script src="js/i18n.js"></script>
+  <script src="js/i18n.js?v=3"></script>
   <script src="js/grap-init.js"></script>
   <script>
     /* ── Capabilities: 좌=pin 라벨, 우=blur focus ── */
@@ -284,11 +284,12 @@
 
       /* ─ 왼쪽 pin: 라벨 중앙이 뷰포트 중앙에 닿으면 고정 ─ */
       if (!isMobile()) {
+        const lastService = document.querySelector('.about-cap-right .cap-service:last-child');
         ScrollTrigger.create({
           trigger:    '.cap-label',
           start:      'center center',
-          endTrigger: '.about-cap-right',
-          end:        'bottom center',
+          endTrigger: lastService,
+          end:        'center center',
           pin:        '.about-cap-left',
           pinSpacing: false,
         });
@@ -322,28 +323,6 @@
           onLeaveBack: () => setLabel(Math.max(0, i - 1)),
         });
       });
-
-      /* ─ 오른쪽: viewport 중심 거리 기반 blur/opacity ─ */
-      const services = [...document.querySelectorAll('.cap-service')];
-
-      const updateFocus = () => {
-        if (isMobile()) return;
-        const center  = window.innerHeight / 2;
-        const maxDist = window.innerHeight * 0.44;
-        services.forEach(el => {
-          const rect = el.getBoundingClientRect();
-          const dist = Math.abs(rect.top + rect.height / 2 - center);
-          const t    = Math.min(dist / maxDist, 1);
-          gsap.set(el, {
-            opacity: 1 - t * 0.8,
-            filter:  `blur(${t * 4}px)`,
-          });
-        });
-      };
-
-      window.addEventListener('scroll', updateFocus, { passive: true });
-      window.addEventListener('resize', updateFocus, { passive: true });
-      updateFocus();
 
       document.addEventListener('grap:lang', () => {
         const active = anchors.findIndex(a => a.getBoundingClientRect().top < window.innerHeight * 0.5);
