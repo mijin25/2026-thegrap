@@ -9,8 +9,10 @@
 /* ── LOCAL FONTS ── */
 @font-face { font-family:'PP Neue Montreal'; src:url('../fonts/PPNeueMontreal-Regular.woff2') format('woff2'),url('../fonts/PPNeueMontreal-Regular.woff') format('woff'); font-weight:400; font-display:swap; }
 @font-face { font-family:'PP Neue Montreal'; src:url('../fonts/PPNeueMontreal-Medium.woff2') format('woff2'),url('../fonts/PPNeueMontreal-Medium.woff') format('woff'); font-weight:500; font-display:swap; }
-@font-face { font-family:'Pretendard'; src:url('../fonts/Pretendard-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F,U+A960-A97F,U+D7B0-D7FF; }
-@font-face { font-family:'Pretendard'; src:url('../fonts/Pretendard-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F,U+A960-A97F,U+D7B0-D7FF; }
+@font-face { font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/woff2/Pretendard-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F,U+A960-A97F,U+D7B0-D7FF; }
+@font-face { font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/woff2/Pretendard-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F,U+A960-A97F,U+D7B0-D7FF; }
+@font-face { font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/woff2/Pretendard-SemiBold.woff2') format('woff2'); font-weight:600; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F,U+A960-A97F,U+D7B0-D7FF; }
+@font-face { font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/woff2/Pretendard-Bold.woff2') format('woff2'); font-weight:700; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F,U+A960-A97F,U+D7B0-D7FF; }
 
 /* ── DESIGN TOKENS ── */
 :root {
@@ -46,6 +48,15 @@ html:lang(ko), html:lang(ko) * {
   word-break: keep-all;
   overflow-wrap: break-word;
 }
+/* 한국어 자간 보정 */
+html:lang(ko) p,
+html:lang(ko) li,
+html:lang(ko) span:not([class*="logo"]) { letter-spacing: -0.02em; }
+html:lang(ko) .page-title,
+html:lang(ko) .fhl,
+html:lang(ko) .cap-label,
+html:lang(ko) .cap-service { letter-spacing: -0.04em; }
+html:lang(ko) .page-label { letter-spacing: 0.05em; } /* 레이블은 약간만 */
 html:lang(en), html:lang(en) * {
   font-family: 'PP Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 }
@@ -101,7 +112,7 @@ body.cursor-hover #cursor { width: 64px; height: 64px; }
 }
 #header > * { pointer-events: all; }
 .header-logo { color: var(--c-on-bg); text-decoration: none; justify-self: start; display: flex; mix-blend-mode: difference; }
-.header-logo svg { width: clamp(64px,5vw,100px); height: auto; }
+.header-logo svg { width: clamp(80px,5vw,100px); height: auto; }
 #desktop-nav { mix-blend-mode: difference; }
 #header-right { mix-blend-mode: difference; }
 
@@ -131,7 +142,7 @@ body.cursor-hover #cursor { width: 64px; height: 64px; }
   transition: color .2s; font-family: inherit;
 }
 .lang-btn.active { color: var(--c-primary); }
-.lang-btn:hover  { color: rgba(255,255,255,.45); }
+.lang-btn:hover  { color: var(--c-primary); }
 
 /* ── HAMBURGER ── */
 #hamburger {
@@ -199,6 +210,12 @@ body.cursor-hover #cursor { width: 64px; height: 64px; }
   margin-left: -0.04em;
 }
 .page-title span { display: inline-block; transform: translateY(110%); }
+.page-title--copy {
+  text-transform: none;
+  display: flex;
+  flex-direction: column;
+  clip-path: inset(-0.5em -9999px -0.25em -9999px);
+}
 
 /* ── REVEAL ANIMATION ── */
 .reveal { opacity: 0; transform: translateY(20px); }

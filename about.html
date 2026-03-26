@@ -99,47 +99,82 @@
       padding: clamp(10px,1.2vw,18px) 0;
     }
     .cap-group-gap { display: none; }
+    /* 데스크탑: 그룹 래퍼 투명 처리 */
+    .cap-group { display: contents; }
+
+    /* 그룹 라벨: 데스크탑에서 숨김 (좌측 cap-label이 담당) */
+    .cap-group-label { display: none; }
 
     @media (max-width: 768px) {
-      .about-cap-section { grid-template-columns: 1fr; }
-      .about-cap-left { padding-bottom: clamp(24px, 3vw, 40px); }
-      .cap-label { font-size: clamp(1.5rem, 6vw, 2.25rem); }
-      .cap-service { border-bottom: none; }
+      /* 섹션: 단일 컬럼, 패딩 포함 */
+      .about-cap-section { display: block; padding: clamp(60px,8vw,100px) var(--gutter); }
+      /* 좌측 sticky 패널 숨김 — 각 그룹 내 라벨이 담당 */
+      .about-cap-left { display: none; }
+      .about-cap-right { padding: 0; }
+      /* 각 그룹: 2컬럼 그리드 (라벨 38% / 서비스 62%) */
+      .cap-group { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: clamp(28px,6vw,40px); }
+      .cap-anchor { display: none; }
+      .cap-group-label {
+        display: block;
+        grid-column: 1; grid-row: 1 / span 99;
+        font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
+        font-size: clamp(1rem, 4.5vw, 1.4rem); letter-spacing: -0.02em;
+        padding-top: 3px;
+        color: var(--c-on-bg);
+      }
+      .cap-service { grid-column: 2; font-size: clamp(1rem, 4.5vw, 1.4rem); padding: clamp(4px,1.2vw,8px) 0; border-bottom: none; }
+      .cap-group-gap { display: none; }
     }
 
-    /* ── CLIENTS ── */
+    /* ── CLIENTS & PARTNERS ── */
     .about-clients {
       padding: clamp(80px,10vw,140px) var(--gutter);
     }
-    .about-clients-hl {
-      font-family: 'PP Neue Montreal', sans-serif;
-      font-weight: 700;
-      font-size: clamp(3rem, 7vw, 9rem);
-      line-height: 1;
-      letter-spacing: -.01em;
-      color: var(--c-on-bg);
-      margin-left: -0.02em;
-      margin-bottom: clamp(40px, 5vw, 72px);
+    /* 필터 바 */
+    .about-filter-bar {
+      display: flex; flex-wrap: wrap; align-items: baseline;
+      gap: 0;
+      margin-bottom: clamp(48px, 6vw, 88px);
     }
+    .about-filter-tag {
+      font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
+      font-size: clamp(2rem, 4vw, 5rem);
+      line-height: 1; letter-spacing: -.02em;
+      color: var(--c-on-bg);
+      background: none; border: none; cursor: pointer;
+      padding: 0; text-decoration: none;
+    }
+    .about-filter-tag::after { content: ',\00a0'; color: var(--c-on-bg); }
+    .about-filter-tag:last-child::after { content: ''; }
+    .about-filter-tag span {
+      background-image: linear-gradient(currentColor, currentColor);
+      background-repeat: no-repeat;
+      background-position: left bottom 0.08em;
+      background-size: 0% 1px;
+      transition: background-size .4s cubic-bezier(.25,.1,.25,1);
+    }
+    .about-filter-tag:hover span,
+    .about-filter-tag.active span {
+      background-size: 100% 1px;
+    }
+    /* 리스트 */
     .about-client-list {
-      display: flex;
-      flex-wrap: wrap;
+      display: flex; flex-wrap: wrap;
       gap: clamp(4px, 0.5vw, 8px) clamp(10px, 1.2vw, 20px);
       align-items: baseline;
     }
     .about-client-list span {
-      font-family: 'PP Neue Montreal', sans-serif;
-      font-weight: 500;
-      font-size: clamp(1.25rem, 2.2vw, 2.75rem);
-      letter-spacing: 0;
-      color: var(--c-on-bg);
+      font-family: 'PP Neue Montreal', sans-serif; font-weight: 500;
+      font-size: clamp(1.75rem, 3.2vw, 4rem);
+      letter-spacing: 0; color: var(--c-on-bg);
       white-space: nowrap;
-      transition: color .2s;
+      transition: opacity .2s;
       word-break: keep-all;
     }
     .about-client-list span:hover { opacity: .6; }
-    .about-client-list span::after  { content: ','; color: var(--c-secondary); }
+    .about-client-list span::after { content: ','; color: var(--c-on-bg); }
     .about-client-list span:last-child::after { content: ''; }
+    .about-client-list span[data-hidden] { display: none; }
 
 
   </style>
@@ -181,85 +216,95 @@
     <!-- 우: 연속 서비스 리스트 -->
     <div class="about-cap-right">
 
-      <div class="cap-anchor" id="cap-perf"></div>
-      <div class="cap-service" data-i18n="about.cap.p1">Live Event Co-Production</div>
-      <div class="cap-service" data-i18n="about.cap.p2">Event Production</div>
-      <div class="cap-service" data-i18n="about.cap.p3">Fan Meeting Management</div>
-      <div class="cap-service" data-i18n="about.cap.p4">Artist Hospitality</div>
-      <div class="cap-service" data-i18n="about.cap.p5">Tour Management</div>
+      <div class="cap-group" data-label="about.cap.label.perf2">
+        <div class="cap-anchor" id="cap-perf"></div>
+        <div class="cap-group-label" data-i18n="about.cap.label.perf2">Performance</div>
+        <div class="cap-service" data-i18n="about.cap.p1">Live Event Co-Production</div>
+        <div class="cap-service" data-i18n="about.cap.p2">Event Production</div>
+        <div class="cap-service" data-i18n="about.cap.p3">Fan Meeting Management</div>
+        <div class="cap-service" data-i18n="about.cap.p4">Artist Hospitality</div>
+        <div class="cap-service" data-i18n="about.cap.p5">Tour Management</div>
+      </div>
 
       <div class="cap-group-gap"></div>
-      <div class="cap-anchor" id="cap-ip"></div>
-      <div class="cap-service" data-i18n="about.cap.i1">Artist IP Merchandise</div>
-      <div class="cap-service" data-i18n="about.cap.i2">Local Promotion</div>
-      <div class="cap-service" data-i18n="about.cap.i3">Media & PR</div>
-      <div class="cap-service" data-i18n="about.cap.i4">Content Distribution</div>
-      <div class="cap-service" data-i18n="about.cap.i5">Entertainment Web Platform</div>
+      <div class="cap-group" data-label="about.cap.label.ip">
+        <div class="cap-anchor" id="cap-ip"></div>
+        <div class="cap-group-label" data-i18n="about.cap.label.ip">IP</div>
+        <div class="cap-service" data-i18n="about.cap.i1">Artist IP Merchandise</div>
+        <div class="cap-service" data-i18n="about.cap.i2">Local Promotion</div>
+        <div class="cap-service" data-i18n="about.cap.i3">Media & PR</div>
+        <div class="cap-service" data-i18n="about.cap.i4">Content Distribution</div>
+        <div class="cap-service" data-i18n="about.cap.i5">Entertainment Web Platform</div>
+      </div>
 
       <div class="cap-group-gap"></div>
-      <div class="cap-anchor" id="cap-dig"></div>
-      <div class="cap-service" data-i18n="about.cap.d1">Brand Identity</div>
-      <div class="cap-service" data-i18n="about.cap.d2">UX / UI Design</div>
-      <div class="cap-service" data-i18n="about.cap.d3">Web Development</div>
-      <div class="cap-service" data-i18n="about.cap.d4">Digital Strategy</div>
-      <div class="cap-service" data-i18n="about.cap.d5">E-Commerce</div>
-      <div class="cap-service" data-i18n="about.cap.d6">Motion & Video</div>
-      <div class="cap-service" data-i18n="about.cap.d7">Creative Direction</div>
-      <div class="cap-service" data-i18n="about.cap.d8">Content Strategy</div>
+      <div class="cap-group" data-label="about.cap.label.dig">
+        <div class="cap-anchor" id="cap-dig"></div>
+        <div class="cap-group-label" data-i18n="about.cap.label.dig">Digital</div>
+        <div class="cap-service" data-i18n="about.cap.d1">Brand Identity</div>
+        <div class="cap-service" data-i18n="about.cap.d2">UX / UI Design</div>
+        <div class="cap-service" data-i18n="about.cap.d3">Web Development</div>
+        <div class="cap-service" data-i18n="about.cap.d4">Digital Strategy</div>
+        <div class="cap-service" data-i18n="about.cap.d5">E-Commerce</div>
+        <div class="cap-service" data-i18n="about.cap.d6">Motion & Video</div>
+        <div class="cap-service" data-i18n="about.cap.d7">Creative Direction</div>
+        <div class="cap-service" data-i18n="about.cap.d8">Content Strategy</div>
+      </div>
 
     </div>
 
   </section>
 
-  <!-- CLIENTS -->
+  <!-- CLIENTS & PARTNERS -->
   <section class="about-clients">
-    <h2 class="about-clients-hl reveal">Our Clients</h2>
+    <div class="about-filter-bar reveal">
+      <button class="about-filter-tag active" data-filter="all"><span data-i18n="filter.all">All</span></button>
+      <button class="about-filter-tag" data-filter="client"><span data-i18n="about.clients.hl">Clients</span></button>
+      <button class="about-filter-tag" data-filter="partner"><span data-i18n="about.partners.hl">Partners</span></button>
+    </div>
     <div class="about-client-list">
-      <!-- Digital -->
-      <span class="reveal" data-i18n="client.samsung">삼성전자</span>
-      <span class="reveal" data-i18n="client.lg">LG전자</span>
-      <span class="reveal" data-i18n="client.lgcns">LG CNS</span>
-      <span class="reveal" data-i18n="client.sk">SK그룹</span>
-      <span class="reveal" data-i18n="client.line">LINE</span>
-      <span class="reveal" data-i18n="client.sm">SM엔터테인먼트</span>
-      <span class="reveal" data-i18n="client.kakao">카카오뱅크</span>
-      <span class="reveal" data-i18n="client.koreanair">대한항공</span>
-      <span class="reveal" data-i18n="client.jtbc">JTBC</span>
-      <span class="reveal" data-i18n="client.cjenm">CJ ENM</span>
-      <span class="reveal" data-i18n="client.cjshopping">CJ온스타일</span>
-      <span class="reveal" data-i18n="client.hanwha">한화</span>
-      <span class="reveal" data-i18n="client.kt">KT</span>
-      <span class="reveal" data-i18n="client.amore">아모레퍼시픽</span>
-      <span class="reveal" data-i18n="client.vw">폭스바겐 코리아</span>
-      <span class="reveal" data-i18n="client.samhwa">삼화페인트</span>
-      <span class="reveal" data-i18n="client.dankook">단국대학교</span>
-      <!-- Performance: Artists -->
-      <span class="reveal" data-i18n="client.gikwang">이기광</span>
-      <span class="reveal" data-i18n="client.yoseop">양요섭</span>
-      <span class="reveal" data-i18n="client.highlight">Highlight</span>
-      <span class="reveal" data-i18n="client.xin">X:IN</span>
-      <span class="reveal" data-i18n="client.xodiac">XODIAC</span>
-      <span class="reveal" data-i18n="client.justb">JUSTB</span>
-      <span class="reveal" data-i18n="client.shinhye">박신혜</span>
-      <span class="reveal" data-i18n="client.niziu">NiziU</span>
-      <span class="reveal" data-i18n="client.plave">Plave</span>
-      <span class="reveal" data-i18n="client.jackson">Jackson Wang</span>
-      <span class="reveal" data-i18n="client.mark">Mark Tuan</span>
-      <span class="reveal" data-i18n="client.kstallions">K Stallions</span>
-      <span class="reveal" data-i18n="client.kimyk">김영광</span>
-      <!-- Performance: Partners -->
-      <span class="reveal" data-i18n="client.farglory">Farglory Creative</span>
-      <span class="reveal" data-i18n="client.superdome">Super Dome</span>
-      <span class="reveal" data-i18n="client.ime">iMe</span>
-      <span class="reveal" data-i18n="client.ddconcert">DD Concert</span>
-      <span class="reveal" data-i18n="client.viu">Viu</span>
-      <span class="reveal" data-i18n="client.kham">KHAM INC.</span>
-      <span class="reveal" data-i18n="client.mmie">MMie Entertainment</span>
-      <span class="reveal" data-i18n="client.threeangles">Three Angles Production</span>
-      <span class="reveal" data-i18n="client.dshow">D.Show Entertainment</span>
-      <span class="reveal" data-i18n="client.feoh">Feoh Performing Arts</span>
-      <span class="reveal" data-i18n="client.alfa">ALFA MUSIC</span>
-      <span class="reveal" data-i18n="client.chillin">Chillin</span>
+      <span class="reveal" data-category="client" data-i18n="client.samsung">삼성전자</span>
+      <span class="reveal" data-category="client" data-i18n="client.lg">LG전자</span>
+      <span class="reveal" data-category="client" data-i18n="client.lgcns">LG CNS</span>
+      <span class="reveal" data-category="client" data-i18n="client.sk">SK그룹</span>
+      <span class="reveal" data-category="client" data-i18n="client.line">LINE</span>
+      <span class="reveal" data-category="client" data-i18n="client.sm">SM엔터테인먼트</span>
+      <span class="reveal" data-category="client" data-i18n="client.kakao">카카오뱅크</span>
+      <span class="reveal" data-category="client" data-i18n="client.koreanair">대한항공</span>
+      <span class="reveal" data-category="client" data-i18n="client.jtbc">JTBC</span>
+      <span class="reveal" data-category="client" data-i18n="client.cjenm">CJ ENM</span>
+      <span class="reveal" data-category="client" data-i18n="client.cjshopping">CJ온스타일</span>
+      <span class="reveal" data-category="client" data-i18n="client.hanwha">한화</span>
+      <span class="reveal" data-category="client" data-i18n="client.kt">KT</span>
+      <span class="reveal" data-category="client" data-i18n="client.amore">아모레퍼시픽</span>
+      <span class="reveal" data-category="client" data-i18n="client.vw">폭스바겐 코리아</span>
+      <span class="reveal" data-category="client" data-i18n="client.samhwa">삼화페인트</span>
+      <span class="reveal" data-category="client" data-i18n="client.dankook">단국대학교</span>
+      <span class="reveal" data-category="client" data-i18n="client.gikwang">이기광</span>
+      <span class="reveal" data-category="client" data-i18n="client.yoseop">양요섭</span>
+      <span class="reveal" data-category="client" data-i18n="client.highlight">Highlight</span>
+      <span class="reveal" data-category="client" data-i18n="client.xin">X:IN</span>
+      <span class="reveal" data-category="client" data-i18n="client.xodiac">XODIAC</span>
+      <span class="reveal" data-category="client" data-i18n="client.justb">JUSTB</span>
+      <span class="reveal" data-category="client" data-i18n="client.shinhye">박신혜</span>
+      <span class="reveal" data-category="client" data-i18n="client.niziu">NiziU</span>
+      <span class="reveal" data-category="client" data-i18n="client.plave">Plave</span>
+      <span class="reveal" data-category="client" data-i18n="client.jackson">Jackson Wang</span>
+      <span class="reveal" data-category="client" data-i18n="client.mark">Mark Tuan</span>
+      <span class="reveal" data-category="client" data-i18n="client.kstallions">K Stallions</span>
+      <span class="reveal" data-category="client" data-i18n="client.kimyk">김영광</span>
+      <span class="reveal" data-category="partner" data-i18n="client.farglory">Farglory Creative</span>
+      <span class="reveal" data-category="partner" data-i18n="client.superdome">Super Dome</span>
+      <span class="reveal" data-category="partner" data-i18n="client.ime">iMe</span>
+      <span class="reveal" data-category="partner" data-i18n="client.ddconcert">DD Concert</span>
+      <span class="reveal" data-category="partner" data-i18n="client.viu">Viu</span>
+      <span class="reveal" data-category="partner" data-i18n="client.kham">KHAM INC.</span>
+      <span class="reveal" data-category="partner" data-i18n="client.mmie">MMie Entertainment</span>
+      <span class="reveal" data-category="partner" data-i18n="client.threeangles">Three Angles Production</span>
+      <span class="reveal" data-category="partner" data-i18n="client.dshow">D.Show Entertainment</span>
+      <span class="reveal" data-category="partner" data-i18n="client.feoh">Feoh Performing Arts</span>
+      <span class="reveal" data-category="partner" data-i18n="client.alfa">ALFA MUSIC</span>
+      <span class="reveal" data-category="partner" data-i18n="client.chillin">Chillin</span>
     </div>
   </section>
 
@@ -327,6 +372,31 @@
       document.addEventListener('grap:lang', () => {
         const active = anchors.findIndex(a => a.getBoundingClientRect().top < window.innerHeight * 0.5);
         setLabel(active >= 0 ? Math.min(active, 2) : 0);
+      });
+    })();
+
+  </script>
+
+  <script>
+    /* ── Clients / Partners 필터 ── */
+    (function () {
+      const tags  = document.querySelectorAll('.about-filter-tag');
+      const items = document.querySelectorAll('.about-client-list [data-category]');
+
+      tags.forEach(tag => {
+        tag.addEventListener('click', () => {
+          tags.forEach(t => t.classList.remove('active'));
+          tag.classList.add('active');
+          const filter = tag.dataset.filter;
+          items.forEach(item => {
+            if (filter === 'all' || item.dataset.category === filter) {
+              item.removeAttribute('data-hidden');
+              gsap.set(item, { opacity: 1, y: 0 });
+            } else {
+              item.setAttribute('data-hidden', '');
+            }
+          });
+        });
       });
     })();
   </script>

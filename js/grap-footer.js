@@ -40,6 +40,10 @@ class GrapFooter extends HTMLElement {
   connectedCallback() {
     this.style.display = 'block';
     this.innerHTML = this._template();
+    // i18n 재적용 — 컴포넌트 렌더 후 타이밍 보정
+    if (typeof applyI18n === 'function') {
+      applyI18n(localStorage.getItem('grap-lang') || 'ko');
+    }
     requestAnimationFrame(() => this._init());
   }
 

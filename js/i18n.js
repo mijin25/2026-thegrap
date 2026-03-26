@@ -64,6 +64,16 @@ const GRAP_I18N = {
   },
 
   /* ── CONTACT PAGE ── */
+  'contact.copy.line1': { ko: "Let's Make",      en: "Let's Make",      zh: "Let's Make",      ja: "Let's Make" },
+  'contact.copy.line2': { ko: 'Something Great.', en: 'Something Great.', zh: 'Something Great.', ja: 'Something Great.' },
+  'contact.info.label': { ko: '파트너십 문의', en: 'Get in Touch', zh: '合作咨询', ja: 'お問い合わせ' },
+  'contact.heading':    { ko: '함께<br>만들어가요.', en: 'Let\'s build<br>together.', zh: '一起<br>创造吧。', ja: 'ともに<br>つくろう。' },
+  'contact.body':       {
+    ko: '공연 기획, 굿즈 협업, 브랜드 파트너십 등 모든 비즈니스 문의를 환영합니다. 아이디어가 있다면 언제든지 연락주세요.',
+    en: 'We welcome all business inquiries — concert planning, merchandise collaboration, brand partnerships. If you have an idea, reach out anytime.',
+    zh: '欢迎演出策划、周边合作、品牌合作等一切商业咨询。有想法随时联系我们。',
+    ja: '公演企画、グッズコラボ、ブランドパートナーシップなど、あらゆるビジネスのお問い合わせを歓迎します。アイデアがあればいつでもご連絡ください。',
+  },
   'contact.hero.sub': {
     ko: '프로젝트, 공연 파트너십, 굿즈 협업 — 무엇이든 이야기해주세요.',
     en: 'Projects, performance partnerships, merchandise collaboration — let\'s talk.',
@@ -77,6 +87,21 @@ const GRAP_I18N = {
   'contact.form.submit': { ko: '보내기', en: 'Send', zh: '发送', ja: '送信' },
 
   /* ── BUSINESS PAGE ── */
+  'biz.copy.line1':  { ko: 'Stage is Culture.', en: 'Stage is Culture.', zh: 'Stage is Culture.', ja: 'Stage is Culture.' },
+  'biz.copy.line2':  { ko: 'Merch is Memory.', en: 'Merch is Memory.', zh: 'Merch is Memory.', ja: 'Merch is Memory.' },
+  'biz.intro':       {
+    ko: 'K-POP 공연 기획, 아티스트 IP 굿즈, 디지털 경험. 세 가지 전문 영역으로 엔터테인먼트의 전 과정을 설계합니다.',
+    en: 'Concert production, artist IP merchandise, digital experience. Three specialized fields designing every stage of entertainment.',
+    zh: '演出制作、艺人IP周边、数字体验。三个专业领域，设计娱乐的每一个环节。',
+    ja: '公演制作、アーティストIPグッズ、デジタルエクスペリエンス。三つの専門分野でエンターテインメントの全工程を設計します。',
+  },
+  'biz.hero.sub':    { ko: 'What We Do', en: 'What We Do', zh: 'What We Do', ja: 'What We Do' },
+  'biz.title1':      { ko: '글로벌 K-POP<br>공연 기획',      en: 'Global K-POP<br>Concert Production', zh: '全球K‑POP<br>演出制作',    ja: 'グローバルK‑POP<br>公演企画' },
+  'biz.title2':      { ko: '아티스트 IP<br>글로벌 굿즈',     en: 'Artist IP<br>Global Merchandise',   zh: '艺人IP<br>全球周边',      ja: 'アーティストIP<br>グローバルグッズ' },
+  'biz.title3':      { ko: '브랜드 &amp;<br>아티스트 시너지', en: 'Brand &amp;<br>Artist Synergy',      zh: '品牌与<br>艺人协同',      ja: 'ブランドと<br>アーティストの<br>相乗効果' },
+  'biz.keywords1':   { ko: 'World Tour · Fan Meeting · Showcase · Festival',          en: 'World Tour · Fan Meeting · Showcase · Festival',          zh: 'World Tour · Fan Meeting · Showcase · Festival',          ja: 'World Tour · Fan Meeting · Showcase · Festival' },
+  'biz.keywords2':   { ko: 'Limited Edition · Collaboration · Official Merch · Pop-up Store', en: 'Limited Edition · Collaboration · Official Merch · Pop-up Store', zh: 'Limited Edition · Collaboration · Official Merch · Pop-up Store', ja: 'Limited Edition · Collaboration · Official Merch · Pop-up Store' },
+  'biz.keywords3':   { ko: 'Brand Deal · Licensing · Digital Contents · NFT / IP',    en: 'Brand Deal · Licensing · Digital Contents · NFT / IP',    zh: 'Brand Deal · Licensing · Digital Contents · NFT / IP',    ja: 'Brand Deal · Licensing · Digital Contents · NFT / IP' },
   'biz.panel1.label': { ko: '공연 기획', en: 'Performance', zh: '演出制作', ja: 'パフォーマンス' },
   'biz.panel1.desc': {
     ko: 'K-POP 콘서트, 팬미팅, 아시아 투어 전 과정을 기획·제작·운영합니다.',
@@ -147,11 +172,22 @@ const GRAP_I18N = {
   'client.alfa':      { ko: 'ALFA MUSIC',  en: 'ALFA MUSIC',    zh: 'ALFA MUSIC', ja: 'ALFA MUSIC' },
   'client.chillin':   { ko: 'Chillin',     en: 'Chillin',       zh: 'Chillin',    ja: 'Chillin' },
 
+  /* ── ABOUT: Section headings / Filter ── */
+  'filter.all':        { ko: 'All',               en: 'All',               zh: 'All',               ja: 'All' },
+  'about.clients.hl':  { ko: 'Clients',           en: 'Clients',           zh: 'Clients',           ja: 'Clients' },
+  'about.partners.hl': { ko: 'Partners',          en: 'Partners',          zh: 'Partners',          ja: 'Partners' },
+
   /* ── WORK PAGE ── */
-  'work.filter.all':  { ko: '전체', en: 'All', zh: '全部', ja: 'すべて' },
-  'work.filter.perf': { ko: '공연', en: 'Performance', zh: '演出', ja: 'パフォーマンス' },
-  'work.filter.merch':{ ko: '굿즈', en: 'Merch', zh: '周边', ja: 'グッズ' },
-  'work.filter.dx':   { ko: '디지털', en: 'Digital', zh: '数字', ja: 'デジタル' },
+  'work.copy.line1': { ko: 'Move the Crowd.', en: 'Move the Crowd.', zh: 'Move the Crowd.', ja: 'Move the Crowd.' },
+  'work.copy.line2': { ko: 'Own the Moment.', en: 'Own the Moment.', zh: 'Own the Moment.', ja: 'Own the Moment.' },
+  'work.filter.all':        { ko: 'All Work',    en: 'All Work',    zh: 'All Work',    ja: 'All Work' },
+  'work.filter.live':       { ko: 'Live',        en: 'Live',        zh: 'Live',        ja: 'Live' },
+  'work.filter.branding':   { ko: 'Branding',    en: 'Branding',    zh: 'Branding',    ja: 'Branding' },
+  'work.filter.campaign':   { ko: 'Campaign',    en: 'Campaign',    zh: 'Campaign',    ja: 'Campaign' },
+  'work.filter.website':    { ko: 'Website',     en: 'Website',     zh: 'Website',     ja: 'Website' },
+  'work.filter.app':        { ko: 'App',         en: 'App',         zh: 'App',         ja: 'App' },
+  'work.filter.ecommerce':  { ko: 'E-Commerce',  en: 'E-Commerce',  zh: 'E-Commerce',  ja: 'E-Commerce' },
+  'work.filter.experience': { ko: 'Experience',  en: 'Experience',  zh: 'Experience',  ja: 'Experience' },
 
 };
 

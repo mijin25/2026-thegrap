@@ -13,16 +13,55 @@
   <script src="js/grap-header.js"></script>
   <style>
     /* ── BUSINESS 페이지 전용 스타일 ── */
-    .biz-section { padding: clamp(80px,10vw,140px) 0; }
-    .biz-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--c-surface); max-width: 1400px; }
-    @media(max-width:900px) { .biz-grid { grid-template-columns: 1fr; } }
-    .biz-card { background: var(--c-bg); padding: clamp(40px,5vw,72px) clamp(28px,4vw,56px); display: flex; flex-direction: column; gap: 24px; }
-    .biz-num { font-family: 'PP Neue Montreal', sans-serif; font-weight: 500; font-size: 4rem; color: var(--c-outline); line-height: 1; letter-spacing: -.04em; }
-    .biz-tag { display: inline-block; font-size: 0.8125rem; letter-spacing: .15em; color: var(--c-secondary); margin-bottom: 28px; }
-    .biz-title { font-family: 'PP Neue Montreal', sans-serif; font-weight: 500; font-size: clamp(2rem,4vw,3rem); line-height: .93; letter-spacing: -.025em; color: var(--c-on-bg); }
-    .biz-body { font-size: 0.9375rem; line-height: 1.88; color: var(--c-on-bg); }
-    .biz-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
-    .biz-item { font-size: var(--text-sm); letter-spacing: .06em; text-transform: uppercase; color: var(--c-on-bg); padding: 6px 0; color: var(--c-secondary); }
+    .biz-intro { padding: clamp(32px,4vw,56px) var(--gutter) clamp(40px,5vw,64px); }
+    .biz-intro-text {
+      font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
+      font-size: clamp(1.75rem, 3.6vw, 4.25rem);
+      line-height: 1.25; letter-spacing: 0;
+      color: var(--c-on-bg); max-width: 1300px;
+      word-break: keep-all; overflow-wrap: break-word;
+    }
+    .biz-section { padding: clamp(80px,10vw,140px) var(--gutter); }
+    .biz-row {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: clamp(40px, 6vw, 80px);
+      padding: clamp(48px, 6vw, 80px) 0;
+      border-top: 1px solid var(--c-outline);
+    }
+    .biz-row:last-child { border-bottom: 1px solid var(--c-outline); }
+    @media (max-width: 768px) {
+      .biz-row { grid-template-columns: 1fr; gap: 20px; }
+    }
+    .biz-row-meta {
+      display: flex; flex-direction: column; gap: 6px;
+      padding-top: 10px;
+    }
+    .biz-num {
+      font-size: var(--text-sm); letter-spacing: .1em;
+      color: var(--c-secondary);
+    }
+    .biz-tag {
+      font-size: var(--text-sm); letter-spacing: .12em;
+      text-transform: uppercase; color: var(--c-secondary);
+    }
+    .biz-title {
+      font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
+      font-size: clamp(2.5rem, 5vw, 6rem);
+      line-height: .9; letter-spacing: -.03em;
+      color: var(--c-on-bg);
+      margin-bottom: clamp(20px, 2.5vw, 32px);
+    }
+    .biz-body {
+      font-size: clamp(0.9375rem, 1.2vw, 1.125rem);
+      line-height: 1.75; color: var(--c-secondary);
+      margin-bottom: 24px;
+      max-width: 560px;
+    }
+    .biz-keywords {
+      font-size: var(--text-sm); letter-spacing: .08em;
+      text-transform: uppercase; color: var(--c-secondary);
+    }
   </style>
 </head>
 <body>
@@ -32,64 +71,59 @@
 
   <grap-header active="business"></grap-header>
 
-  <!-- ============================
-       페이지 히어로 — 수정 가능
-       ============================ -->
   <section class="page-hero">
-    <p class="page-label">What We Do</p>
-    <h1 class="page-title"><span>BUSINESS</span></h1>
+    <h1 class="page-title page-title--copy">
+      <span data-i18n="biz.copy.line1">Stage is Culture.</span>
+      <span data-i18n="biz.copy.line2">Merch is Memory.</span>
+    </h1>
   </section>
 
-  <!-- ============================
-       비즈니스 카드 — 수정 가능
-       카드 추가/삭제: .biz-card 블록 복사
-       ============================ -->
+  <section class="biz-intro">
+    <p class="biz-intro-text reveal" data-i18n="biz.intro">K-POP 공연 기획, 아티스트 IP 굿즈, 디지털 경험. 세 가지 전문 영역으로 엔터테인먼트의 전 과정을 설계합니다.</p>
+  </section>
+
   <section class="biz-section">
-    <div class="biz-grid">
 
-      <div class="biz-card reveal">
-        <div class="biz-num">01</div>
-        <span class="biz-tag">Concert &amp; Events</span>
-        <h3 class="biz-title">글로벌 K-POP<br />공연 기획</h3>
-        <p class="biz-body">세계 주요 도시의 대형 무대를 기획하고 연출합니다. 아티스트의 비전을 현실로 만드는 전문 공연 프로덕션 팀이 기획부터 현장 운영까지 책임집니다.</p>
-        <div class="biz-tags">
-          <span class="biz-item">World Tour</span>
-          <span class="biz-item">Fan Meeting</span>
-          <span class="biz-item">Showcase</span>
-          <span class="biz-item">Festival</span>
-        </div>
+    <div class="biz-row reveal">
+      <div class="biz-row-meta">
+        <span class="biz-num">01</span>
+        <span class="biz-tag" data-i18n="biz.panel1.label">공연 기획</span>
       </div>
-
-      <div class="biz-card reveal">
-        <div class="biz-num">02</div>
-        <span class="biz-tag">Merchandise</span>
-        <h3 class="biz-title">아티스트 IP<br />글로벌 굿즈</h3>
-        <p class="biz-body">아티스트의 아이덴티티를 담은 한정판 굿즈를 기획·제작합니다. 글로벌 팬덤을 위한 온·오프라인 유통 채널로 팬과 아티스트를 더 가깝게 연결합니다.</p>
-        <div class="biz-tags">
-          <span class="biz-item">Limited Edition</span>
-          <span class="biz-item">Collaboration</span>
-          <span class="biz-item">Official Merch</span>
-          <span class="biz-item">Pop-up Store</span>
-        </div>
+      <div>
+        <h3 class="biz-title" data-i18n="biz.title1">글로벌 K-POP<br>공연 기획</h3>
+        <p class="biz-body" data-i18n="biz.panel1.desc">K-POP 콘서트, 팬미팅, 아시아 투어 전 과정을 기획·제작·운영합니다.</p>
+        <div class="biz-keywords" data-i18n="biz.keywords1">World Tour · Fan Meeting · Showcase · Festival</div>
       </div>
-
-      <div class="biz-card reveal">
-        <div class="biz-num">03</div>
-        <span class="biz-tag">Partnership</span>
-        <h3 class="biz-title">브랜드 &amp;<br />아티스트 시너지</h3>
-        <p class="biz-body">글로벌 브랜드와 K-POP 아티스트를 연결하는 전략적 파트너십을 구축합니다. 콜라보레이션 기획부터 라이선싱까지 아티스트 IP의 가치를 극대화합니다.</p>
-        <div class="biz-tags">
-          <span class="biz-item">Brand Deal</span>
-          <span class="biz-item">Licensing</span>
-          <span class="biz-item">Digital Contents</span>
-          <span class="biz-item">NFT / IP</span>
-        </div>
-      </div>
-
     </div>
+
+    <div class="biz-row reveal">
+      <div class="biz-row-meta">
+        <span class="biz-num">02</span>
+        <span class="biz-tag" data-i18n="biz.panel2.label">IP 굿즈</span>
+      </div>
+      <div>
+        <h3 class="biz-title" data-i18n="biz.title2">아티스트 IP<br>글로벌 굿즈</h3>
+        <p class="biz-body" data-i18n="biz.panel2.desc">아티스트 IP 기반 굿즈를 기획하고 글로벌 유통망을 통해 팬들에게 전달합니다.</p>
+        <div class="biz-keywords" data-i18n="biz.keywords2">Limited Edition · Collaboration · Official Merch · Pop-up Store</div>
+      </div>
+    </div>
+
+    <div class="biz-row reveal">
+      <div class="biz-row-meta">
+        <span class="biz-num">03</span>
+        <span class="biz-tag" data-i18n="biz.panel3.label">디지털 경험</span>
+      </div>
+      <div>
+        <h3 class="biz-title" data-i18n="biz.title3">브랜드 &amp;<br>아티스트 시너지</h3>
+        <p class="biz-body" data-i18n="biz.panel3.desc">브랜드 아이덴티티부터 웹·앱 개발까지, 엔터테인먼트 산업에 최적화된 디지털 솔루션을 제공합니다.</p>
+        <div class="biz-keywords" data-i18n="biz.keywords3">Brand Deal · Licensing · Digital Contents · NFT / IP</div>
+      </div>
+    </div>
+
   </section>
 
   <grap-footer></grap-footer>
+  <script src="js/i18n.js?v=4"></script>
   <script src="js/grap-footer.js"></script>
   <script src="js/grap-init.js"></script>
 </body>

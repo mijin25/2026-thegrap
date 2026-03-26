@@ -28,11 +28,13 @@
   // ── Reveal on scroll ──
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
-    document.querySelectorAll('.reveal').forEach((el, i) => {
+    document.querySelectorAll('.reveal').forEach((el) => {
+      const siblings = Array.from(el.parentElement.querySelectorAll(':scope > .reveal'));
+      const localIdx = siblings.indexOf(el);
       gsap.to(el, {
         opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
         scrollTrigger: { trigger: el, start: 'top 82%' },
-        delay: (i % 4) * 0.07,
+        delay: (localIdx % 4) * 0.07,
       });
     });
   }

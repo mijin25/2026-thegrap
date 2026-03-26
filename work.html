@@ -14,9 +14,30 @@
   <style>
     /* ── WORK 페이지 전용 스타일 ── */
     .work-section { padding: clamp(80px,10vw,140px) var(--gutter); }
-    .work-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 48px; }
-    .filter-btn { font-size: var(--text-sm); letter-spacing: .1em; text-transform: uppercase; padding: 6px 0; background: transparent; border: none; cursor: pointer; color: var(--c-secondary); transition: color .2s; }
-    .filter-btn.active, .filter-btn:hover { color: var(--c-on-bg); }
+    .work-section--no-hero { padding-top: calc(var(--header-h, 72px) + clamp(60px,8vw,120px)); }
+    .work-filters {
+      display: flex; flex-wrap: wrap; align-items: baseline;
+      gap: 0; margin-bottom: clamp(48px, 6vw, 88px);
+    }
+    .filter-btn {
+      font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
+      font-size: clamp(2rem, 4vw, 5rem);
+      line-height: 1; letter-spacing: -.02em;
+      color: var(--c-on-bg);
+      background: none; border: none; cursor: pointer;
+      padding: 0; text-decoration: none;
+    }
+    .filter-btn::after { content: ',\00a0'; color: var(--c-on-bg); }
+    .filter-btn:last-child::after { content: ''; }
+    .filter-btn span {
+      background-image: linear-gradient(currentColor, currentColor);
+      background-repeat: no-repeat;
+      background-position: left bottom 0.08em;
+      background-size: 0% 1px;
+      transition: background-size .4s cubic-bezier(.25,.1,.25,1);
+    }
+    .filter-btn:hover span,
+    .filter-btn.active span { background-size: 100% 1px; }
     .work-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; max-width: 1400px; }
     @media(max-width:900px) { .work-grid { grid-template-columns: 1fr 1fr; } }
     @media(max-width:480px) { .work-grid { grid-template-columns: 1fr; } }
@@ -47,77 +68,73 @@
   <grap-header active="work"></grap-header>
 
   <!-- ============================
-       페이지 히어로 — 수정 가능
-       ============================ -->
-  <section class="page-hero">
-    <p class="page-label">Portfolio</p>
-    <h1 class="page-title"><span>WORK</span></h1>
-  </section>
-
-  <!-- ============================
        포트폴리오 그리드 — 수정 가능
        아이템 추가: .work-item 블록 복사
        첫 번째 아이템에 featured 클래스 = 와이드
        ============================ -->
-  <section class="work-section">
+  <section class="work-section work-section--no-hero">
     <div class="work-filters reveal">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="concert">Concert</button>
-      <button class="filter-btn" data-filter="merch">Merch</button>
-      <button class="filter-btn" data-filter="partnership">Partnership</button>
+      <button class="filter-btn active" data-filter="all"><span data-i18n="work.filter.all">All Work</span></button>
+      <button class="filter-btn" data-filter="live"><span data-i18n="work.filter.live">Live</span></button>
+      <button class="filter-btn" data-filter="branding"><span data-i18n="work.filter.branding">Branding</span></button>
+      <button class="filter-btn" data-filter="campaign"><span data-i18n="work.filter.campaign">Campaign</span></button>
+      <button class="filter-btn" data-filter="website"><span data-i18n="work.filter.website">Website</span></button>
+      <button class="filter-btn" data-filter="app"><span data-i18n="work.filter.app">App</span></button>
+      <button class="filter-btn" data-filter="ecommerce"><span data-i18n="work.filter.ecommerce">E-Commerce</span></button>
+      <button class="filter-btn" data-filter="experience"><span data-i18n="work.filter.experience">Experience</span></button>
     </div>
     <div class="work-grid">
 
-      <div class="work-item featured" data-category="concert">
-        <div class="work-item-bg c1" style="position:relative;width:100%;height:100%;"><span class="label">CONCERT</span></div>
+      <div class="work-item featured" data-category="live">
+        <div class="work-item-bg c1" style="position:relative;width:100%;height:100%;"><span class="label">LIVE</span></div>
         <div class="work-overlay">
-          <div class="work-tag">Concert</div>
-          <div class="work-name">2024 K-POP World Tour — Tokyo Dome</div>
+          <div class="work-tag">Live</div>
+          <div class="work-name">2024 World Tour — Tokyo Dome</div>
           <div class="work-year">2024</div>
         </div>
       </div>
 
-      <div class="work-item" data-category="merch">
-        <div class="work-item-bg c2" style="position:relative;width:100%;height:100%;"><span class="label">MERCH</span></div>
+      <div class="work-item" data-category="branding">
+        <div class="work-item-bg c2" style="position:relative;width:100%;height:100%;"><span class="label">BRAND</span></div>
         <div class="work-overlay">
-          <div class="work-tag">Merchandise</div>
-          <div class="work-name">Official Fan Kit — Limited Edition</div>
+          <div class="work-tag">Branding</div>
+          <div class="work-name">X:IN 4th Mini Album</div>
           <div class="work-year">2024</div>
         </div>
       </div>
 
-      <div class="work-item" data-category="partnership">
-        <div class="work-item-bg c3" style="position:relative;width:100%;height:100%;"><span class="label">BRAND</span></div>
+      <div class="work-item" data-category="campaign">
+        <div class="work-item-bg c3" style="position:relative;width:100%;height:100%;"><span class="label">CAMPAIGN</span></div>
         <div class="work-overlay">
-          <div class="work-tag">Partnership</div>
-          <div class="work-name">Global Brand Collaboration</div>
+          <div class="work-tag">Campaign</div>
+          <div class="work-name">LG IFA 2024 Microsite</div>
           <div class="work-year">2024</div>
         </div>
       </div>
 
-      <div class="work-item" data-category="concert">
-        <div class="work-item-bg c4" style="position:relative;width:100%;height:100%;"><span class="label">SHOW</span></div>
+      <div class="work-item" data-category="app">
+        <div class="work-item-bg c4" style="position:relative;width:100%;height:100%;"><span class="label">APP</span></div>
         <div class="work-overlay">
-          <div class="work-tag">Concert</div>
-          <div class="work-name">Seoul Fan Meeting 2023</div>
+          <div class="work-tag">App</div>
+          <div class="work-name">Wellune UX/UI Design</div>
           <div class="work-year">2023</div>
         </div>
       </div>
 
-      <div class="work-item" data-category="merch">
-        <div class="work-item-bg c5" style="position:relative;width:100%;height:100%;"><span class="label">IP</span></div>
+      <div class="work-item" data-category="ecommerce">
+        <div class="work-item-bg c5" style="position:relative;width:100%;height:100%;"><span class="label">E-COM</span></div>
         <div class="work-overlay">
-          <div class="work-tag">Merchandise</div>
-          <div class="work-name">Artist IP Pop-up Store NYC</div>
+          <div class="work-tag">E-Commerce</div>
+          <div class="work-name">Ophily Brand Mall</div>
           <div class="work-year">2023</div>
         </div>
       </div>
 
-      <div class="work-item" data-category="concert">
-        <div class="work-item-bg c6" style="position:relative;width:100%;height:100%;"><span class="label">TOUR</span></div>
+      <div class="work-item" data-category="experience">
+        <div class="work-item-bg c6" style="position:relative;width:100%;height:100%;"><span class="label">EXP</span></div>
         <div class="work-overlay">
-          <div class="work-tag">Concert</div>
-          <div class="work-name">Asia Pacific Tour 2023</div>
+          <div class="work-tag">Experience</div>
+          <div class="work-name">LG Science Park Tour Guide</div>
           <div class="work-year">2023</div>
         </div>
       </div>
@@ -126,6 +143,7 @@
   </section>
 
   <grap-footer></grap-footer>
+  <script src="js/i18n.js?v=4"></script>
   <script src="js/grap-footer.js"></script>
   <script src="js/grap-init.js"></script>
   <script>
@@ -139,6 +157,9 @@
           const match = filter === 'all' || item.dataset.category === filter;
           item.style.display = match ? '' : 'none';
         });
+        /* featured 클래스: All Work일 때만 첫 번째 visible 아이템에 적용 */
+        const visible = Array.from(document.querySelectorAll('.work-item')).filter(i => i.style.display !== 'none');
+        visible.forEach((i, idx) => i.classList.toggle('featured', filter === 'all' && idx === 0));
       });
     });
   </script>
