@@ -1,24 +1,10 @@
 /**
  * THE GRAP — Page Init
- * 서브페이지 공통 초기화: 커서, 페이지 타이틀 등장, reveal 애니메이션
+ * 서브페이지 공통 초기화: 페이지 타이틀 등장, reveal 애니메이션
  * 사용법: <script src="js/grap-init.js"></script> (body 끝에)
  * ScrollTrigger가 먼저 로드되어 있어야 합니다.
  */
 (function () {
-  // ── Cursor ──
-  const $cur  = document.getElementById('cursor');
-  const $ring = document.getElementById('cursor-ring');
-  if ($cur && typeof gsap !== 'undefined') {
-    let mx = 0, my = 0, rx = 0, ry = 0;
-    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-    gsap.ticker.add(() => {
-      gsap.set($cur,  { x: mx, y: my });
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      gsap.set($ring, { x: rx, y: ry });
-    });
-  }
-
   // ── Page title entrance ──
   const titleSpan = document.querySelector('.page-title span');
   if (titleSpan && typeof gsap !== 'undefined') {

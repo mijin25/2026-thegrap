@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet" />
 
+  <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
   <link rel="stylesheet" href="css/base.css" />
   <!-- GSAP — local -->
   <script src="gsap.min.js"></script>
@@ -42,14 +43,16 @@
       padding: 0 var(--gutter);
       pointer-events: none;
       overflow: visible;
+      font-family: 'neue-haas-grotesk-display', sans-serif;
+      font-weight: 600;
     }
     .hero-line {
       display: block;
       width: 100%; min-width: 0; max-width: 100%;
       overflow: visible;
       clip-path: inset(-0.5em -9999px 0 -9999px);
-      font-family: 'PP Neue Montreal', sans-serif;
-      font-weight: 700; text-transform: uppercase;
+      font-family: 'neue-haas-grotesk-display', sans-serif;
+      font-weight: 600; text-transform: uppercase;
       font-size: clamp(2.5rem, 10vw, 20rem);
       line-height: .86;
       color: var(--c-on-bg);
@@ -59,6 +62,8 @@
     .hl-left  { text-align: left; margin-left: -0.04em; }
     .hl-right { text-align: right; }
     .hl-inner { display: inline-block; transform: translateY(110%); }
+    /* 영문 고정 텍스트 — 언어 전환과 무관하게 자간 고정 */
+    html .hero-headline .hl-inner { letter-spacing: -.04em !important; }
     .hero-headline--mobile { display: none; }
 
     /* Description — bottom left */
@@ -96,10 +101,6 @@
   </style>
 </head>
 <body>
-
-  <!-- Custom cursor -->
-  <div id="cursor"></div>
-  <div id="cursor-ring"></div>
 
   <!-- Header (Web Component) -->
   <grap-header active="index"></grap-header>
@@ -471,24 +472,6 @@
 
   requestAnimationFrame(initFluid);
 })();
-
-
-/* ═══════════════════════════════════════════════════
-   CURSOR
-═══════════════════════════════════════════════════ */
-const $cur  = document.getElementById('cursor');
-const $ring = document.getElementById('cursor-ring');
-let cx=0, cy=0, rx=0, ry=0;
-
-document.addEventListener('mousemove', e => {
-  cx = e.clientX; cy = e.clientY;
-  gsap.set($cur, { x: cx, y: cy });
-});
-gsap.ticker.add(() => {
-  rx += (cx - rx) * 0.10;
-  ry += (cy - ry) * 0.10;
-  gsap.set($ring, { x: rx, y: ry });
-});
 
 
 /* ═══════════════════════════════════════════════════

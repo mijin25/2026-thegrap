@@ -6,11 +6,32 @@
   <title>ABOUT — THE GRAP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
   <link rel="stylesheet" href="css/base.css" />
   <script src="gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
   <script src="js/grap-header.js"></script>
   <style>
+
+
+    /* ── 섹션 stacking: canvas(z-index:0) 위에 콘텐츠 배치 ── */
+    .page-hero,
+    .about-manifesto,
+    .about-story,
+    .about-cap-section,
+    .about-clients,
+    grap-footer { position: relative; z-index: 1; }
+
+    /* ── HERO ── */
+    .page-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;          /* 타이틀 하단 고정 */
+      padding: 0 var(--gutter) clamp(40px, 5vw, 64px);
+      overflow: hidden;
+    }
 
     /* ── HERO COPY ── */
     .page-title--copy {
@@ -25,74 +46,92 @@
       padding: clamp(32px,4vw,56px) var(--gutter) clamp(40px,5vw,64px);
     }
     .about-manifesto-text {
-      font-family: 'PP Neue Montreal', sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.75rem, 3.6vw, 4.25rem);
+      font-family: 'neue-haas-grotesk-display', sans-serif; /* EN 기본 */
+      font-weight: 500;
+      font-size: clamp(1.25rem, 3.6vw, 4.25rem); /* 모바일: 1.75→1.25rem (28→20px) */
       line-height: 1.25;
       letter-spacing: 0;
       color: var(--c-on-bg);
-      max-width: 1300px;
+      max-width: 70vw;
       word-break: keep-all;
       overflow-wrap: break-word;
     }
-    /* 중국어는 keep-all 불필요 (한자 사이 자유롭게 줄바꿈) */
-    html:lang(zh-CN) .about-manifesto-text { word-break: normal; }
+    /* 언어별 우선 폰트 — 번역 텍스트 요소 */
+    html:lang(ko) .about-manifesto-text,
+    html:lang(ko) .cap-service { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+    /* Pretendard 500은 neue-haas-display 500보다 시각적으로 두꺼워 400으로 보정 */
+    html:lang(ko) .cap-service { font-weight: 400; }
+    /* 클라이언트명은 영문 고유명사 → neue-haas 최우선, Pretendard는 한글 fallback */
+    html:lang(ko) .about-client-list span { font-family: 'neue-haas-grotesk-display', 'Pretendard', sans-serif; }
+    html:lang(zh-CN) .about-manifesto-text { font-family: 'neue-haas-grotesk-text', 'Noto Sans TC', 'PingFang SC', 'Microsoft JhengHei', sans-serif; }
+    html:lang(zh-CN) .cap-service { font-family: 'neue-haas-grotesk-display', 'Noto Sans TC', 'PingFang SC', sans-serif; }
+    html:lang(zh-CN) .about-client-list span { font-family: 'neue-haas-grotesk-display', 'Noto Sans TC', 'PingFang SC', sans-serif; }
+    html:lang(zh-CN) .about-manifesto-text,
+    html:lang(ja) .about-manifesto-text { word-break: normal; }
+    html:lang(ja) .about-manifesto-text { font-family: 'neue-haas-grotesk-text', 'Noto Sans JP', 'Hiragino Sans', sans-serif; }
+    html:lang(ja) .cap-service { font-family: 'neue-haas-grotesk-display', 'Noto Sans JP', 'Hiragino Sans', sans-serif; }
+    html:lang(ja) .about-client-list span { font-family: 'neue-haas-grotesk-display', 'Noto Sans JP', 'Hiragino Sans', sans-serif; }
     html:lang(ja) .about-client-list span { line-height: 1.2; }
+    /* 언어별 행간 보정 — 폰트 line metrics 차이 상쇄 */
+    html:lang(ko) .about-manifesto-text { line-height: 1.35; }
+    html:lang(zh-CN) .about-manifesto-text { line-height: 1.4; }
+    html:lang(ja) .about-manifesto-text { line-height: 1.4; }
     @media (max-width: 768px) {
       .about-manifesto-text br { display: none; }
+      .about-manifesto-text { line-height: 1.5; max-width: 100%; }
     }
 
     /* ── STORY ── */
     .about-story {
-      padding: 0 var(--gutter) clamp(80px,10vw,140px);
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: clamp(40px, 6vw, 80px);
+      padding: 0 0 clamp(80px,10vw,140px);
     }
     .about-story-text {
-      grid-column: 2;
-      font-size: clamp(1.125rem, 1.6vw, 1.875rem);
-      line-height: 1.4;
+      margin-left: 50%;             /* cap-right와 시작점 동일하게 고정 */
+      padding: 0 var(--gutter);     /* 내부 패딩은 cap-right와 동일 */
+      box-sizing: border-box;
+      font-size: clamp(0.9rem, 1.3vw, 1.5rem);
+      line-height: 1.6;
       letter-spacing: 0;
-      font-weight: 500;
+      font-weight: 400;
       color: var(--c-on-bg);
-      word-break: keep-all;
     }
-    html:lang(zh-CN) .about-story-text { word-break: normal; }
     @media (max-width: 768px) {
-      .about-story { grid-template-columns: 1fr; }
-      .about-story-text { grid-column: 1; }
+      .about-story-text { margin-left: 0; padding: 0 var(--gutter); }
     }
 
     /* ── CAPABILITIES ── */
     .about-cap-section {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      align-items: start;
-      /* 세로 패딩 없음 — 각 컬럼에서 개별 처리 */
+      /* align-items: stretch (기본) — 양 컬럼 높이 동일, sticky 해제 타이밍 정확 */
     }
 
-    /* 좌: GSAP pin으로 처리 (CSS sticky 아님) */
+    /* 좌: 높이를 우측과 동일하게 stretch — 라벨 자체에 sticky */
     .about-cap-left {
-      padding: clamp(80px,10vw,140px) var(--gutter);
+      padding: clamp(80px,10vw,140px) var(--gutter) 0;
     }
     .cap-label {
-      font-family: 'PP Neue Montreal', sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.5rem, 3.125vw, 3.75rem);
+      position: sticky;
+      top: var(--cap-label-top, calc(50vh - 1.5rem));
+      /* 라벨 중앙이 뷰포트 중앙에 오도록 JS에서 동적 보정 */
+      font-family: 'neue-haas-grotesk-display', sans-serif;
+      font-weight: 500;
+      font-size: clamp(2.2rem, 4.5vw, 4rem);
       line-height: 1;
-      letter-spacing: -.02em;
+      letter-spacing: 0;
       color: #ffffff;
     }
 
     /* 우: 연속 스크롤 서비스 리스트 */
     .about-cap-right {
-      padding: clamp(80px,10vw,140px) var(--gutter) clamp(80px,10vw,140px);
+      padding: clamp(80px,10vw,140px) var(--gutter) var(--cap-right-end-gap, calc(50vh - 2rem));
+      font-weight: 500;
+      /* 마지막 아이템 중앙과 라벨 중앙을 맞추기 위해 JS에서 동적으로 보정 */
     }
     .cap-service {
-      font-family: 'PP Neue Montreal', sans-serif;
+      font-family: 'neue-haas-grotesk-display', sans-serif;
       font-weight: 500;
-      font-size: clamp(1.5rem, 3.125vw, 3.75rem);
+      font-size: clamp(2.2rem, 4.5vw, 4rem);
       line-height: 1.25;
       letter-spacing: 0;
       color: #ffffff;
@@ -111,24 +150,26 @@
       /* 좌측 sticky 패널 숨김 — 각 그룹 내 라벨이 담당 */
       .about-cap-left { display: none; }
       .about-cap-right { padding: 0; }
-      /* 각 그룹: 2컬럼 그리드 (라벨 38% / 서비스 62%) */
+      /* 각 그룹: 2컬럼 그리드 (라벨 auto / 서비스 1fr) */
       .cap-group { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: clamp(28px,6vw,40px); }
       .cap-anchor { display: none; }
       .cap-group-label {
         display: block;
         grid-column: 1; grid-row: 1 / span 99;
-        font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
+        font-family: 'neue-haas-grotesk-display', sans-serif; font-weight: 500;
         font-size: clamp(1rem, 4.5vw, 1.4rem); letter-spacing: -0.02em;
         padding-top: 3px;
         color: var(--c-on-bg);
       }
-      .cap-service { grid-column: 2; font-size: clamp(1rem, 4.5vw, 1.4rem); padding: clamp(4px,1.2vw,8px) 0; border-bottom: none; }
+      .cap-service { grid-column: 2; font-size: clamp(0.85rem, 3.8vw, 1.1rem); padding: clamp(4px,1.2vw,8px) 0; border-bottom: none; overflow-wrap: anywhere; }
       .cap-group-gap { display: none; }
+      .about-clients { padding: clamp(88px,12vw,120px) var(--gutter) clamp(72px,10vw,100px); }
+
     }
 
     /* ── CLIENTS & PARTNERS ── */
     .about-clients {
-      padding: clamp(80px,10vw,140px) var(--gutter);
+      padding: clamp(120px,12vw,180px) var(--gutter) clamp(80px,10vw,140px);
     }
     /* 필터 바 */
     .about-filter-bar {
@@ -137,9 +178,9 @@
       margin-bottom: clamp(48px, 6vw, 88px);
     }
     .about-filter-tag {
-      font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
+      font-family: 'neue-haas-grotesk-display', sans-serif; font-weight: 500;
       font-size: clamp(2rem, 4vw, 5rem);
-      line-height: 1; letter-spacing: -.02em;
+      line-height: 1; letter-spacing: 0;
       color: var(--c-on-bg);
       background: none; border: none; cursor: pointer;
       padding: 0; text-decoration: none;
@@ -160,29 +201,34 @@
     /* 리스트 */
     .about-client-list {
       display: flex; flex-wrap: wrap;
-      gap: clamp(4px, 0.5vw, 8px) clamp(10px, 1.2vw, 20px);
+      gap: 0 clamp(10px, 1.2vw, 20px);
       align-items: baseline;
+      line-height: 1.25; /* 행간 축소 (body 1.6 상속 차단) */
     }
     .about-client-list span {
-      font-family: 'PP Neue Montreal', sans-serif; font-weight: 500;
-      font-size: clamp(1.75rem, 3.2vw, 4rem);
+      font-family: 'neue-haas-grotesk-display', sans-serif; font-weight: 500;
+      font-size: clamp(2rem, 4vw, 5rem); /* 필터와 동일 사이즈 */
+      line-height: 1.25;
       letter-spacing: 0; color: var(--c-on-bg);
-      white-space: nowrap;
       transition: opacity .2s;
-      word-break: keep-all;
+      overflow-wrap: anywhere;
     }
     .about-client-list span:hover { opacity: .6; }
     .about-client-list span::after { content: ','; color: var(--c-on-bg); }
     .about-client-list span:last-child::after { content: ''; }
     .about-client-list span[data-hidden] { display: none; }
 
+    @media (min-width: 769px) {
+      /* 데스크탑: SNS 링크와 동일한 64px 기준 스케일 */
+      .about-filter-tag { font-size: clamp(2.2rem, 4.5vw, 4rem); }
+      .about-client-list span { font-size: clamp(2.2rem, 4.5vw, 4rem); }
+    }
 
   </style>
 </head>
 <body>
   <div id="grain"></div>
-  <div id="cursor"></div>
-  <div id="cursor-ring"></div>
+  <canvas id="global-mouse-glow"></canvas>
 
   <grap-header active="about"></grap-header>
 
@@ -313,32 +359,294 @@
   <script src="js/i18n.js?v=3"></script>
   <script src="js/grap-init.js"></script>
   <script>
+    /* ── Three.js WebGL 파티클 그리드: 마우스 glow ── */
+    (function () {
+      if (typeof THREE === 'undefined') return;
+      const cv = document.getElementById('global-mouse-glow');
+      if (!cv) return;
+
+      const SPACING    = 28;     // 파티클 간격 (px)
+      const RADIUS     = 520;    // 마우스 영향 반경 (world px)
+      const HIST_MAX   = 40;     // 트레일 이력 최대 길이
+      const IDLE_DELAY = 600;    // 정지 후 페이드 시작 (ms)
+      const IDLE_SPEED = 0.016;  // 프레임당 active 감소 (~1.5초 후 소멸)
+
+      let W = window.innerWidth, H = window.innerHeight;
+
+      /* ── Three.js 기본 설정: 화면 px = world unit ── */
+      const camera = new THREE.OrthographicCamera(-W/2, W/2, H/2, -H/2, 0.1, 200);
+      camera.position.z = 100;
+      const scene = new THREE.Scene();
+
+      const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: false });
+      renderer.setSize(W, H);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+      renderer.setClearColor(0x000000, 0);
+
+      /* ── 버텍스 셰이더: 각 파티클 밝기·크기 계산 ── */
+      const VS = `
+        precision mediump float;
+        attribute float aJitter;
+        uniform vec2  uMouse;
+        uniform float uRadius;
+        uniform float uActive;
+        uniform vec2  uHist[${HIST_MAX}];
+        uniform int   uHistLen;
+        varying float vBright;
+
+        void main(){
+          float peak = 0.0;
+
+          if(uMouse.x > -9000.0){
+            float d = distance(position.xy, uMouse);
+            if(d < uRadius)
+              peak = max(peak, pow(1.0 - d/uRadius, 1.5) * aJitter);
+          }
+
+          for(int i = 0; i < ${HIST_MAX}; i++){
+            if(i < uHistLen){
+              float d = distance(position.xy, uHist[i]);
+              if(d < uRadius){
+                float fade = pow(1.0 - float(i)/float(uHistLen), 1.8);
+                peak = max(peak, pow(1.0 - d/uRadius, 1.5) * fade * 0.8 * aJitter);
+              }
+            }
+          }
+
+          peak        *= uActive;
+          vBright      = peak;
+          gl_PointSize = 2.2 + peak * 21.8;
+          gl_Position  = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `;
+
+      /* ── 프래그먼트 셰이더: 부드러운 원형 파티클 ── */
+      const FS = `
+        precision mediump float;
+        varying float vBright;
+        void main(){
+          vec2  c = gl_PointCoord - 0.5;
+          float d = length(c);
+          if(d > 0.5) discard;
+          float soft  = smoothstep(0.5, 0.1, d);
+          float alpha = 0.09 + vBright * 0.87 * soft;
+          gl_FragColor = vec4(0.8, 1.0, 0.0, alpha);
+        }
+      `;
+
+      /* ── 배경 glow 블롭 셰이더 ── */
+      const BG_VS = `
+        precision mediump float;
+        varying vec2 vPos;
+        void main(){
+          vPos = position.xy;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `;
+      const BG_FS = `
+        precision mediump float;
+        uniform vec2  uMouse;
+        uniform float uRadius;
+        uniform float uActive;
+        uniform vec2  uHist[${HIST_MAX}];
+        uniform int   uHistLen;
+        varying vec2  vPos;
+
+        void main(){
+          float g = 0.0;
+          if(uMouse.x > -9000.0){
+            float d = distance(vPos, uMouse);
+            g = max(g, max(0.0, 1.0 - d/uRadius));
+          }
+          for(int i = 0; i < ${HIST_MAX}; i++){
+            if(i < uHistLen){
+              float d    = distance(vPos, uHist[i]);
+              float fade = (1.0 - float(i)/float(uHistLen)) * 0.4;
+              g = max(g, max(0.0, 1.0 - d/(uRadius * 0.6)) * fade);
+            }
+          }
+          g = pow(g, 2.5) * 0.08 * uActive;
+          gl_FragColor = vec4(0.8, 1.0, 0.0, g);
+        }
+      `;
+
+      let ptGeo, ptMat, ptMesh, bgMat, bgMesh;
+
+      function mkHistArr() {
+        return Array.from({ length: HIST_MAX }, () => new THREE.Vector2(-9999, -9999));
+      }
+
+      function buildScene() {
+        if (ptMesh) { scene.remove(ptMesh); ptGeo.dispose(); ptMat.dispose(); }
+        if (bgMesh) { scene.remove(bgMesh); bgMesh.geometry.dispose(); bgMat.dispose(); }
+        W = window.innerWidth; H = window.innerHeight;
+
+        /* 배경 소프트 glow 평면 */
+        bgMat = new THREE.ShaderMaterial({
+          uniforms: {
+            uMouse:   { value: new THREE.Vector2(-9999,-9999) },
+            uRadius:  { value: RADIUS },
+            uActive:  { value: 0.0 },
+            uHist:    { value: mkHistArr() },
+            uHistLen: { value: 0 },
+          },
+          vertexShader: BG_VS, fragmentShader: BG_FS,
+          transparent: true, depthWrite: false,
+        });
+        bgMesh = new THREE.Mesh(new THREE.PlaneGeometry(W * 1.2, H * 1.2), bgMat);
+        bgMesh.position.z = -1;
+        scene.add(bgMesh);
+
+        /* 파티클 그리드 */
+        const cols = Math.ceil(W / SPACING) + 2;
+        const rows = Math.ceil(H / SPACING) + 2;
+        const n = cols * rows;
+        const pos = new Float32Array(n * 3);
+        const jit = new Float32Array(n);
+        let k = 0;
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            pos[k*3  ] = -W/2 + (c - 0.5) * SPACING;
+            pos[k*3+1] =  H/2 - (r - 0.5) * SPACING;
+            pos[k*3+2] = 0;
+            jit[k]     = 0.82 + Math.random() * 0.36; // 유기적 형태를 위한 개별 노이즈
+            k++;
+          }
+        }
+        ptGeo = new THREE.BufferGeometry();
+        ptGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+        ptGeo.setAttribute('aJitter',  new THREE.BufferAttribute(jit, 1));
+
+        ptMat = new THREE.ShaderMaterial({
+          uniforms: {
+            uMouse:   { value: new THREE.Vector2(-9999,-9999) },
+            uRadius:  { value: RADIUS },
+            uActive:  { value: 0.0 },
+            uHist:    { value: mkHistArr() },
+            uHistLen: { value: 0 },
+          },
+          vertexShader: VS, fragmentShader: FS,
+          transparent: true, depthWrite: false,
+        });
+        ptMesh = new THREE.Points(ptGeo, ptMat);
+        scene.add(ptMesh);
+      }
+
+      buildScene();
+
+      /* ── 마우스 추적 ── */
+      let mScr = { x:-9999, y:-9999 }, histScr = [];
+      let lastMoveTime = 0, active = 0;
+
+      const toW = (sx, sy) => ({ x: sx - W/2, y: H/2 - sy });
+
+      document.addEventListener('mousemove', e => {
+        if (mScr.x > -9000) histScr.unshift({ ...mScr });
+        if (histScr.length > HIST_MAX) histScr.length = HIST_MAX;
+        mScr = { x: e.clientX, y: e.clientY };
+        lastMoveTime = Date.now();
+      });
+      document.addEventListener('mouseleave', () => {
+        mScr = { x:-9999, y:-9999 };
+        active = 0;
+      });
+
+      function setUniforms(mat) {
+        if (!mat) return;
+        const mw = mScr.x > -9000 ? toW(mScr.x, mScr.y) : { x:-9999, y:-9999 };
+        mat.uniforms.uMouse.value.set(mw.x, mw.y);
+        mat.uniforms.uActive.value  = active;
+        mat.uniforms.uHistLen.value = Math.min(histScr.length, HIST_MAX);
+        const ha = mat.uniforms.uHist.value;
+        for (let i = 0; i < HIST_MAX; i++) {
+          if (i < histScr.length) {
+            const hw = toW(histScr[i].x, histScr[i].y);
+            ha[i].set(hw.x, hw.y);
+          } else {
+            ha[i].set(-9999, -9999);
+          }
+        }
+      }
+
+      (function loop() {
+        requestAnimationFrame(loop);
+        /* 정지 시 fade-out, 이동 시 fade-in */
+        if (mScr.x > -9000) {
+          active = Date.now() - lastMoveTime > IDLE_DELAY
+            ? Math.max(0, active - IDLE_SPEED)
+            : Math.min(1, active + 0.08);
+        }
+        setUniforms(ptMat);
+        setUniforms(bgMat);
+        renderer.render(scene, camera);
+      })();
+
+      window.addEventListener('resize', () => {
+        W = window.innerWidth; H = window.innerHeight;
+        camera.left = -W/2; camera.right =  W/2;
+        camera.top  =  H/2; camera.bottom = -H/2;
+        camera.updateProjectionMatrix();
+        renderer.setSize(W, H);
+        buildScene();
+      });
+    })();
+  </script>
+  <script>
+    /* ── Hero 타이틀: 히어로 섹션 하단에서 슬라이드업 ── */
+    (function () {
+      const h1      = document.querySelector('.page-title--copy');
+      const section = document.querySelector('.page-hero');
+      if (!h1 || !section || typeof gsap === 'undefined') return;
+
+      gsap.killTweensOf(document.querySelectorAll('.page-title--copy span'));
+      gsap.set('.page-title--copy span', { y: 0 });
+
+      // h1이 히어로 하단에 있으므로, 자기 높이만큼 아래에서 시작
+      const h1Rect = h1.getBoundingClientRect();
+      const startY = h1Rect.height + 80;
+      gsap.fromTo(h1,
+        { y: startY },
+        { y: 0, duration: 1.6, ease: 'expo.out', delay: 0.05 }
+      );
+    })();
+  </script>
+  <script>
     /* ── Capabilities: 좌=pin 라벨, 우=blur focus ── */
     (function () {
       if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
 
       const capLabel = document.querySelector('.cap-label');
+      const capRight = document.querySelector('.about-cap-right');
+      const capLastService = document.querySelector('.about-cap-right .cap-group:last-of-type .cap-service:last-of-type');
       const anchors  = [
         document.getElementById('cap-perf'),
         document.getElementById('cap-ip'),
         document.getElementById('cap-dig'),
       ];
-      if (!capLabel || !anchors[0]) return;
+      if (!capLabel || !anchors[0] || !capRight || !capLastService) return;
 
-      const isMobile = () => window.innerWidth <= 768;
+      /* ─ 왼쪽: CSS sticky로 교체 — GSAP pin 제거 ─ */
 
-      /* ─ 왼쪽 pin: 라벨 중앙이 뷰포트 중앙에 닿으면 고정 ─ */
-      if (!isMobile()) {
-        const lastService = document.querySelector('.about-cap-right .cap-service:last-child');
-        ScrollTrigger.create({
-          trigger:    '.cap-label',
-          start:      'center center',
-          endTrigger: lastService,
-          end:        'center center',
-          pin:        '.about-cap-left',
-          pinSpacing: false,
-        });
-      }
+      // 라벨/마지막 항목 실제 높이 기준으로 중앙 정렬 시점을 맞춤
+      const syncCapScrollTiming = () => {
+        const labelHeight = capLabel.offsetHeight;
+        const lastHeight = capLastService.offsetHeight;
+        const labelTop = Math.max(0, (window.innerHeight * 0.5) - (labelHeight * 0.5));
+
+        /*
+          sticky 해제 시점: 컨테이너 bottom == (labelTop + labelHeight)
+          이 순간 마지막 항목 중심이 뷰포트 중앙(50vh)에 오려면
+          padding-bottom = (labelHeight/2) - (lastHeight/2)
+        */
+        const endGap = Math.max(0, (labelHeight - lastHeight) * 0.5);
+
+        capLabel.style.setProperty('--cap-label-top', `${labelTop}px`);
+        capRight.style.setProperty('--cap-right-end-gap', `${endGap}px`);
+      };
+      syncCapScrollTiming();
+      window.addEventListener('resize', syncCapScrollTiming);
+      window.addEventListener('load', syncCapScrollTiming);
+      document.addEventListener('grap:lang', syncCapScrollTiming);
 
       /* ─ 왼쪽: 카테고리 라벨 교체 (페이드) ─ */
       const LABELS = [
