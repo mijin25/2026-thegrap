@@ -10,7 +10,6 @@
   <link rel="stylesheet" href="css/base.css" />
   <script src="gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
   <script src="js/grap-header.js"></script>
   <style>
 
@@ -359,236 +358,80 @@
   <script src="js/i18n.js?v=3"></script>
   <script src="js/grap-init.js"></script>
   <script>
-    /* ── Three.js WebGL 파티클 그리드: 마우스 glow ── */
+    /* ── 도트 그리드: 마우스 스포트라이트 (Monogrid style) ── */
     (function () {
-      if (typeof THREE === 'undefined') return;
       const cv = document.getElementById('global-mouse-glow');
       if (!cv) return;
+      const ctx = cv.getContext('2d');
 
-      const SPACING    = 28;     // 파티클 간격 (px)
-      const RADIUS     = 520;    // 마우스 영향 반경 (world px)
-      const HIST_MAX   = 40;     // 트레일 이력 최대 길이
-      const IDLE_DELAY = 600;    // 정지 후 페이드 시작 (ms)
-      const IDLE_SPEED = 0.016;  // 프레임당 active 감소 (~1.5초 후 소멸)
+      const SPACING    = 14;     // 도트 간격 (px)
+      const DOT_MIN    = 0.7;    // 기본 도트 반지름 (항상 미세하게 보임)
+      const DOT_MAX    = 5.5;    // 커서 중심 최대 도트 반지름
+      const RADIUS     = 480;    // 커서 영향 반경
+      const IDLE_DELAY = 300;
+      const IDLE_SPEED = 0.02;
 
-      let W = window.innerWidth, H = window.innerHeight;
+      let W, H, mx = -9999, my = -9999, active = 0, lastMove = 0;
+      const R2 = RADIUS * RADIUS;
 
-      /* ── Three.js 기본 설정: 화면 px = world unit ── */
-      const camera = new THREE.OrthographicCamera(-W/2, W/2, H/2, -H/2, 0.1, 200);
-      camera.position.z = 100;
-      const scene = new THREE.Scene();
+      function resize() {
+        W = cv.width  = window.innerWidth;
+        H = cv.height = window.innerHeight;
+      }
+      resize();
 
-      const renderer = new THREE.WebGLRenderer({ canvas: cv, alpha: true, antialias: false });
-      renderer.setSize(W, H);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-      renderer.setClearColor(0x000000, 0);
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        const hasSpot = active > 0.005 && mx > -9000;
 
-      /* ── 버텍스 셰이더: 각 파티클 밝기·크기 계산 ── */
-      const VS = `
-        precision mediump float;
-        attribute float aJitter;
-        uniform vec2  uMouse;
-        uniform float uRadius;
-        uniform float uActive;
-        uniform vec2  uHist[${HIST_MAX}];
-        uniform int   uHistLen;
-        varying float vBright;
+        /* Layer 1: 배경 glow 아우라 */
+        if (hasSpot) {
+          const bg = ctx.createRadialGradient(mx, my, 0, mx, my, RADIUS);
+          bg.addColorStop(0,   `rgba(204,255,0,${(0.18 * active).toFixed(3)})`);
+          bg.addColorStop(0.45,`rgba(204,255,0,${(0.07 * active).toFixed(3)})`);
+          bg.addColorStop(1,   'rgba(204,255,0,0)');
+          ctx.fillStyle = bg;
+          ctx.fillRect(mx - RADIUS, my - RADIUS, RADIUS * 2, RADIUS * 2);
+        }
 
-        void main(){
-          float peak = 0.0;
-
-          if(uMouse.x > -9000.0){
-            float d = distance(position.xy, uMouse);
-            if(d < uRadius)
-              peak = max(peak, pow(1.0 - d/uRadius, 1.5) * aJitter);
-          }
-
-          for(int i = 0; i < ${HIST_MAX}; i++){
-            if(i < uHistLen){
-              float d = distance(position.xy, uHist[i]);
-              if(d < uRadius){
-                float fade = pow(1.0 - float(i)/float(uHistLen), 1.8);
-                peak = max(peak, pow(1.0 - d/uRadius, 1.5) * fade * 0.8 * aJitter);
+        /* Layer 2: 도트 그리드 (크기 가변) */
+        ctx.fillStyle = '#CCFF00';
+        ctx.beginPath();
+        for (let x = SPACING * 0.5; x < W + SPACING; x += SPACING) {
+          for (let y = SPACING * 0.5; y < H + SPACING; y += SPACING) {
+            let r = DOT_MIN;
+            if (hasSpot) {
+              const dx = x - mx, dy = y - my;
+              const d2 = dx * dx + dy * dy;
+              if (d2 < R2) {
+                const t = Math.sqrt(d2) / RADIUS;
+                r = DOT_MIN + Math.pow(1 - t, 1.6) * active * (DOT_MAX - DOT_MIN);
               }
             }
+            ctx.moveTo(x + r, y);
+            ctx.arc(x, y, r, 0, Math.PI * 2);
           }
-
-          peak        *= uActive;
-          vBright      = peak;
-          gl_PointSize = 2.2 + peak * 21.8;
-          gl_Position  = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
         }
-      `;
-
-      /* ── 프래그먼트 셰이더: 부드러운 원형 파티클 ── */
-      const FS = `
-        precision mediump float;
-        varying float vBright;
-        void main(){
-          vec2  c = gl_PointCoord - 0.5;
-          float d = length(c);
-          if(d > 0.5) discard;
-          float soft  = smoothstep(0.5, 0.1, d);
-          float alpha = 0.09 + vBright * 0.87 * soft;
-          gl_FragColor = vec4(0.8, 1.0, 0.0, alpha);
-        }
-      `;
-
-      /* ── 배경 glow 블롭 셰이더 ── */
-      const BG_VS = `
-        precision mediump float;
-        varying vec2 vPos;
-        void main(){
-          vPos = position.xy;
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `;
-      const BG_FS = `
-        precision mediump float;
-        uniform vec2  uMouse;
-        uniform float uRadius;
-        uniform float uActive;
-        uniform vec2  uHist[${HIST_MAX}];
-        uniform int   uHistLen;
-        varying vec2  vPos;
-
-        void main(){
-          float g = 0.0;
-          if(uMouse.x > -9000.0){
-            float d = distance(vPos, uMouse);
-            g = max(g, max(0.0, 1.0 - d/uRadius));
-          }
-          for(int i = 0; i < ${HIST_MAX}; i++){
-            if(i < uHistLen){
-              float d    = distance(vPos, uHist[i]);
-              float fade = (1.0 - float(i)/float(uHistLen)) * 0.4;
-              g = max(g, max(0.0, 1.0 - d/(uRadius * 0.6)) * fade);
-            }
-          }
-          g = pow(g, 2.5) * 0.08 * uActive;
-          gl_FragColor = vec4(0.8, 1.0, 0.0, g);
-        }
-      `;
-
-      let ptGeo, ptMat, ptMesh, bgMat, bgMesh;
-
-      function mkHistArr() {
-        return Array.from({ length: HIST_MAX }, () => new THREE.Vector2(-9999, -9999));
+        ctx.fill();
       }
 
-      function buildScene() {
-        if (ptMesh) { scene.remove(ptMesh); ptGeo.dispose(); ptMat.dispose(); }
-        if (bgMesh) { scene.remove(bgMesh); bgMesh.geometry.dispose(); bgMat.dispose(); }
-        W = window.innerWidth; H = window.innerHeight;
-
-        /* 배경 소프트 glow 평면 */
-        bgMat = new THREE.ShaderMaterial({
-          uniforms: {
-            uMouse:   { value: new THREE.Vector2(-9999,-9999) },
-            uRadius:  { value: RADIUS },
-            uActive:  { value: 0.0 },
-            uHist:    { value: mkHistArr() },
-            uHistLen: { value: 0 },
-          },
-          vertexShader: BG_VS, fragmentShader: BG_FS,
-          transparent: true, depthWrite: false,
-        });
-        bgMesh = new THREE.Mesh(new THREE.PlaneGeometry(W * 1.2, H * 1.2), bgMat);
-        bgMesh.position.z = -1;
-        scene.add(bgMesh);
-
-        /* 파티클 그리드 */
-        const cols = Math.ceil(W / SPACING) + 2;
-        const rows = Math.ceil(H / SPACING) + 2;
-        const n = cols * rows;
-        const pos = new Float32Array(n * 3);
-        const jit = new Float32Array(n);
-        let k = 0;
-        for (let r = 0; r < rows; r++) {
-          for (let c = 0; c < cols; c++) {
-            pos[k*3  ] = -W/2 + (c - 0.5) * SPACING;
-            pos[k*3+1] =  H/2 - (r - 0.5) * SPACING;
-            pos[k*3+2] = 0;
-            jit[k]     = 0.82 + Math.random() * 0.36; // 유기적 형태를 위한 개별 노이즈
-            k++;
-          }
-        }
-        ptGeo = new THREE.BufferGeometry();
-        ptGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-        ptGeo.setAttribute('aJitter',  new THREE.BufferAttribute(jit, 1));
-
-        ptMat = new THREE.ShaderMaterial({
-          uniforms: {
-            uMouse:   { value: new THREE.Vector2(-9999,-9999) },
-            uRadius:  { value: RADIUS },
-            uActive:  { value: 0.0 },
-            uHist:    { value: mkHistArr() },
-            uHistLen: { value: 0 },
-          },
-          vertexShader: VS, fragmentShader: FS,
-          transparent: true, depthWrite: false,
-        });
-        ptMesh = new THREE.Points(ptGeo, ptMat);
-        scene.add(ptMesh);
-      }
-
-      buildScene();
-
-      /* ── 마우스 추적 ── */
-      let mScr = { x:-9999, y:-9999 }, histScr = [];
-      let lastMoveTime = 0, active = 0;
-
-      const toW = (sx, sy) => ({ x: sx - W/2, y: H/2 - sy });
-
+      /* 마우스 추적 */
       document.addEventListener('mousemove', e => {
-        if (mScr.x > -9000) histScr.unshift({ ...mScr });
-        if (histScr.length > HIST_MAX) histScr.length = HIST_MAX;
-        mScr = { x: e.clientX, y: e.clientY };
-        lastMoveTime = Date.now();
+        mx = e.clientX; my = e.clientY; lastMove = Date.now();
       });
-      document.addEventListener('mouseleave', () => {
-        mScr = { x:-9999, y:-9999 };
-        active = 0;
-      });
-
-      function setUniforms(mat) {
-        if (!mat) return;
-        const mw = mScr.x > -9000 ? toW(mScr.x, mScr.y) : { x:-9999, y:-9999 };
-        mat.uniforms.uMouse.value.set(mw.x, mw.y);
-        mat.uniforms.uActive.value  = active;
-        mat.uniforms.uHistLen.value = Math.min(histScr.length, HIST_MAX);
-        const ha = mat.uniforms.uHist.value;
-        for (let i = 0; i < HIST_MAX; i++) {
-          if (i < histScr.length) {
-            const hw = toW(histScr[i].x, histScr[i].y);
-            ha[i].set(hw.x, hw.y);
-          } else {
-            ha[i].set(-9999, -9999);
-          }
-        }
-      }
+      document.addEventListener('mouseleave', () => { mx = -9999; active = 0; });
 
       (function loop() {
         requestAnimationFrame(loop);
-        /* 정지 시 fade-out, 이동 시 fade-in */
-        if (mScr.x > -9000) {
-          active = Date.now() - lastMoveTime > IDLE_DELAY
+        if (mx > -9000) {
+          active = Date.now() - lastMove > IDLE_DELAY
             ? Math.max(0, active - IDLE_SPEED)
-            : Math.min(1, active + 0.08);
+            : Math.min(1, active + 0.12);
         }
-        setUniforms(ptMat);
-        setUniforms(bgMat);
-        renderer.render(scene, camera);
+        draw();
       })();
 
-      window.addEventListener('resize', () => {
-        W = window.innerWidth; H = window.innerHeight;
-        camera.left = -W/2; camera.right =  W/2;
-        camera.top  =  H/2; camera.bottom = -H/2;
-        camera.updateProjectionMatrix();
-        renderer.setSize(W, H);
-        buildScene();
-      });
+      window.addEventListener('resize', resize);
     })();
   </script>
   <script>
