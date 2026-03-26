@@ -23,10 +23,6 @@ const FOOTER_LOGO = `<svg width="167" height="40" viewBox="0 0 167 40" fill="non
   </defs>
 </svg>`;
 
-const ARROW = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-  <path d="M2 12L12 2M12 2H5M12 2v7" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>`;
-
 // ── 언어별 주소 ──
 // 중국어·일본어는 국제 비즈니스 표준에 따라 영문 주소 사용
 const FOOTER_ADDR = {
@@ -51,41 +47,28 @@ class GrapFooter extends HTMLElement {
     return `
     <footer id="site-footer">
       <div class="footer-inner">
-
-        <!-- ── MAIN: 2컬럼 ── -->
-        <div class="footer-main">
-
-          <!-- 왼쪽: 헤드라인 + CTA + 주소 -->
-          <div class="footer-left">
-            <div class="footer-hl-wrap">
-              <h2 class="footer-hl-group">
-                <span class="fhl"><span class="fhl-inner">LET'S TALK.</span></span>
-              </h2>
-            </div>
-            <a href="contact.html" class="footer-cta-btn">
-              <span data-i18n="footer.cta">Start a project</span>
-              ${ARROW}
-            </a>
+        <!-- 헤드라인: 남은 공간 차지 -->
+        <div class="footer-hero">
+          <div class="footer-hl-wrap">
+            <h2 class="footer-hl-group">
+              <span class="fhl"><span class="fhl-inner">Let's start a conversation that turns ambition into action.</span></span>
+            </h2>
           </div>
-
-          <!-- 오른쪽: 소셜/이메일 링크 -->
-          <nav class="footer-links" aria-label="소셜 및 연락처">
-            <a href="https://www.instagram.com/the.grap/" target="_blank" rel="noopener" class="footer-link-item">Instagram</a>
-            <a href="https://www.behance.net/thegrap/" target="_blank" rel="noopener" class="footer-link-item">Behance</a>
-            <a href="mailto:thegraper@thegrap.com" class="footer-link-item">Email</a>
-          </nav>
-
+          <a href="contact.html" class="footer-cta-btn">
+            <span data-i18n="footer.cta">프로젝트 시작하기</span>
+          </a>
         </div>
 
-        <!-- ── DIVIDER ── -->
-        <div class="footer-divider"></div>
-
-        <!-- ── BOTTOM BAR ── -->
-        <div class="footer-bottom">
-          <span class="footer-copy">© 2026 THE GRAP</span>
+        <!-- 하단 행: 카피(1~3) / SNS(4~5) / 개인정보(8) — align-items:end로 하단 기준 통일 -->
+        <div class="footer-bottom-row">
+          <span class="footer-copy">© 2026 THE GRAP. ALL RIGHTS RESERVED.</span>
+          <nav class="footer-links" aria-label="소셜 및 연락처">
+            <a href="https://www.instagram.com/the.grap/" target="_blank" rel="noopener" class="footer-link-item"><span>Instagram</span></a>
+              <a href="https://www.behance.net/thegrap/" target="_blank" rel="noopener" class="footer-link-item"><span>Behance</span></a>
+              <a href="mailto:thegraper@thegrap.com" class="footer-link-item"><span>Email</span></a>
+          </nav>
           <a href="privacy.html" class="footer-privacy" id="footer-privacy-link">${PRIVACY_LABEL[localStorage.getItem('grap-lang')] || PRIVACY_LABEL.ko}</a>
         </div>
-
       </div>
     </footer>`;
   }
@@ -112,7 +95,7 @@ class GrapFooter extends HTMLElement {
       );
       // 나머지 요소 페이드인
       gsap.fromTo(
-        ['.footer-eyebrow', '.footer-cta-btn', '.footer-info-col', '.footer-bottom'],
+        ['.footer-cta-btn', '.footer-links .footer-link-item', '.footer-bottom'],
         { opacity: 0, y: 18 },
         {
           opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08,

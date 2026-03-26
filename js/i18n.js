@@ -9,9 +9,9 @@ const GRAP_I18N = {
   /* ── ABOUT PAGE ── */
   'about.manifesto': {
     ko: 'K-POP 아티스트와 글로벌 팬을 연결합니다. <br>디지털 경험부터 라이브 공연까지, <br>콘서트 기획부터 아티스트 IP 굿즈까지 — <br>엔터테인먼트의 모든 접점을 함께 설계합니다.',
-    en: 'We connect K-POP artists with global audiences — <br>from digital experience to live stages, <br>from concert production to artist IP merchandise. <br>Every touchpoint of entertainment, engineered.',
-    zh: '我们连接K‑POP艺术家与全球观众 — <br>从数字体验到现场舞台， <br>从演唱会制作到艺人IP周边。 <br>设计娱乐的每一个接触点。',
-    ja: 'K‑POPアーティストとグローバルなオーディエンスをつなぐ — <br>デジタル体験からライブステージ、 <br>コンサート制作からアーティストIPマーチャンダイズまで。 <br>エンターテインメントのあらゆる接点を設計します。',
+    en: 'We connect K-POP artists with global audiences — from digital experience to live stages, from concert production to artist IP merchandise. Every touchpoint of entertainment, engineered.',
+    zh: '我们连接K‑POP艺术家与全球观众 — 从数字体验到现场舞台，从演唱会制作到艺人IP周边。设计娱乐的每一个接触点。',
+    ja: 'K‑POPアーティストとグローバルなオーディエンスをつなぐ — デジタル体験からライブステージ、コンサート制作からアーティストIPマーチャンダイズまで。エンターテインメントのあらゆる接点を設計します。',
   },
   'about.story.lead': {
     ko: '2013년 서울에서 디지털 에이전시로 출발한 더그랩은, 2024년 K‑POP 공연 제작과 아티스트 IP 비즈니스로 영역을 확장했습니다. 오늘날 글로벌 브랜드를 위한 디지털 경험 사업부와, 아시아 전역의 K‑POP 공연을 기획·제작하는 공연 사업부를 운영합니다. 두 사업부를 잇는 것은 하나의 원칙 — 관객 경험에 대한 끊임없는 집중입니다.',

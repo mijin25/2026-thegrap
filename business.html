@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet" />
+  <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
   <link rel="stylesheet" href="css/base.css" />
   <script src="gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -15,12 +16,18 @@
     /* ── BUSINESS 페이지 전용 스타일 ── */
     .biz-intro { padding: clamp(32px,4vw,56px) var(--gutter) clamp(40px,5vw,64px); }
     .biz-intro-text {
-      font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
+      font-family: 'neue-haas-grotesk-display', sans-serif; font-weight: 700;
       font-size: clamp(1.75rem, 3.6vw, 4.25rem);
       line-height: 1.25; letter-spacing: 0;
       color: var(--c-on-bg); max-width: 1300px;
       word-break: keep-all; overflow-wrap: break-word;
     }
+    html:lang(ko) .biz-intro-text,
+    html:lang(ko) .biz-title { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
+    html:lang(zh-CN) .biz-intro-text,
+    html:lang(zh-CN) .biz-title { font-family: 'neue-haas-grotesk-text', 'Noto Sans TC', 'PingFang SC', 'Microsoft JhengHei', sans-serif; }
+    html:lang(ja) .biz-intro-text,
+    html:lang(ja) .biz-title { font-family: 'neue-haas-grotesk-text', 'Noto Sans JP', 'Hiragino Sans', sans-serif; }
     .biz-section { padding: clamp(80px,10vw,140px) var(--gutter); }
     .biz-row {
       display: grid;
@@ -46,7 +53,7 @@
       text-transform: uppercase; color: var(--c-secondary);
     }
     .biz-title {
-      font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
+      font-family: 'neue-haas-grotesk-display', sans-serif; font-weight: 700;
       font-size: clamp(2.5rem, 5vw, 6rem);
       line-height: .9; letter-spacing: -.03em;
       color: var(--c-on-bg);
@@ -66,8 +73,6 @@
 </head>
 <body>
   <div id="grain"></div>
-  <div id="cursor"></div>
-  <div id="cursor-ring"></div>
 
   <grap-header active="business"></grap-header>
 

@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet" />
+  <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
   <link rel="stylesheet" href="css/base.css" />
   <script src="gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -20,7 +21,7 @@
       gap: 0; margin-bottom: clamp(48px, 6vw, 88px);
     }
     .filter-btn {
-      font-family: 'PP Neue Montreal', sans-serif; font-weight: 700;
+      font-family: 'neue-haas-grotesk-display', sans-serif; font-weight: 700;
       font-size: clamp(2rem, 4vw, 5rem);
       line-height: 1; letter-spacing: -.02em;
       color: var(--c-on-bg);
@@ -49,9 +50,9 @@
     .work-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; background: linear-gradient(to top,rgba(0,0,0,.82) 0%,transparent 55%); opacity: 0; transition: opacity .4s; }
     .work-item:hover .work-overlay { opacity: 1; }
     .work-tag { font-size: var(--text-sm); letter-spacing: .15em; text-transform: uppercase; color: rgba(204,255,0,.85); margin-bottom: 6px; }
-    .work-name { font-family: 'PP Neue Montreal', sans-serif; font-weight: 500; font-size: clamp(1rem,2vw,1.4rem); color: var(--c-on-bg); letter-spacing: -.01em; }
+    .work-name { font-family: 'neue-haas-grotesk-text', sans-serif; font-weight: 500; font-size: clamp(1rem,2vw,1.4rem); color: var(--c-on-bg); letter-spacing: -.01em; }
     .work-year { font-size: var(--text-sm); color: var(--c-secondary); margin-top: 4px; }
-    .work-item-bg .label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'PP Neue Montreal', sans-serif; font-size: clamp(2rem,8vw,5rem); font-weight: 700; letter-spacing: -.04em; color: rgba(247,247,245,.04); text-transform: uppercase; }
+    .work-item-bg .label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'neue-haas-grotesk-display', sans-serif; font-size: clamp(2rem,8vw,5rem); font-weight: 700; letter-spacing: -.04em; color: rgba(247,247,245,.04); text-transform: uppercase; }
     .c1{background:linear-gradient(135deg,#181818,#282828);}
     .c2{background:linear-gradient(135deg,#141414,#242424);}
     .c3{background:linear-gradient(135deg,#1c1c1c,#2c2c2c);}
@@ -62,8 +63,6 @@
 </head>
 <body>
   <div id="grain"></div>
-  <div id="cursor"></div>
-  <div id="cursor-ring"></div>
 
   <grap-header active="work"></grap-header>
 

@@ -132,11 +132,6 @@ class GrapHeader extends HTMLElement {
     // 페이지 콘텐츠에 저장된 언어 적용 (grap:lang 이벤트 발행)
     applyLang(localStorage.getItem('grap-lang') || 'ko');
 
-    // ── Cursor hover ──
-    document.querySelectorAll('a, button').forEach(el => {
-      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
-      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
-    });
   }
 }
 
