@@ -19,6 +19,12 @@ const GRAP_I18N = {
     zh: 'THE GRAP于2013年在首尔创立，从数字设计工作室起步，逐步拓展至K‑POP演出制作与艺人IP业务。如今我们运营两个事业部：服务全球品牌的数字体验部门，以及在亚洲各地制作K‑POP演出的演出部门。两个领域，一个原则 — 对观众体验的极致专注。',
     ja: '2013年にソウルでデジタルエージェンシーとして創業したTHE GRAPは、K‑POP公演制作とアーティストIP事業へと拡大しました。現在はグローバルブランド向けのデジタルエクスペリエンス部門と、アジア全域でK‑POP公演を制作するパフォーマンス部門を運営しています。二つの領域、一つの原則 — 観客体験への飽くなき集中。',
   },
+  'about.hero.sub': {
+    ko: '2013년 서울에서 디지털 에이전시로 시작해, 라이브 공연 제작과 아티스트 IP 사업으로 영역을 확장했습니다. 디지털 경험부터 콘서트 기획까지 — K-POP 아티스트와 글로벌 팬을 잇는 모든 접점을 함께 설계합니다.',
+    en: 'Founded in Seoul in 2013 as a digital agency, we have since expanded into live performance production and artist IP. From digital experiences to concert production — we design every touchpoint connecting K-POP artists with global audiences.',
+    zh: '2013年创立于首尔的数字代理商，逐步拓展至现场演出制作与艺人IP业务。从数字体验到演唱会制作 — 我们设计连接K‑POP艺术家与全球观众的每一个接触点。',
+    ja: '2013年にソウルでデジタルエージェンシーとして創業し、ライブ公演制作とアーティストIP事業へと拡大。デジタル体験からコンサート制作まで — K‑POPアーティストとグローバルなファンをつなぐあらゆる接点を設計します。',
+  },
 
   /* Capabilities — Digital */
   'about.cap.d1': { ko: '브랜드 아이덴티티', en: 'Brand Identity', zh: '品牌视觉设计', ja: 'ブランドアイデンティティ' },

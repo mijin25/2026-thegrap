@@ -61,7 +61,7 @@ class GrapFooter extends HTMLElement {
 
         <!-- 하단 행: 카피(1~3) / SNS(4~5) / 개인정보(8) — align-items:end로 하단 기준 통일 -->
         <div class="footer-bottom-row">
-          <span class="footer-copy">© 2026 THE GRAP. ALL RIGHTS RESERVED.</span>
+          <span class="footer-copy">© 2026 THE GRAP</span>
           <nav class="footer-links" aria-label="소셜 및 연락처">
             <a href="https://www.instagram.com/the.grap/" target="_blank" rel="noopener" class="footer-link-item"><span>Instagram</span></a>
               <a href="https://www.behance.net/thegrap/" target="_blank" rel="noopener" class="footer-link-item"><span>Behance</span></a>
@@ -83,6 +83,10 @@ class GrapFooter extends HTMLElement {
     document.addEventListener('grap:lang', e => updatePrivacy(e.detail.lang));
 
     if (typeof gsap === 'undefined') return;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const cta = this.querySelector('.footer-cta-btn');
+    const links = this.querySelectorAll('.footer-links .footer-link-item');
+    const bottomItems = this.querySelectorAll('.footer-copy, .footer-privacy');
 
     // ── 헤드라인 슬라이드업 ──
     if (typeof ScrollTrigger !== 'undefined') {
@@ -93,15 +97,33 @@ class GrapFooter extends HTMLElement {
           scrollTrigger: { trigger: '.footer-hl-wrap', start: 'top 88%' }
         }
       );
-      // 나머지 요소 페이드인
-      gsap.fromTo(
-        ['.footer-cta-btn', '.footer-links .footer-link-item', '.footer-bottom'],
-        { opacity: 0, y: 18 },
-        {
-          opacity: 1, y: 0, duration: 0.8, ease: 'power3.out', stagger: 0.08,
-          scrollTrigger: { trigger: '#site-footer', start: 'top 88%' }
-        }
-      );
+
+      // CTA → SNS → 카피/개인정보 순서로 노출되도록 타임라인 구성
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: '#site-footer', start: isMobile ? 'top 92%' : 'top 88%', once: true }
+      });
+
+      if (cta) {
+        tl.fromTo(cta, { opacity: 0, y: isMobile ? 12 : 18 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 0);
+      }
+
+      if (links.length) {
+        tl.fromTo(
+          links,
+          { opacity: 0, y: isMobile ? 14 : 20 },
+          { opacity: 1, y: 0, duration: isMobile ? 0.5 : 0.65, ease: 'power2.out', stagger: 0.06 },
+          '>-0.05'
+        );
+      }
+
+      if (bottomItems.length) {
+        tl.fromTo(
+          bottomItems,
+          { opacity: 0, y: 10 },
+          { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', stagger: 0.04 },
+          '>-0.08'
+        );
+      }
     }
   }
 }

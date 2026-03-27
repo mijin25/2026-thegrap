@@ -6,6 +6,11 @@
 /* ── GOOGLE FONTS ── */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500&family=Noto+Sans+TC:wght@400;500&display=swap');
 
+/* ── PP NEUE MONTREAL ── */
+@font-face { font-family:'PPNeueMontreal'; src:url('../fonts/PPNeueMontreal-Regular.woff2') format('woff2'), url('../fonts/PPNeueMontreal-Regular.woff') format('woff'); font-weight:400; font-display:swap; }
+@font-face { font-family:'PPNeueMontreal'; src:url('../fonts/PPNeueMontreal-Medium.woff2') format('woff2'), url('../fonts/PPNeueMontreal-Medium.woff') format('woff'); font-weight:500; font-display:swap; }
+@font-face { font-family:'PPNeueMontreal'; src:url('../fonts/PPNeueMontreal-SemiBold.woff2') format('woff2'), url('../fonts/PPNeueMontreal-SemiBold.woff') format('woff'); font-weight:600; font-display:swap; }
+
 /* ── LOCAL FONTS (폴백용 — Adobe Fonts 로드 실패 시) ── */
 @font-face { font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/woff2/Pretendard-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F,U+A960-A97F,U+D7B0-D7FF; }
 @font-face { font-family:'Pretendard'; src:url('https://cdn.jsdelivr.net/npm/pretendard@1.3.9/dist/web/woff2/Pretendard-Medium.woff2') format('woff2'); font-weight:500; font-display:swap; unicode-range:U+AC00-D7A3,U+1100-11FF,U+3130-318F,U+A960-A97F,U+D7B0-D7FF; }
@@ -36,7 +41,7 @@ body {
   background: var(--c-bg);
   color: var(--c-on-bg);
   /* 본문: neue-haas-grotesk-text */
-  font-family: 'neue-haas-grotesk-text', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  font-family: 'PPNeueMontreal', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
 }
@@ -61,21 +66,25 @@ html:lang(ko) span:not([class*="logo"]) {
   letter-spacing: -0.01em;
 }
 html:lang(ko) .cap-service { letter-spacing: -0.04em; }
-/* .fhl 헤드라인은 영문 고정 텍스트 — 언어 무관하게 자간 고정 */
+/* .fhl, .footer-link-item — 영문 고정 텍스트, 언어 무관하게 자간 고정 */
+html:lang(ko) .fhl,
+html:lang(ko) .fhl-inner,
+html:lang(ko) .footer-link-item,
+html:lang(ko) .footer-link-item span { letter-spacing: -0.02em !important; }
 html:lang(ko) .page-label { letter-spacing: 0.05em; } /* 레이블은 약간만 */
 html:lang(ko) .about-filter-tag,
 html:lang(ko) .about-filter-tag span { letter-spacing: 0 !important; } /* 필터 태그: 언어 무관하게 자간 고정 */
 html:lang(en),
 html:lang(en) body {
-  font-family: 'neue-haas-grotesk-text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  font-family: 'PPNeueMontreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
 }
 html:lang(zh-CN),
 html:lang(zh-CN) body {
-  font-family: 'neue-haas-grotesk-text', 'Noto Sans TC', 'PingFang SC', 'Microsoft JhengHei', sans-serif;
+  font-family: 'PPNeueMontreal', 'Noto Sans TC', 'PingFang SC', 'Microsoft JhengHei', sans-serif;
 }
 html:lang(ja),
 html:lang(ja) body {
-  font-family: 'neue-haas-grotesk-text', 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic UI', Meiryo, sans-serif;
+  font-family: 'PPNeueMontreal', 'Noto Sans JP', 'Hiragino Sans', 'Yu Gothic UI', Meiryo, sans-serif;
 }
 /* 일문: 행간 보정 + 단어 단위 줄바꿈 */
 html:lang(ja) {
@@ -93,6 +102,7 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   width: 100vw; height: 100vh;
   pointer-events: none;
   z-index: 0;
+  mix-blend-mode: screen;
 }
 
 /* ── GRAIN ── */
@@ -123,13 +133,13 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   justify-self: center;
 }
 #desktop-nav a {
-  font-family: 'neue-haas-grotesk-text', sans-serif;
+  font-family: 'PPNeueMontreal', sans-serif;
   font-size: clamp(0.875rem, 0.9vw, 1.375rem); text-transform: uppercase;
   color: var(--c-on-bg); text-decoration: none;
   transition: color .2s;
 }
-#desktop-nav a:hover,
-#desktop-nav a.active { color: var(--c-primary); }
+#desktop-nav a:hover  { color: var(--c-primary); }
+#desktop-nav a.active { color: var(--c-on-bg); }
 
 /* ── HEADER RIGHT ── */
 #header-right {
@@ -140,10 +150,10 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
 .lang-btn {
   font-size: clamp(0.875rem, 0.9vw, 1.375rem);
   background: none; border: none; cursor: pointer;
-  color: var(--c-on-bg); padding: 4px 6px;
-  transition: color .2s; font-family: 'neue-haas-grotesk-text', sans-serif;
+  color: var(--c-secondary); padding: 4px 6px;
+  transition: color .2s; font-family: 'PPNeueMontreal', sans-serif;
 }
-.lang-btn.active { color: var(--c-primary); }
+.lang-btn.active { color: var(--c-on-bg); }
 .lang-btn:hover  { color: var(--c-primary); }
 
 /* ── HAMBURGER ── */
@@ -167,7 +177,7 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
 #mobile-menu.open { pointer-events: all; }
 .menu-item-wrap { overflow: hidden; line-height: 1; }
 #mobile-menu a {
-  font-family: 'neue-haas-grotesk-display', sans-serif;
+  font-family: 'PPNeueMontreal', sans-serif;
   font-weight: 500;
   font-size: clamp(2.5rem, 12vw, 4rem);
   letter-spacing: -.03em; text-transform: uppercase;
@@ -199,13 +209,13 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   padding: clamp(140px,18vw,220px) var(--gutter) clamp(60px,8vw,100px);
 }
 .page-label {
-  font-family: 'neue-haas-grotesk-text', sans-serif;
+  font-family: 'PPNeueMontreal', sans-serif;
   font-size: var(--text-sm); letter-spacing: .2em;
   text-transform: uppercase; color: var(--c-secondary);
   margin-bottom: 24px;
 }
 .page-title {
-  font-family: 'neue-haas-grotesk-display', sans-serif;
+  font-family: 'PPNeueMontreal', sans-serif;
   font-weight: 600;
   font-size: clamp(4rem,11vw,10rem);
   line-height: .88; letter-spacing: -.02em !important; /* 언어 전환 무관하게 자간 고정 */
@@ -257,9 +267,9 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
 }
 .footer-copy {
   grid-column: 1 / 4;
-  font-family: 'neue-haas-grotesk-text', sans-serif;
+  font-family: 'PPNeueMontreal', sans-serif;
   font-size: clamp(0.8rem, 0.875vw, 0.875rem); /* 데스크탑 기준 14px */
-  color: rgba(255, 255, 255, 0.78);
+  color: var(--c-on-bg);
   letter-spacing: 0.04em !important; /* 언어 전환 무관하게 자간 고정 */
   align-self: end;
 }
@@ -284,10 +294,10 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
 .footer-hl-group { display: flex; flex-direction: column; }
 .fhl {
   display: block;
-  font-family: 'neue-haas-grotesk-display', sans-serif; font-weight: 500;
+  font-family: 'PPNeueMontreal', sans-serif; font-weight: 500;
   font-size: clamp(2.2rem, 4.5vw, 4rem);
   line-height: 1.02;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.02em !important;
   text-transform: none;
   color: var(--c-on-bg);
   overflow: visible;
@@ -325,7 +335,7 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   gap: clamp(2px, 0.8vw, 8px);
 }
 .footer-link-item {
-  font-family: 'neue-haas-grotesk-display', sans-serif; font-weight: 500;
+  font-family: 'PPNeueMontreal', sans-serif; font-weight: 500;
   font-size: clamp(2.2rem, 4.5vw, 4rem);
   letter-spacing: -.02em;
   color: var(--c-on-bg); text-decoration: none;
@@ -358,13 +368,24 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
     line-height: 1.06;
   }
   .footer-bottom-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     row-gap: clamp(14px, 3vw, 20px);
-    align-items: start;
+    align-items: end;
+    margin-top: clamp(32px, 8vw, 56px);
   }
-  .footer-copy { grid-column: 1; }
-  .footer-bottom-row .footer-links { grid-column: 1; }
-  .footer-privacy { grid-column: 1; text-align: left; }
+  .footer-bottom-row .footer-links {
+    grid-column: 1 / 3;
+    grid-row: 1;
+  }
+  .footer-copy {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .footer-privacy {
+    grid-column: 2;
+    grid-row: 2;
+    text-align: right;
+  }
   .footer-links { gap: clamp(3px, 1.3vw, 8px); }
-  .footer-link-item { font-size: clamp(1.8rem, 10vw, 2.8rem); }
+  .footer-link-item { font-size: clamp(1.75rem, 8vw, 2.7rem); }
 }
