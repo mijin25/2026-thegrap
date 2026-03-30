@@ -8,7 +8,8 @@ from urllib.request import urlretrieve
 
 ROOT = Path(__file__).resolve().parents[1]
 CSV_PATH = ROOT / "레퍼런스 (수정 X)" / "더그랩 현재 웹사이트 CMS 데이터" / "thegrap - Works - 67722c5aae210395472679f4.csv"
-OUT_JSON = ROOT / "assets" / "data" / "works.json"
+OUT_LIST_JSON = ROOT / "assets" / "data" / "works.json"
+OUT_DETAIL_JSON = ROOT / "assets" / "data" / "works-detail.json"
 OUT_IMG_DIR = ROOT / "assets" / "work" / "thumbs"
 
 
@@ -69,6 +70,7 @@ def main() -> None:
         raise FileNotFoundError(f"CSV not found: {CSV_PATH}")
 
     works = []
+    works_detail = []
     with CSV_PATH.open("r", encoding="utf-8-sig", newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
@@ -96,9 +98,38 @@ def main() -> None:
                 }
             )
 
-    OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
-    OUT_JSON.write_text(json.dumps(works, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Saved {len(works)} items -> {OUT_JSON}")
+            gallery = []
+            for i in range(1, 16):
+                key = f"Image {i}"
+                val = (row.get(key) or "").strip()
+                if val:
+                    gallery.append(val)
+
+            works_detail.append(
+                {
+                    "title": name,
+                    "slug": slug,
+                    "year": normalize_year(row.get("Year", "")),
+                    "category": infer_category(row),
+                    "client": (row.get("Client") or "").strip(),
+                    "whatWeDid": (row.get("What We Did") or "").strip(),
+                    "industry": (row.get("Industry") or "").strip(),
+                    "date": (row.get("Date") or "").strip(),
+                    "summary": (row.get("Summary") or "").strip(),
+                    "overview": (row.get("Overview") or "").strip(),
+                    "projectLink": (row.get("Project Link") or "").strip(),
+                    "videoLink": (row.get("Video link") or "").strip(),
+                    "credits": (row.get("Credits") or "").strip(),
+                    "thumbnail": local_image or image_url,
+                    "gallery": gallery,
+                }
+            )
+
+    OUT_LIST_JSON.parent.mkdir(parents=True, exist_ok=True)
+    OUT_LIST_JSON.write_text(json.dumps(works, ensure_ascii=False, indent=2), encoding="utf-8")
+    OUT_DETAIL_JSON.write_text(json.dumps(works_detail, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(f"Saved {len(works)} list items -> {OUT_LIST_JSON}")
+    print(f"Saved {len(works_detail)} detail items -> {OUT_DETAIL_JSON}")
 
 
 if __name__ == "__main__":

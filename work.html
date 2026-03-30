@@ -10,23 +10,82 @@
   <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@5.0.1/dist/locomotive-scroll.css" />
-  <script src="gsap.min.js"></script>
+  <script src="js/vendor/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@5.0.1/dist/locomotive-scroll.min.js"></script>
   <script src="js/grap-header.js"></script>
   <style>
     /* ── WORK 페이지 전용 스타일 ── */
     .work-section { padding: clamp(80px,10vw,140px) var(--gutter); }
-    .work-section--no-hero { padding-top: calc(var(--header-h, 72px) + clamp(60px,8vw,120px)); }
+    .work-section--no-hero { padding-top: calc(var(--header-h, 72px) + clamp(118px, 12vw, 196px)); }
     .work-filters {
       display: flex; flex-wrap: wrap; align-items: baseline;
       gap: 0; margin-bottom: clamp(16px, 2vw, 24px);
+    }
+    .work-toolbar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 0;
+      margin-bottom: clamp(16px, 2vw, 24px);
+      position: relative;
+      z-index: 1301;
+    }
+    .work-toolbar .work-filters {
+      margin-bottom: 0;
+      flex: 1;
+    }
+    .work-view-toggle {
+      display: inline-flex;
+      gap: 14px;
+      align-items: center;
+      flex-shrink: 0;
+      padding-top: 0;
+      padding-left: 0;
+    }
+    .work-view-btn {
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-weight: 500;
+      font-size: clamp(1rem, 1.1vw, 1.25rem);
+      line-height: 1;
+      color: color-mix(in srgb, var(--c-on-bg) 42%, transparent);
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+    .work-view-btn:hover {
+      color: color-mix(in srgb, var(--c-on-bg) 68%, transparent);
+    }
+    .work-view-btn.active {
+      color: var(--c-on-bg);
+    }
+    .work-view-btn span {
+      background: none !important;
+      text-decoration: none;
+    }
+    .work-view-btn:hover span,
+    .work-view-btn.active span {
+      background: none !important;
     }
     .work-count {
       font-family: 'PPNeueMontreal', sans-serif;
       font-size: 1rem; letter-spacing: 0;
       text-transform: none; color: var(--c-on-bg);
       margin-bottom: clamp(36px, 5vw, 72px);
+    }
+    .work-meta-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: clamp(36px, 5vw, 72px);
+    }
+    .work-meta-row .work-count {
+      margin-bottom: 0;
     }
     .filter-btn {
       font-family: 'PPNeueMontreal', sans-serif; font-weight: 500;
@@ -42,11 +101,11 @@
       background-image: linear-gradient(currentColor, currentColor);
       background-repeat: no-repeat;
       background-position: left bottom 0.08em;
-      background-size: 0% 1px;
+      background-size: 0% 2px;
       transition: background-size .4s cubic-bezier(.25,.1,.25,1);
     }
     .filter-btn:hover span,
-    .filter-btn.active span { background-size: 100% 1px; }
+    .filter-btn.active span { background-size: 100% 2px; }
     .work-grid {
       display: grid;
       grid-template-columns: repeat(12, minmax(0, 1fr));
@@ -62,7 +121,7 @@
     .work-load-more-btn {
       font-family: 'PPNeueMontreal', sans-serif;
       font-weight: 500;
-      font-size: clamp(1.25rem, 2.2vw, 2.5rem);
+      font-size: clamp(2rem, 3.333vw, 4rem);
       line-height: 1;
       letter-spacing: -0.01em;
       color: var(--c-on-bg);
@@ -77,11 +136,11 @@
       background-image: linear-gradient(currentColor, currentColor);
       background-repeat: no-repeat;
       background-position: left bottom 0.08em;
-      background-size: 0% 1px;
+      background-size: 0% 2px;
       transition: background-size .4s cubic-bezier(.25,.1,.25,1);
     }
     .work-load-more-btn:hover span {
-      background-size: 100% 1px;
+      background-size: 100% 2px;
     }
     .work-item { cursor: pointer; grid-column: span 4; }
     /* 동적 렌더 카드가 reveal 초기상태(투명)로 남지 않게 고정 */
@@ -109,27 +168,22 @@
     }
     @media(max-width:480px) {
       .work-grid {
-        /* 레퍼런스 모바일처럼 좌(크게) 우(작게) 리듬 */
-        grid-template-columns: repeat(6, minmax(0, 1fr));
-        column-gap: 10px;
-        row-gap: 16px;
+        grid-template-columns: 1fr;
+        column-gap: 0;
+        row-gap: 30px;
       }
-      /* 모바일은 "큰(4col) + 작은(2col)"이 한 행을 꽉 채우게 고정 */
-      .work-item { grid-column: span 2; }
+      .work-item,
       .work-item--large,
-      .work-item--wide { grid-column: span 4; }
-      .work-item--small { grid-column: span 2; }
-
-      /* 가장 큰 카드가 너무 납작해 보이는 문제 방지 */
-      .work-item--wide .work-item-img { aspect-ratio: 4 / 5; }
-
-      /* 레퍼런스처럼 작은 카드는 "셀 전체"를 꽉 채우지 않기 */
-      .work-item--small {
-        justify-self: end;
-        width: 86%;
-      }
-      .work-item--small .work-item-img {
+      .work-item--small,
+      .work-item--wide {
+        grid-column: 1 / -1;
         width: 100%;
+        justify-self: stretch;
+      }
+    }
+    @media (max-width: 768px) {
+      .work-load-more-btn {
+        font-size: clamp(1.75rem, 8vw, 2.7rem);
       }
     }
     .work-item-img {
@@ -177,6 +231,9 @@
       line-height: 1.3;
       display: none;
     }
+    .work-list-category {
+      display: none;
+    }
     @media(min-width:901px) {
       /* 데스크톱 리스트 텍스트 크기 조정 */
       .work-name, .work-year, .work-tag {
@@ -196,9 +253,9 @@
       .work-name, .work-year, .work-tag { font-size: 1rem; }
     }
     @media(max-width:480px) {
-      .work-info { padding-top: 6px; }
-      .work-info-row { margin-bottom: 1px; gap: 6px; }
-      .work-name, .work-year, .work-tag { font-size: 0.82rem; line-height: 1.25; }
+      .work-info { padding-top: 10px; }
+      .work-info-row { margin-bottom: 2px; gap: 8px; }
+      .work-name, .work-year, .work-tag { font-size: 1rem; line-height: 1.25; }
     }
     .c1{background:linear-gradient(135deg,#181818,#282828);}
     .c2{background:linear-gradient(135deg,#141414,#242424);}
@@ -206,6 +263,147 @@
     .c4{background:linear-gradient(135deg,#101010,#202020);}
     .c5{background:linear-gradient(135deg,#161616,#262626);}
     .c6{background:linear-gradient(135deg,#121212,#222222);}
+
+    /* List View */
+    .work-grid.view-list {
+      display: block;
+    }
+    .work-grid.view-list .work-item {
+      display: block;
+      padding: clamp(8px, 1vw, 14px) 0;
+      grid-column: auto;
+      position: relative;
+      transition: background-color .2s ease;
+    }
+    .work-grid.view-list .work-item::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translateX(-50%);
+      width: 100vw;
+      height: 100%;
+      background: transparent;
+      pointer-events: none;
+      z-index: 0;
+      transition: background-color .2s ease;
+    }
+    .work-grid.view-list .work-item > * {
+      position: relative;
+      z-index: 1;
+    }
+    .work-grid.view-list .work-item-img,
+    .work-grid.view-list .work-tag {
+      display: none;
+    }
+    .work-grid.view-list .work-info {
+      padding-top: 0;
+      min-width: 0;
+    }
+    .work-grid.view-list .work-info-row {
+      margin: 0;
+      gap: clamp(16px, 2vw, 28px);
+      align-items: baseline;
+    }
+    .work-grid.view-list .work-name {
+      font-size: clamp(1.05rem, 1.4vw, 1.375rem);
+      line-height: 1.2;
+      color: var(--c-on-bg);
+      transition: color .2s ease;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .work-grid.view-list .work-list-category {
+      display: inline-flex;
+      align-items: center;
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-size: clamp(1.05rem, 1.4vw, 1.375rem);
+      line-height: 1.2;
+      color: var(--c-on-bg);
+      white-space: nowrap;
+      flex: 0 0 clamp(120px, 14vw, 220px);
+      justify-content: flex-start;
+      transition: color .2s ease;
+    }
+    .work-grid.view-list .work-year {
+      font-size: clamp(1.05rem, 1.4vw, 1.375rem);
+      line-height: 1.2;
+      color: var(--c-on-bg);
+      transition: color .25s ease;
+      flex: 0 0 auto;
+    }
+    .work-grid.view-list .work-item:hover {
+      background: transparent;
+    }
+    .work-grid.view-list .work-item:hover::before {
+      background: var(--c-primary);
+    }
+    .work-grid.view-list .work-item:hover .work-name,
+    .work-grid.view-list .work-item:hover .work-list-category,
+    .work-grid.view-list .work-item:hover .work-year {
+      color: #000;
+    }
+    @media (max-width: 900px) {
+      .work-toolbar {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .work-meta-row {
+        align-items: center;
+        margin-bottom: clamp(28px, 7vw, 44px);
+      }
+      .work-grid.view-list .work-item {
+        display: block;
+      }
+      .work-grid.view-list .work-list-category {
+        flex-basis: clamp(96px, 18vw, 160px);
+      }
+    }
+    @media (max-width: 480px) {
+      .work-grid.view-list .work-item {
+        gap: 10px;
+        padding: 8px 0;
+      }
+      .work-grid.view-list .work-name {
+        font-size: 1rem;
+        line-height: 1.25;
+      }
+      .work-grid.view-list .work-list-category {
+        display: none;
+      }
+      .work-grid.view-list .work-year {
+        font-size: 0.95rem;
+      }
+    }
+    .work-list-preview {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: min(26vw, 360px);
+      aspect-ratio: 16 / 12;
+      z-index: 1200;
+      pointer-events: none;
+      opacity: 0;
+      transform: translate3d(var(--preview-x, 60vw), var(--preview-y, 24vh), 0) scale(0.96);
+      transition: opacity .2s ease, transform .25s ease;
+      border: none;
+      background: #0f0f0f;
+      overflow: hidden;
+    }
+    .work-list-preview.is-visible {
+      opacity: 1;
+      transform: translate3d(var(--preview-x, 60vw), var(--preview-y, 24vh), 0) scale(1);
+    }
+    .work-list-preview-media {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      filter: saturate(1.02);
+    }
+    @media (hover: none), (max-width: 900px) {
+      .work-list-preview { display: none !important; }
+    }
   </style>
 </head>
 <body class="page-work">
@@ -220,17 +418,25 @@
        첫 번째 아이템에 featured 클래스 = 와이드
        ============================ -->
   <section class="work-section work-section--no-hero">
-    <div class="work-filters reveal">
-      <button class="filter-btn active" data-filter="all"><span data-i18n="work.filter.all">All Work</span></button>
-      <button class="filter-btn" data-filter="live"><span data-i18n="work.filter.live">Live</span></button>
-      <button class="filter-btn" data-filter="branding"><span data-i18n="work.filter.branding">Branding</span></button>
-      <button class="filter-btn" data-filter="campaign"><span data-i18n="work.filter.campaign">Campaign</span></button>
-      <button class="filter-btn" data-filter="website"><span data-i18n="work.filter.website">Website</span></button>
-      <button class="filter-btn" data-filter="app"><span data-i18n="work.filter.app">App</span></button>
-      <button class="filter-btn" data-filter="ecommerce"><span data-i18n="work.filter.ecommerce">E-Commerce</span></button>
-      <button class="filter-btn" data-filter="experience"><span data-i18n="work.filter.experience">Experience</span></button>
+    <div class="work-toolbar reveal">
+      <div class="work-filters">
+        <button class="filter-btn active" data-filter="all"><span data-i18n="work.filter.all">All Work</span></button>
+        <button class="filter-btn" data-filter="live"><span data-i18n="work.filter.live">Live</span></button>
+        <button class="filter-btn" data-filter="branding"><span data-i18n="work.filter.branding">Branding</span></button>
+        <button class="filter-btn" data-filter="campaign"><span data-i18n="work.filter.campaign">Campaign</span></button>
+        <button class="filter-btn" data-filter="website"><span data-i18n="work.filter.website">Website</span></button>
+        <button class="filter-btn" data-filter="app"><span data-i18n="work.filter.app">App</span></button>
+        <button class="filter-btn" data-filter="ecommerce"><span data-i18n="work.filter.ecommerce">E-Commerce</span></button>
+        <button class="filter-btn" data-filter="experience"><span data-i18n="work.filter.experience">Experience</span></button>
+      </div>
     </div>
-    <p class="work-count" id="workCount"></p>
+    <div class="work-meta-row">
+      <p class="work-count" id="workCount"></p>
+      <div class="work-view-toggle" aria-label="Work view mode">
+        <button class="work-view-btn active" type="button" data-view="grid"><span>Grid</span></button>
+        <button class="work-view-btn" type="button" data-view="list"><span>List</span></button>
+      </div>
+    </div>
     <div class="work-grid">
 
       <div class="work-item work-item--wide reveal" data-category="live" data-scroll data-scroll-speed="0.035">
@@ -371,6 +577,9 @@
       <button class="work-load-more-btn" id="workLoadMoreBtn" type="button"><span>Load more</span></button>
     </div>
   </section>
+  <div class="work-list-preview" id="workListPreview" aria-hidden="true">
+    <div class="work-list-preview-media" id="workListPreviewMedia"></div>
+  </div>
 
   <grap-footer></grap-footer>
   <script src="js/i18n.js?v=11"></script>
@@ -409,7 +618,9 @@
     ].filter(Boolean);
     const WORK_INITIAL_VISIBLE = 9;
     const WORK_LOAD_STEP = 6;
+    const WORK_LIST_VISIBLE = 80;
     let workActiveFilter = 'all';
+    let workViewMode = 'grid';
     let workVisibleLimit = WORK_INITIAL_VISIBLE;
     let workFilteredTotal = 0;
 
@@ -417,6 +628,17 @@
     function renderWorkItem(item, index) {
       const sizeClass = ['work-item--wide', 'work-item--small', 'work-item--large'][index % 3];
       const category = (item.category || item.Category || 'all').toLowerCase();
+      const categoryLabelMap = {
+        all: 'All',
+        live: 'Live',
+        branding: 'Branding',
+        campaign: 'Campaign',
+        website: 'Website',
+        app: 'App',
+        ecommerce: 'E-Commerce',
+        experience: 'Experience',
+      };
+      const categoryLabel = categoryLabelMap[category] || (item.category || item.Category || 'Other');
       const title = item.title || item.name || item.Name || '';
       const yearRaw = item.year || item.Year || '';
       const year = yearRaw ? `( ${String(yearRaw).replace(/[^\d]/g, '').slice(0, 4)} )` : '';
@@ -434,6 +656,7 @@
         <div class="work-info">
           <div class="work-info-row">
             <div class="work-name">${title}</div>
+            <div class="work-list-category">${categoryLabel}</div>
             <div class="work-year">${year}</div>
           </div>
           <div class="work-tag">${tag}</div>
@@ -453,14 +676,22 @@
       const allItems = Array.from(document.querySelectorAll('.work-item'));
       const filtered = allItems.filter(item => workActiveFilter === 'all' || item.dataset.category === workActiveFilter);
       workFilteredTotal = filtered.length;
+      const isListMode = workViewMode === 'list';
+      const visibleInList = Math.min(WORK_LIST_VISIBLE, filtered.length);
 
       allItems.forEach(item => { item.style.display = 'none'; });
       filtered.forEach((item, idx) => {
-        item.style.display = idx < workVisibleLimit ? '' : 'none';
+        item.style.display = idx < (isListMode ? visibleInList : workVisibleLimit) ? '' : 'none';
       });
 
       const btn = document.getElementById('workLoadMoreBtn');
-      if (btn) btn.style.display = filtered.length > workVisibleLimit ? '' : 'none';
+      if (btn) {
+        if (isListMode) {
+          btn.style.display = 'none';
+        } else {
+          btn.style.display = filtered.length > workVisibleLimit ? '' : 'none';
+        }
+      }
     }
 
     /* 필터 버튼 바인딩 */
@@ -487,6 +718,90 @@
         if (window.__workLoco) window.__workLoco.update();
         updateWorkCount();
       });
+    }
+
+    /* Grid/List 보기 모드 전환 */
+    function applyWorkViewMode() {
+      const grid = document.querySelector('.work-grid');
+      if (!grid) return;
+      grid.classList.toggle('view-list', workViewMode === 'list');
+    }
+
+    function bindViewToggle() {
+      document.querySelectorAll('.work-view-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.work-view-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          workViewMode = btn.dataset.view || 'grid';
+          applyWorkViewMode();
+          applyWorkVisibility(false);
+          updateWorkCount();
+          if (window.__workLoco) window.__workLoco.update();
+        });
+      });
+    }
+
+    function bindListHoverPreview() {
+      const grid = document.querySelector('.work-grid');
+      const section = document.querySelector('.work-section');
+      const preview = document.getElementById('workListPreview');
+      const media = document.getElementById('workListPreviewMedia');
+      if (!grid || !section || !preview || !media) return;
+
+      let activeItem = null;
+
+      function hidePreview() {
+        preview.classList.remove('is-visible');
+        activeItem = null;
+      }
+
+      function setPreviewImage(item) {
+        const bg = item.querySelector('.work-item-bg');
+        if (!bg) return;
+        const bgImage = getComputedStyle(bg).backgroundImage;
+        media.style.backgroundImage = bgImage && bgImage !== 'none' ? bgImage : 'none';
+      }
+
+      function placePreviewByRow(item) {
+        const rowRect = item.getBoundingClientRect();
+        const sectionRect = section.getBoundingClientRect();
+        const previewRect = preview.getBoundingClientRect();
+        const gutter = 18;
+        /* 12컬럼 기준 7컬럼 시작점 고정 */
+        const xFromCol7 = sectionRect.left + (sectionRect.width * (6 / 12));
+        let x = xFromCol7;
+        const targetY = rowRect.top + (rowRect.height * 0.5) - (previewRect.height * 0.5);
+        const y = Math.min(
+          window.innerHeight - previewRect.height - gutter,
+          Math.max(gutter, targetY)
+        );
+        const maxX = window.innerWidth - previewRect.width - gutter;
+        const clampedX = Math.min(maxX, Math.max(gutter, x));
+        preview.style.setProperty('--preview-x', `${clampedX}px`);
+        preview.style.setProperty('--preview-y', `${y}px`);
+      }
+
+      grid.addEventListener('mousemove', (e) => {
+        if (workViewMode !== 'list') {
+          hidePreview();
+          return;
+        }
+        const item = e.target.closest('.work-item');
+        if (!item || item.style.display === 'none') {
+          hidePreview();
+          return;
+        }
+        if (activeItem !== item) {
+          activeItem = item;
+          setPreviewImage(item);
+        }
+        placePreviewByRow(item);
+        preview.classList.add('is-visible');
+      });
+
+      grid.addEventListener('mouseleave', hidePreview);
+      window.addEventListener('scroll', hidePreview, { passive: true });
+      window.addEventListener('resize', hidePreview);
     }
 
     /* CMS 리스트 로드 (실패 시 기존 하드코딩 목록 유지) */
@@ -516,7 +831,10 @@
       if (!grid) return;
       await loadCmsWorks(grid);
       bindFilters();
+      bindViewToggle();
+      bindListHoverPreview();
       bindLoadMore();
+      applyWorkViewMode();
       applyWorkVisibility(true);
       updateWorkCount();
       if (window.__workLoco) window.__workLoco.update();

@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
   <link rel="stylesheet" href="css/base.css?v=3" />
-  <script src="gsap.min.js"></script>
+  <script src="js/vendor/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/grap-header.js"></script>
   <style>
@@ -61,13 +61,26 @@
       /* 데스크톱에서도 긴 카피가 뷰포트 밖으로 나가지 않게 줄바꿈 허용 */
       .page-hero .page-title--copy span {
         white-space: normal;
-        overflow-wrap: anywhere;
+        overflow-wrap: normal;
+        word-break: normal;
+        hyphens: auto;
       }
       .page-hero .hero-sub {
         margin-top: 24px;
       }
       .page-hero .hero-sub-text {
         max-width: 62ch;
+      }
+    }
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      .page-hero .page-title.page-title--copy {
+        font-size: clamp(56px, 5.8vw, 92px);
+        line-height: 0.98;
+      }
+      .page-hero .hero-sub-text {
+        font-size: clamp(0.9rem, 1.05vw, 1rem);
+        line-height: 1.68;
+        max-width: 58ch;
       }
     }
 
@@ -104,14 +117,16 @@
       overflow-wrap: break-word;
     }
     /* 언어별 우선 폰트 — 번역 텍스트 요소 */
-    html:lang(ko) .about-manifesto-text,
-    html:lang(ko) .cap-service { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
-    /* capabilities 좌(cap-label)·우(cap-service) 동일 굵기 500 — 예전 400 보정은 좌측 영문 라벨과 불균형 유발 */
-    html:lang(ko) .cap-label {
-      font-family: 'Pretendard', 'PPNeueMontreal', sans-serif;
-      font-weight: 500;
+    html:lang(ko) .about-manifesto-text {
+      font-family: 'PPNeueMontreal', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
     }
-    html:lang(ko) .cap-service { font-weight: 500; }
+    /* capabilities 좌(cap-label)·우(cap-service) 동일 굵기 500 — 예전 400 보정은 좌측 영문 라벨과 불균형 유발 */
+    html:lang(ko) .cap-label,
+    html:lang(ko) .cap-service {
+      font-family: 'PPNeueMontreal', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      font-weight: 500;
+      letter-spacing: -0.02em !important;
+    }
     /* 클라이언트명은 영문 고유명사 → neue-haas 최우선, Pretendard는 한글 fallback */
     html:lang(ko) .about-client-list span { font-family: 'PPNeueMontreal', 'Pretendard', sans-serif; }
     html:lang(zh-CN) .about-manifesto-text { font-family: 'PPNeueMontreal', 'Noto Sans TC', 'PingFang SC', 'Microsoft JhengHei', sans-serif; }
@@ -259,12 +274,12 @@
       background-image: linear-gradient(currentColor, currentColor);
       background-repeat: no-repeat;
       background-position: left bottom 0.08em;
-      background-size: 0% 1px;
+      background-size: 0% 2px;
       transition: background-size .4s cubic-bezier(.25,.1,.25,1);
     }
     .about-filter-tag:hover span,
     .about-filter-tag.active span {
-      background-size: 100% 1px;
+      background-size: 100% 2px;
     }
     /* 리스트 */
     .about-client-list {
@@ -301,10 +316,10 @@
 
   <!-- HERO -->
   <section class="page-hero">
-    <h1 class="page-title page-title--copy"><span>Born in Seoul</span><span>Built for the stage</span><span>Made for what lasts</span></h1>
+    <h1 class="page-title page-title--copy"><span>Born in Seoul,</span><span>built for the stage, made for what lasts</span></h1>
     <div class="hero-sub">
       <p class="hero-sub-text" data-i18n="about.hero.sub">
-        2013년 서울에서 디지털 에이전시로 출발해 K-POP 공연 기획과 아티스트 IP까지 영역을 넓혀왔습니다. Performance·IP·Digital — 세 축으로 엔터테인먼트의 처음과 끝을 함께 설계합니다.
+        2013년 서울에서 디지털 에이전시로 출발해 K-POP 공연 기획과 아티스트 IP까지 영역을 넓혀왔습니다. 공연사업부, IP&유통, 디지털 — 세 축으로 엔터테인먼트의 처음과 끝을 함께 설계합니다.
       </p>
     </div>
   </section>

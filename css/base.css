@@ -36,6 +36,14 @@
 
 /* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+/* 키보드 포커스 박스 완전 제거 요청 반영 */
+a:focus,
+a:focus-visible,
+button:focus,
+button:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
 /*
   scroll-behavior: smooth 는 휠/트랙패드 스크롤까지 보간해 “느리고 묵직한” 느낌을 줄 수 있음 →
   기본은 auto 로 네이티브 관성 스크롤 유지 (앵커 # 이동만 부드럽게 하려면 해당 페이지에서만 제한 적용 권장)
@@ -394,11 +402,11 @@ html:lang(ja) .page-hero .hero-sub-text {
   background-image: linear-gradient(currentColor, currentColor);
   background-repeat: no-repeat;
   background-position: left bottom 0.06em;
-  background-size: 0% 1px;
+  background-size: 0% 2px;
   transition: background-size .4s cubic-bezier(.25,.1,.25,1);
 }
 .footer-privacy:hover span {
-  background-size: 100% 1px;
+  background-size: 100% 2px;
 }
 /* Headline */
 .footer-hl-wrap {
@@ -462,11 +470,11 @@ html:lang(ja) .page-hero .hero-sub-text {
   background-image: linear-gradient(currentColor, currentColor);
   background-repeat: no-repeat;
   background-position: left bottom 0.06em;
-  background-size: 0% 1px;
+  background-size: 0% 2px;
   transition: background-size .4s cubic-bezier(.25,.1,.25,1);
 }
 .footer-link-item:hover span {
-  background-size: 100% 1px;
+  background-size: 100% 2px;
 }
 
 
@@ -501,7 +509,7 @@ html:lang(ja) .page-hero .hero-sub-text {
     text-align: right;
   }
   .footer-links { gap: clamp(6px, 1.3vw, 10px); }
-  .footer-copy { font-size: clamp(0.95rem, 3.8vw, 1.05rem); }
-  .footer-privacy { font-size: clamp(0.95rem, 3.8vw, 1.05rem); }
-  .footer-link-item { font-size: clamp(0.95rem, 3.8vw, 1.05rem); }
+  .footer-copy { font-size: clamp(1.75rem, 8vw, 2.7rem); }
+  .footer-privacy { font-size: clamp(1.75rem, 8vw, 2.7rem); }
+  .footer-link-item { font-size: clamp(1.75rem, 8vw, 2.7rem); }
 }

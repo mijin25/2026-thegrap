@@ -89,6 +89,7 @@ class GrapFooter extends HTMLElement {
     const cta = this.querySelector('.footer-cta-btn');
     const links = this.querySelectorAll('.footer-links .footer-link-item');
     const bottomItems = this.querySelectorAll('.footer-copy, .footer-privacy');
+    const bottomAll = this.querySelectorAll('.footer-links .footer-link-item, .footer-copy, .footer-privacy');
 
     // ── 헤드라인 슬라이드업 ──
     if (typeof ScrollTrigger !== 'undefined') {
@@ -100,7 +101,7 @@ class GrapFooter extends HTMLElement {
         }
       );
 
-      // CTA → SNS → 카피/개인정보 순서로 노출되도록 타임라인 구성
+      // CTA 이후 하단 행(SNS/카피/개인정보)은 동시에 노출
       const tl = gsap.timeline({
         scrollTrigger: { trigger: '#site-footer', start: isMobile ? 'top 92%' : 'top 88%', once: true }
       });
@@ -109,20 +110,11 @@ class GrapFooter extends HTMLElement {
         tl.fromTo(cta, { opacity: 0, y: isMobile ? 12 : 18 }, { opacity: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 0);
       }
 
-      if (links.length) {
+      if (bottomAll.length) {
         tl.fromTo(
-          links,
-          { opacity: 0, y: isMobile ? 14 : 20 },
-          { opacity: 1, y: 0, duration: isMobile ? 0.5 : 0.65, ease: 'power2.out', stagger: 0.06 },
-          '>-0.05'
-        );
-      }
-
-      if (bottomItems.length) {
-        tl.fromTo(
-          bottomItems,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out', stagger: 0.04 },
+          bottomAll,
+          { opacity: 0, y: isMobile ? 10 : 14 },
+          { opacity: 1, y: 0, duration: isMobile ? 0.5 : 0.6, ease: 'power2.out', stagger: 0.03 },
           '>-0.08'
         );
       }

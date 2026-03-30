@@ -20,7 +20,7 @@ const GRAP_I18N = {
     ja: '2013年にソウルでデジタルエージェンシーとして創業したTHE GRAPは、K‑POP公演制作とアーティストIP事業へと拡大しました。現在はグローバルブランド向けのデジタルエクスペリエンス部門と、アジア全域でK‑POP公演を制作するパフォーマンス部門を運営しています。二つの領域、一つの原則 — 観客体験への飽くなき集中。',
   },
   'about.hero.sub': {
-    ko: '2013년 서울에서 디지털 에이전시로 출발해 K-POP 공연 기획과 아티스트 IP까지 영역을 넓혀왔습니다. Performance·IP·Digital — 세 축으로 엔터테인먼트의 처음과 끝을 함께 설계합니다.',
+    ko: '2013년 서울에서 디지털 에이전시로 출발해 K-POP 공연 기획과 아티스트 IP까지 영역을 넓혀왔습니다. 공연사업부, IP&유통, 디지털 — 세 축으로 엔터테인먼트의 처음과 끝을 함께 설계합니다.',
     en: 'We started in Seoul in 2013 as a digital agency and have grown into live performance production and artist IP — bridging global-brand digital work with K-POP stages across Asia. Everything we do ties back to one thing: a seamless audience journey across digital, live, and merchandise. On this page you’ll find how we structure Performance, IP, and Digital, followed by clients and partners we’ve built with over the years.',
     zh: '2013年创立于首尔，从数字代理商发展为涵盖现场演出与艺人IP的综合团队。我们以服务全球品牌的数字体验与横跨亚洲的K‑POP演出为两轴，串联数字、现场与周边，追求完整的观众体验。本页先分述 Performance、IP、Digital 的具体服务，再介绍长期合作的客户与伙伴。',
     ja: '2013年にソウルでデジタルエージェンシーとして始まり、ライブ公演制作とアーティストIPへと領域を広げてきました。グローバルブランド向けのデジタル体験と、アジア全域のK‑POPステージをつなぐ二本柱のもと、デジタル・ライブ・グッズが途切れない観客体験を目指しています。Performance・IP・Digital のサービス内容に加え、長年ご一緒してきたクライアントとパートナーを掲載しています。',
@@ -91,12 +91,10 @@ const GRAP_I18N = {
   'contact.form.submit': { ko: '보내기', en: 'Send', zh: '发送', ja: '送信' },
 
   /* ── BUSINESS PAGE ── */
-  'biz.copy.line1':  { ko: 'Shows that sell out', en: 'Shows that sell out', zh: 'Shows that sell out', ja: 'Shows that sell out' },
-  'biz.copy.line2':  { ko: 'Merch fans keep', en: 'Merch fans keep', zh: 'Merch fans keep', ja: 'Merch fans keep' },
-  'biz.copy.line3':  { ko: 'Worlds that outlast the tour', en: 'Worlds that outlast the tour', zh: 'Worlds that outlast the tour', ja: 'Worlds that outlast the tour' },
+  'biz.copy':  { ko: 'Big shows, merch fans love, stories that stay', en: 'Big shows, merch fans love, stories that stay', zh: 'Big shows, merch fans love, stories that stay', ja: 'Big shows, merch fans love, stories that stay' },
   /* 히어로 서브: 예전 biz.intro + biz.hero.sub 통합 */
   'biz.hero.sub': {
-    ko: '공연은 끝나도 기억은 남습니다. 더그랩은 무대 위의 에너지가 굿즈와 디지털 경험으로 이어지도록 설계합니다. Performance·IP·Digital 세 축에서 제공하는 서비스를 확인해 보세요.',
+    ko: '공연은 끝나도 기억은 남습니다. 더그랩은 무대 위의 에너지가 굿즈와 디지털 경험으로 이어지도록 설계합니다. 공연사업부, IP&유통, 디지털 — 세 축에서 제공하는 서비스를 확인해 보세요.',
     en: 'Concert production, artist IP merchandise, and digital experience — three pillars that carry a project from first idea to the venue floor, and from physical merch to the screens fans live on. We extend the energy of the stage into products and platforms so brands and artists stay in one coherent story. The three blocks below spell out what we do in each lane and the keywords you’ll see in a typical brief.',
     zh: 'K-POP演出制作、艺人IP周边与数字体验 — 三大板块贯穿从创意到现场、从实体周边到线上触点的完整链路。我们把舞台张力延伸到商品与数字体验，让品牌与艺人讲述同一条叙事线。以下三节分别说明各领域的典型工作，以及合作中常见的关键词。',
     ja: 'K‑POP公演制作、アーティストIPグッズ、デジタルエクスペリエンス — 三本柱で、企画から現場運営、ファンの手元に届くプロダクトと画面までを一続きの体験として設計します。ステージの熱量をグッズとオンラインへ広げ、ブランドとアーティストが同じ物語を語れるようにします。下の三セクションでは各領域の主な業務と、実際の協業で扱うキーワードをまとめています。',

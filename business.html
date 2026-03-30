@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
   <link rel="stylesheet" href="css/base.css?v=3" />
-  <script src="gsap.min.js"></script>
+  <script src="js/vendor/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/grap-header.js"></script>
   <style>
@@ -45,14 +45,33 @@
         grid-column: 7 / 13;
       }
     }
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      .page-hero .page-title.page-title--copy {
+        font-size: clamp(56px, 5.8vw, 92px);
+        line-height: 0.98;
+      }
+      .page-hero .hero-sub-text {
+        font-size: clamp(0.9rem, 1.05vw, 1rem);
+        line-height: 1.68;
+        max-width: 58ch;
+      }
+    }
 
     .page-title--copy {
       text-transform: none;
       display: flex;
       flex-direction: column;
-      clip-path: inset(-0.5em -9999px -0.25em -9999px);
+      clip-path: none;
     }
-    .page-title--copy span { white-space: nowrap; }
+    .page-title--copy span {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      white-space: normal;
+      overflow-wrap: normal;
+      word-break: normal;
+      hyphens: auto;
+    }
     body.page-business .page-title--copy span {
       transform: translateY(0);
     }
@@ -168,13 +187,11 @@
 
   <section class="page-hero">
     <h1 class="page-title page-title--copy">
-      <span data-i18n="biz.copy.line1">Shows that sell out</span>
-      <span data-i18n="biz.copy.line2">Merch fans keep</span>
-      <span data-i18n="biz.copy.line3">Worlds that outlast the tour</span>
+      <span data-i18n="biz.copy">Big shows, merch fans love, stories that stay</span>
     </h1>
     <div class="hero-sub">
       <p class="hero-sub-text" data-i18n="biz.hero.sub">
-        공연은 끝나도 기억은 남습니다. 더그랩은 무대 위의 에너지가 굿즈와 디지털 경험으로 이어지도록 설계합니다. Performance·IP·Digital 세 축에서 제공하는 서비스를 확인해 보세요.
+        공연은 끝나도 기억은 남습니다. 더그랩은 무대 위의 에너지가 굿즈와 디지털 경험으로 이어지도록 설계합니다. 공연사업부, IP&유통, 디지털 — 세 축에서 제공하는 서비스를 확인해 보세요.
       </p>
     </div>
   </section>
