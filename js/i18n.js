@@ -21,9 +21,9 @@ const GRAP_I18N = {
   },
   'about.hero.sub': {
     ko: '2013년 서울에서 디지털 에이전시로 출발해 K-POP 공연 기획과 아티스트 IP까지 영역을 넓혀왔습니다. 공연사업부, IP&유통, 디지털 — 세 축으로 엔터테인먼트의 처음과 끝을 함께 설계합니다.',
-    en: 'We started in Seoul in 2013 as a digital agency and have grown into live performance production and artist IP — bridging global-brand digital work with K-POP stages across Asia. Everything we do ties back to one thing: a seamless audience journey across digital, live, and merchandise. On this page you’ll find how we structure Performance, IP, and Digital, followed by clients and partners we’ve built with over the years.',
-    zh: '2013年创立于首尔，从数字代理商发展为涵盖现场演出与艺人IP的综合团队。我们以服务全球品牌的数字体验与横跨亚洲的K‑POP演出为两轴，串联数字、现场与周边，追求完整的观众体验。本页先分述 Performance、IP、Digital 的具体服务，再介绍长期合作的客户与伙伴。',
-    ja: '2013年にソウルでデジタルエージェンシーとして始まり、ライブ公演制作とアーティストIPへと領域を広げてきました。グローバルブランド向けのデジタル体験と、アジア全域のK‑POPステージをつなぐ二本柱のもと、デジタル・ライブ・グッズが途切れない観客体験を目指しています。Performance・IP・Digital のサービス内容に加え、長年ご一緒してきたクライアントとパートナーを掲載しています。',
+    en: 'Starting in Seoul in 2013 as a digital agency, we have expanded into K-POP performance production and artist IP. Across Performance, IP & Distribution, and Digital, we design every step of entertainment from first concept to final fan touchpoint.',
+    zh: '我们于2013年在首尔以数字代理商起步，并逐步拓展到K-POP演出策划与艺人IP。以演出事业部、IP与流通、数字三大板块为核心，我们共同设计娱乐体验从起点到终点的每一个环节。',
+    ja: '2013年にソウルでデジタルエージェンシーとして出発し、K-POP公演企画とアーティストIPへと領域を広げてきました。パフォーマンス、IP＆流通、デジタルの三軸で、エンターテインメントの最初から最後までを一貫して設計します。',
   },
   /* Capabilities — Digital */
   'about.cap.d1': { ko: '브랜드 아이덴티티', en: 'Brand Identity', zh: '品牌视觉设计', ja: 'ブランドアイデンティティ' },

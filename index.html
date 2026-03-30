@@ -7,6 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet" />
 
   <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
@@ -52,8 +53,8 @@
       overflow: visible;
       clip-path: inset(-0.5em -9999px 0 -9999px);
       font-family: 'PPNeueMontreal', sans-serif;
-      font-weight: 600; text-transform: uppercase;
-      font-size: clamp(2.5rem, 10vw, 20rem);
+      font-weight: 500; text-transform: uppercase;
+      font-size: clamp(2.8rem, 10.8vw, 21rem);
       line-height: .86;
       color: var(--c-on-bg);
       letter-spacing: -.04em;
@@ -62,6 +63,13 @@
     .hl-left  { text-align: left; margin-left: -0.04em; }
     .hl-right { text-align: right; }
     .hl-inner { display: inline-block; transform: translateY(110%); }
+    .hl-accent {
+      font-family: "Instrument Serif", serif;
+      font-weight: 400;
+      font-style: italic;
+      text-transform: none;
+      letter-spacing: -0.01em !important;
+    }
     /* 영문 고정 텍스트 — 언어 전환과 무관하게 자간 고정 */
     html .hero-headline .hl-inner { letter-spacing: -.04em !important; }
     .hero-headline--mobile { display: none; }
@@ -95,7 +103,7 @@
       .hero-headline--desktop { display: none; }
       .hero-headline--mobile  { display: flex; flex-direction: column; }
       .hero-headline { padding: 0 var(--gutter); bottom: 136px; }
-      .hero-line { font-size: calc((100vw - 48px) / 5); line-height: .92; }
+      .hero-line { font-size: calc((100vw - 3rem) / 5); line-height: .92; }
       .hero-desc { font-size: var(--text-base); max-width: 260px; }
     }
   </style>
@@ -111,14 +119,14 @@
 
     <!-- Desktop: 2줄 -->
     <h1 class="hero-headline hero-headline--desktop">
-      <span class="hero-line hl-left"><span class="hl-inner">FROM GRID</span></span>
-      <span class="hero-line hl-right"><span class="hl-inner">TO GROUND</span></span>
+      <span class="hero-line hl-left"><span class="hl-inner"><span class="hl-accent">From</span> GRID</span></span>
+      <span class="hero-line hl-right"><span class="hl-inner"><span class="hl-accent">To</span> GROUND</span></span>
     </h1>
     <!-- Mobile: 4줄 -->
     <h1 class="hero-headline hero-headline--mobile">
-      <span class="hero-line hl-left"><span class="hl-inner">FROM</span></span>
+      <span class="hero-line hl-left"><span class="hl-inner"><span class="hl-accent">From</span></span></span>
       <span class="hero-line hl-right"><span class="hl-inner">GRID</span></span>
-      <span class="hero-line hl-left"><span class="hl-inner">TO</span></span>
+      <span class="hero-line hl-left"><span class="hl-inner"><span class="hl-accent">To</span></span></span>
       <span class="hero-line hl-right"><span class="hl-inner">GROUND</span></span>
     </h1>
 

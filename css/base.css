@@ -32,6 +32,8 @@
   --text-base: 1rem;
   --text-md:   1.125rem;
   --text-lg:   1.25rem;
+  --font-size-body-medium: 1.3125rem;
+  --line-height-body-medium: 1.6;
 }
 
 /* ── RESET ── */
@@ -252,6 +254,7 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   display: flex;
   flex-direction: column;
   clip-path: inset(-0.5em -9999px -0.25em -9999px);
+  margin-left: 0;
 }
 
 /*
@@ -294,8 +297,8 @@ html:lang(ja) .page-hero .hero-sub-text {
 }
 @media (max-width: 768px) {
   .page-hero .hero-sub-text {
-    font-size: 15px;
-    line-height: 24px;
+    font-size: 0.9375rem;
+    line-height: 1.5rem;
     max-width: 100%;
   }
   /* 모바일에서 긴 카피 우측 잘림 방지 */

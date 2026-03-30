@@ -6,6 +6,7 @@
   <title>ABOUT — THE GRAP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
   <link rel="stylesheet" href="css/base.css?v=3" />
   <script src="js/vendor/gsap.min.js"></script>
@@ -21,7 +22,6 @@
     .about-cap-section,
     .about-clients,
     grap-footer { position: relative; z-index: 1; }
-
     /* ── HERO ── */
     .page-hero {
       min-height: 100vh;
@@ -45,41 +45,56 @@
       .page-hero {
         display: grid;
         grid-template-columns: repeat(12, minmax(0, 1fr));
+        column-gap: clamp(14px, 1.6vw, 24px);
         align-content: end;
         row-gap: 0;
       }
-      .page-hero .page-title--copy,
-      .page-hero .hero-sub {
-        grid-column: 7 / 13;
-      }
+      .page-hero .page-title--copy { grid-column: 1 / 13; }
+      .page-hero .hero-sub { grid-column: 7 / 13; }
       .page-hero .page-title.page-title--copy {
-        font-size: clamp(72px, 6.6vw, 120px);
-        line-height: clamp(72px, 6.6vw, 120px);
+        font-size: clamp(4.5rem, 6.6vw, 7.5rem);
+        line-height: clamp(4.5rem, 6.6vw, 7.5rem);
         letter-spacing: -0.02em;
         max-width: 100%;
       }
       /* 데스크톱에서도 긴 카피가 뷰포트 밖으로 나가지 않게 줄바꿈 허용 */
       .page-hero .page-title--copy span {
+        display: block;
+        width: 100%;
         white-space: normal;
         overflow-wrap: normal;
         word-break: normal;
         hyphens: auto;
       }
+      .page-hero .page-title--copy { display: block; }
+      .page-hero .page-title--copy span { text-align: left; }
       .page-hero .hero-sub {
         margin-top: 24px;
       }
       .page-hero .hero-sub-text {
         max-width: 62ch;
       }
+      /* about 메인 카피는 8컬럼까지만 사용 */
+      body.page-about .page-hero .page-title--copy {
+        grid-column: 1 / 9;
+      }
+      /* about 히어로 서브카피를 브라우저 좌측 기준으로 정렬 */
+      body.page-about .page-hero .hero-sub {
+        grid-column: 1 / 5;
+        margin-left: 0;
+      }
+      body.page-about .page-hero .hero-sub-text {
+        max-width: 100%;
+      }
     }
     @media (min-width: 1024px) and (max-width: 1279px) {
       .page-hero .page-title.page-title--copy {
-        font-size: clamp(56px, 5.8vw, 92px);
+        font-size: clamp(3.5rem, 5.8vw, 5.75rem);
         line-height: 0.98;
       }
       .page-hero .hero-sub-text {
-        font-size: clamp(0.9rem, 1.05vw, 1rem);
-        line-height: 1.68;
+        font-size: var(--font-size-body-medium);
+        line-height: var(--line-height-body-medium);
         max-width: 58ch;
       }
     }
@@ -92,12 +107,23 @@
       clip-path: inset(-0.5em -9999px -0.25em -9999px); /* 하단 여유 확보 (디센더 보정) */
     }
     .page-title--copy span { white-space: nowrap; }
+    .about-copy-break { display: none; }
+    @media (min-width: 1024px) {
+      .about-copy-break { display: block; }
+    }
     /* base.css .page-title span 의 translateY(110%) 리빌이 ABOUT 히어로 GSAP과 충돌 → 초기 위치 고정 */
     body.page-about .page-title--copy span {
       transform: translateY(0);
     }
 
     /* 모바일 히어로 타이틀: css/base.css */
+    @media (max-width: 768px) {
+      /* 모바일에서 about 메인 카피 존재감을 조금 더 키움 */
+      body.page-about .page-hero .page-title.page-title--copy {
+        font-size: clamp(2.6rem, 12.8vw, 3.9rem);
+        line-height: 0.92;
+      }
+    }
 
     /* hero-sub 타이포는 css/base.css 공통 규칙 사용 */
 
@@ -120,9 +146,10 @@
     html:lang(ko) .about-manifesto-text {
       font-family: 'PPNeueMontreal', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
     }
-    /* capabilities 좌(cap-label)·우(cap-service) 동일 굵기 500 — 예전 400 보정은 좌측 영문 라벨과 불균형 유발 */
+    /* capabilities 타이포 톤 통일 */
     html:lang(ko) .cap-label,
-    html:lang(ko) .cap-service {
+    html:lang(ko) .cap-service,
+    html:lang(ko) .cap-group-label {
       font-family: 'PPNeueMontreal', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
       font-weight: 500;
       letter-spacing: -0.02em !important;
@@ -165,94 +192,159 @@
       .about-story-text { margin-left: 0; padding: 0 var(--gutter); }
     }
 
-    /* ── CAPABILITIES ── */
+    /* ── CAPABILITIES (reference-like editorial rows) ── */
     .about-cap-section {
       display: grid;
       grid-template-columns: repeat(12, minmax(0, 1fr));
-      padding-inline: var(--gutter);
-      column-gap: 0;
-      /* align-items: stretch (기본) — 양 컬럼 높이 동일, sticky 해제 타이밍 정확 */
+      column-gap: clamp(14px, 1.6vw, 24px);
+      padding: clamp(88px, 10vw, 148px) var(--gutter) clamp(56px, 7vw, 96px);
     }
-
-    /* 좌: 높이를 우측과 동일하게 stretch — 라벨 자체에 sticky */
     .about-cap-left {
+      display: block;
       grid-column: 1 / 7;
-      padding: clamp(80px,10vw,140px) 0 0;
+    }
+    .about-cap-marquee {
+      grid-column: 1 / -1;
+      width: 100vw;
+      margin-left: calc(50% - 50vw);
+      margin-right: calc(50% - 50vw);
+      overflow: hidden;
+      margin-bottom: clamp(68px, 8vw, 116px);
+      white-space: nowrap;
+      padding: clamp(6px, 0.8vw, 12px) 0;
+    }
+    .about-cap-marquee-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      min-width: max-content;
+      font-family: 'Instrument Serif', serif;
+      font-weight: 400;
+      font-style: normal;
+      font-size: clamp(4.5rem, 6.2vw, 7.5rem);
+      line-height: 1.05;
+      letter-spacing: -0.015em;
+      color: color-mix(in srgb, var(--c-on-bg) 82%, transparent);
+      animation: capMarqueeRight 40s linear infinite;
+      will-change: transform;
+    }
+    .about-cap-marquee-track span {
+      flex: none;
+      padding-right: clamp(20px, 2.2vw, 36px);
+    }
+    @keyframes capMarqueeRight {
+      from { transform: translateX(0%); }
+      to { transform: translateX(-50%); }
     }
     .cap-label {
       position: sticky;
-      top: var(--cap-label-top, calc(50vh - 1.5rem));
-      /* 라벨 중앙이 뷰포트 중앙에 오도록 JS에서 동적 보정 */
+      top: max(90px, 12vh);
       font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
       font-weight: 500;
-      font-size: clamp(2.2rem, 4.5vw, 4rem);
-      line-height: 1;
+      font-size: clamp(1.2rem, 1.5vw, 1.7rem);
+      line-height: 1.2;
       letter-spacing: 0;
-      color: #ffffff;
+      color: var(--c-on-bg);
+      text-transform: none;
     }
-
-    /* 우: 연속 스크롤 서비스 리스트 */
     .about-cap-right {
       grid-column: 7 / 13;
-      padding: clamp(80px,10vw,140px) 0 var(--cap-right-end-gap, calc(50vh - 2rem));
+      display: flex;
+      flex-direction: column;
+      gap: clamp(30px, 4.2vw, 64px);
+      padding: 0;
       font-weight: 500;
-      /* 마지막 아이템 중앙과 라벨 중앙을 맞추기 위해 JS에서 동적으로 보정 */
     }
-    .cap-service {
-      /* Pretendard: 한글 unicode-range 500 weight 적용 */
+    .cap-group {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      column-gap: clamp(12px, 1.2vw, 18px);
+      align-items: start;
+      width: 100%;
+      max-width: 100%;
+    }
+    .cap-anchor,
+    .cap-group-gap {
+      display: none;
+    }
+    .cap-group-label {
+      display: block;
+      grid-column: 1 / 3;
       font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
       font-weight: 500;
-      font-size: clamp(2.2rem, 4.5vw, 4rem);
-      line-height: 1.25;
+      font-size: clamp(1.2rem, 1.4vw, 1.6rem);
+      line-height: 1.2;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--c-on-bg);
+      padding-top: 0;
+      margin-bottom: 0;
+    }
+    .cap-service {
+      grid-column: 3 / 7;
+      font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
+      font-weight: 500;
+      font-size: clamp(1.2rem, 1.4vw, 1.6rem);
+      line-height: 1.2;
       letter-spacing: 0;
       color: #ffffff;
-      padding: clamp(10px,1.2vw,18px) 0;
+      padding: 3px 0;
     }
-    .cap-group-gap { display: none; }
-    /* 데스크탑: 그룹 래퍼 투명 처리 */
-    .cap-group { display: contents; }
-
-    /* 그룹 라벨: 데스크탑에서 숨김 (좌측 cap-label이 담당) */
-    .cap-group-label { display: none; }
 
     @media (max-width: 768px) {
-      /* 섹션: 단일 컬럼, 패딩 포함 */
-      .about-cap-section { display: block; padding: clamp(60px,8vw,100px) var(--gutter); }
-      /* 좌측 sticky 패널 숨김 — 각 그룹 내 라벨이 담당 */
-      .about-cap-left { display: none; }
-      .about-cap-right { padding: 0; }
-      /* 각 그룹: 2컬럼 그리드 (라벨 auto / 서비스 1fr) */
-      .cap-group { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: clamp(28px,6vw,40px); }
-      .cap-anchor { display: none; }
-      /* 그룹 라벨·서비스명 동일 타입 스케일 — 구분은 굵기만(라벨 600) */
-      .cap-group-label {
+      .about-cap-section {
         display: block;
-        grid-column: 1; grid-row: 1 / span 99;
-        font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
-        font-weight: 600;
-        font-size: 15px;
-        line-height: 24px;
-        letter-spacing: -0.02em;
-        padding-top: 3px;
+        padding: clamp(60px,8vw,100px) var(--gutter);
+      }
+      .about-cap-marquee {
+        display: block;
+        width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        margin-bottom: clamp(42px, 9vw, 62px);
+        padding: clamp(4px, 1.4vw, 8px) 0;
+      }
+      .about-cap-marquee-track {
+        font-size: clamp(2.25rem, 10.5vw, 4rem);
+        line-height: 1.08;
+      }
+      .about-cap-right {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(28px, 6vw, 42px);
+        grid-column: auto;
+      }
+      .cap-group {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: clamp(12px, 3.6vw, 20px);
+        margin-bottom: 0;
+      }
+      .about-cap-left { display: none; }
+      .cap-group-label {
+        grid-column: 1;
+        grid-row: 1;
+        font-size: 0.9375rem;
+        line-height: 1.5rem;
+        letter-spacing: 0;
         color: var(--c-on-bg);
+        margin-bottom: 0;
       }
       .cap-service {
         grid-column: 2;
-        font-size: 15px;
-        line-height: 24px;
+        font-size: 0.9375rem;
+        line-height: 1.5rem;
         font-weight: 500;
-        padding: clamp(4px, 1.2vw, 8px) 0;
-        border-bottom: none;
+        padding: 0 0 4px;
         overflow-wrap: anywhere;
       }
-      .cap-group-gap { display: none; }
       .about-clients { padding: clamp(88px,12vw,120px) var(--gutter) clamp(72px,10vw,100px); }
 
     }
 
     /* ── CLIENTS & PARTNERS ── */
     .about-clients {
-      padding: clamp(120px,12vw,180px) var(--gutter) clamp(80px,10vw,140px);
+      padding: clamp(96px,10vw,156px) var(--gutter) clamp(80px,10vw,140px);
     }
     /* 필터 바 */
     .about-filter-bar {
@@ -316,7 +408,7 @@
 
   <!-- HERO -->
   <section class="page-hero">
-    <h1 class="page-title page-title--copy"><span>Born in Seoul,</span><span>built for the stage, made for what lasts</span></h1>
+    <h1 class="page-title page-title--copy"><span>Born in Seoul,<br class="about-copy-break"> built for the stage,<br class="about-copy-break"> made to last</span></h1>
     <div class="hero-sub">
       <p class="hero-sub-text" data-i18n="about.hero.sub">
         2013년 서울에서 디지털 에이전시로 출발해 K-POP 공연 기획과 아티스트 IP까지 영역을 넓혀왔습니다. 공연사업부, IP&유통, 디지털 — 세 축으로 엔터테인먼트의 처음과 끝을 함께 설계합니다.
@@ -327,15 +419,23 @@
   <!-- CAPABILITIES -->
   <section class="about-cap-section">
 
+    <div class="about-cap-marquee" aria-hidden="true">
+      <div class="about-cap-marquee-track">
+        <span>Performance ✶ IP ✳ Digital ◎ Global ◌ *</span>
+        <span>Performance ◎ IP ✶ Digital * Global ✳ ◌</span>
+        <span>Performance ◌ IP * Digital ✶ Global ◎ ✳</span>
+      </div>
+    </div>
+
     <!-- 좌: sticky 카테고리 (고정, 스크롤 시 텍스트만 교체) -->
     <div class="about-cap-left">
-      <div class="cap-label" data-i18n="about.cap.label.perf2">Performance</div>
+      <div class="cap-label">What We Do</div>
     </div>
 
     <!-- 우: 연속 서비스 리스트 -->
     <div class="about-cap-right">
 
-      <div class="cap-group" data-label="about.cap.label.perf2">
+      <div class="cap-group cap-group--perf" data-label="about.cap.label.perf2">
         <div class="cap-anchor" id="cap-perf"></div>
         <div class="cap-group-label" data-i18n="about.cap.label.perf2">Performance</div>
         <div class="cap-service" data-i18n="about.cap.p1">Live Event Co-Production</div>
@@ -346,7 +446,7 @@
       </div>
 
       <div class="cap-group-gap"></div>
-      <div class="cap-group" data-label="about.cap.label.ip">
+      <div class="cap-group cap-group--ip" data-label="about.cap.label.ip">
         <div class="cap-anchor" id="cap-ip"></div>
         <div class="cap-group-label" data-i18n="about.cap.label.ip">IP</div>
         <div class="cap-service" data-i18n="about.cap.i1">Artist IP Merchandise</div>
@@ -357,7 +457,7 @@
       </div>
 
       <div class="cap-group-gap"></div>
-      <div class="cap-group" data-label="about.cap.label.dig">
+      <div class="cap-group cap-group--dig" data-label="about.cap.label.dig">
         <div class="cap-anchor" id="cap-dig"></div>
         <div class="cap-group-label" data-i18n="about.cap.label.dig">Digital</div>
         <div class="cap-service" data-i18n="about.cap.d1">Brand Identity</div>
@@ -458,78 +558,7 @@
     })();
   </script>
   <script>
-    /* ── Capabilities: 좌=pin 라벨, 우=blur focus ── */
-    (function () {
-      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-
-      const capLabel = document.querySelector('.cap-label');
-      const capRight = document.querySelector('.about-cap-right');
-      const capLastService = document.querySelector('.about-cap-right .cap-group:last-of-type .cap-service:last-of-type');
-      const anchors  = [
-        document.getElementById('cap-perf'),
-        document.getElementById('cap-ip'),
-        document.getElementById('cap-dig'),
-      ];
-      if (!capLabel || !anchors[0] || !capRight || !capLastService) return;
-
-      /* ─ 왼쪽: CSS sticky로 교체 — GSAP pin 제거 ─ */
-
-      // 라벨/마지막 항목 실제 높이 기준으로 중앙 정렬 시점을 맞춤
-      const syncCapScrollTiming = () => {
-        const labelHeight = capLabel.offsetHeight;
-        const lastHeight = capLastService.offsetHeight;
-        const labelTop = Math.max(0, (window.innerHeight * 0.5) - (labelHeight * 0.5));
-
-        /*
-          sticky 해제 시점: 컨테이너 bottom == (labelTop + labelHeight)
-          이 순간 마지막 항목 중심이 뷰포트 중앙(50vh)에 오려면
-          padding-bottom = (labelHeight/2) - (lastHeight/2)
-        */
-        const endGap = Math.max(0, (labelHeight - lastHeight) * 0.5);
-
-        capLabel.style.setProperty('--cap-label-top', `${labelTop}px`);
-        capRight.style.setProperty('--cap-right-end-gap', `${endGap}px`);
-      };
-      syncCapScrollTiming();
-      window.addEventListener('resize', syncCapScrollTiming);
-      window.addEventListener('load', syncCapScrollTiming);
-      document.addEventListener('grap:lang', syncCapScrollTiming);
-
-      /* ─ 왼쪽: 카테고리 라벨 교체 (페이드) ─ */
-      const LABELS = [
-        { i18n: 'about.cap.label.perf2', fallback: 'Performance' },
-        { i18n: 'about.cap.label.ip',    fallback: 'IP'          },
-        { i18n: 'about.cap.label.dig',   fallback: 'Digital'     },
-      ];
-
-      const setLabel = (idx) => {
-        const info = LABELS[idx];
-        const lang = localStorage.getItem('grap-lang') || 'ko';
-        const text = (typeof GRAP_I18N !== 'undefined' && GRAP_I18N[info.i18n])
-          ? (GRAP_I18N[info.i18n][lang] || info.fallback)
-          : info.fallback;
-        if (capLabel.textContent === text) return;
-        gsap.timeline()
-          .to(capLabel, { opacity: 0, y: -10, duration: 0.15, ease: 'power2.in' })
-          .call(() => { capLabel.textContent = text; capLabel.dataset.i18n = info.i18n; })
-          .to(capLabel, { opacity: 1, y: 0, duration: 0.2, ease: 'power2.out' });
-      };
-
-      anchors.forEach((anchor, i) => {
-        ScrollTrigger.create({
-          trigger: anchor,
-          start:   'top 50%',
-          onEnter:     () => setLabel(i),
-          onLeaveBack: () => setLabel(Math.max(0, i - 1)),
-        });
-      });
-
-      document.addEventListener('grap:lang', () => {
-        const active = anchors.findIndex(a => a.getBoundingClientRect().top < window.innerHeight * 0.5);
-        setLabel(active >= 0 ? Math.min(active, 2) : 0);
-      });
-    })();
-
+    /* Capabilities 섹션은 타이포-only 3컬럼 고정 레이아웃으로 운영 */
   </script>
 
   <script>
