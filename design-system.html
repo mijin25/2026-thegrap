@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Design System — THE GRAP</title>
+  <link rel="stylesheet" href="css/base.css?v=4" />
+  <style>
+    /* 디자인 시스템 문서 전용 클래스 (기존 페이지와 충돌 방지) */
+    .ds-wrap {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: clamp(96px, 10vw, 140px) var(--gutter) clamp(64px, 8vw, 100px);
+    }
+    .ds-title {
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.25rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+    .ds-sub {
+      color: var(--c-secondary);
+      margin-bottom: clamp(32px, 5vw, 54px);
+      font-size: 1rem;
+    }
+    .ds-section {
+      margin-top: clamp(42px, 6vw, 72px);
+    }
+    .ds-h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--c-secondary);
+      margin-bottom: 16px;
+    }
+    .ds-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .ds-card {
+      border: 1px solid var(--c-outline);
+      background: color-mix(in srgb, var(--c-bg) 92%, #ffffff 8%);
+      padding: 16px;
+    }
+    .ds-swatch {
+      height: 84px;
+      border: 1px solid var(--c-outline);
+      margin-bottom: 12px;
+    }
+    .ds-name {
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+    }
+    .ds-meta {
+      color: var(--c-secondary);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+    .ds-type-list {
+      display: grid;
+      gap: 10px;
+    }
+    .ds-type-item {
+      border: 1px solid var(--c-outline);
+      padding: 14px 16px;
+      background: color-mix(in srgb, var(--c-bg) 94%, #ffffff 6%);
+    }
+    .ds-k {
+      font-family: 'PPNeueMontreal', sans-serif;
+      color: var(--c-secondary);
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .ds-row {
+      display: grid;
+      grid-template-columns: minmax(220px, 280px) 1fr;
+      gap: 16px;
+      border: 1px solid var(--c-outline);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+    }
+    .ds-token {
+      color: var(--c-secondary);
+      font-size: 0.875rem;
+      line-height: 1.45;
+    }
+    @media (max-width: 900px) {
+      .ds-grid { grid-template-columns: 1fr 1fr; }
+      .ds-row { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .ds-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="grain"></div>
+  <main class="ds-wrap">
+    <h1 class="ds-title">THE GRAP Design System</h1>
+    <p class="ds-sub">현재 `css/base.css` 기준으로 운영 중인 컬러/타이포 토큰과 실제 사용 규칙을 한 페이지에 정리했습니다.</p>
+
+    <section class="ds-section">
+      <h2 class="ds-h2">Color Tokens</h2>
+      <div class="ds-grid">
+        <article class="ds-card">
+          <div class="ds-swatch" style="background: var(--c-bg);"></div>
+          <div class="ds-name">--c-bg</div>
+          <div class="ds-meta">#000000<br />기본 배경</div>
+        </article>
+        <article class="ds-card">
+          <div class="ds-swatch" style="background: var(--c-on-bg);"></div>
+          <div class="ds-name">--c-on-bg</div>
+          <div class="ds-meta">#FFFFFF<br />기본 텍스트</div>
+        </article>
+        <article class="ds-card">
+          <div class="ds-swatch" style="background: var(--c-surface);"></div>
+          <div class="ds-name">--c-surface</div>
+          <div class="ds-meta">#1A1A1A<br />서피스 레이어</div>
+        </article>
+        <article class="ds-card">
+          <div class="ds-swatch" style="background: var(--c-primary);"></div>
+          <div class="ds-name">--c-primary</div>
+          <div class="ds-meta">#CCFF00<br />강조 컬러</div>
+        </article>
+        <article class="ds-card">
+          <div class="ds-swatch" style="background: var(--c-secondary);"></div>
+          <div class="ds-name">--c-secondary</div>
+          <div class="ds-meta">#BDBDBD<br />보조 텍스트</div>
+        </article>
+        <article class="ds-card">
+          <div class="ds-swatch" style="background: rgba(255,255,255,.12);"></div>
+          <div class="ds-name">--c-outline</div>
+          <div class="ds-meta">rgba(255,255,255,.12)<br />보더/분리선</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="ds-section">
+      <h2 class="ds-h2">Typography Tokens</h2>
+      <div class="ds-type-list">
+        <div class="ds-type-item">
+          <div class="ds-k">Body Default</div>
+          <div style="font-family:'PPNeueMontreal','Pretendard',sans-serif;font-size:1rem;">PPNeueMontreal / Pretendard (fallback)</div>
+          <div class="ds-meta">`body` 기본: `line-height: 1.6`</div>
+        </div>
+        <div class="ds-type-item">
+          <div class="ds-k">--text-sm</div>
+          <div style="font-size: var(--text-sm);">The quick brown fox jumps over the lazy dog. 0123456789</div>
+          <div class="ds-meta">0.875rem</div>
+        </div>
+        <div class="ds-type-item">
+          <div class="ds-k">--text-base</div>
+          <div style="font-size: var(--text-base);">The quick brown fox jumps over the lazy dog. 0123456789</div>
+          <div class="ds-meta">1rem</div>
+        </div>
+        <div class="ds-type-item">
+          <div class="ds-k">--text-md</div>
+          <div style="font-size: var(--text-md);">The quick brown fox jumps over the lazy dog. 0123456789</div>
+          <div class="ds-meta">1.125rem</div>
+        </div>
+        <div class="ds-type-item">
+          <div class="ds-k">--text-lg</div>
+          <div style="font-size: var(--text-lg);">The quick brown fox jumps over the lazy dog. 0123456789</div>
+          <div class="ds-meta">1.25rem</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-section">
+      <h2 class="ds-h2">Language Font Rules</h2>
+      <div class="ds-row">
+        <div class="ds-token">`html:lang(ko)`</div>
+        <div>PPNeueMontreal 우선 + 한글은 Pretendard로 자연 fallback</div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">ko 자간/행간 보정</div>
+        <div>
+          `p/li`는 `letter-spacing: -0.01em`, `line-height: 1.6`<br />
+          `span`은 `letter-spacing: -0.01em` (단, `[class*="logo"]` 제외)<br />
+          `span:not([class*="logo"])` 규칙이 곧 “기본 한글 타이포 감”을 만듦
+        </div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">`html:lang(en)`</div>
+        <div>PPNeueMontreal 우선 (영문 기본)</div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">`html:lang(zh-CN)`</div>
+        <div>PPNeueMontreal + Noto Sans TC + PingFang SC</div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">`html:lang(ja)`</div>
+        <div>PPNeueMontreal + Noto Sans JP + Hiragino Sans</div>
+      </div>
+    </section>
+
+    <section class="ds-section">
+      <h2 class="ds-h2">Layout Tokens</h2>
+      <div class="ds-row">
+        <div class="ds-token">`--gutter`</div>
+        <div>`clamp(16px, 2.5vw, 36px)` — 페이지 좌우 여백 기준</div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">Subpage Hero</div>
+        <div>`.page-hero` + `.page-title--copy` + `.hero-sub-text`를 공통 규칙으로 사용</div>
+      </div>
+    </section>
+
+    <section class="ds-section">
+      <h2 class="ds-h2">Header Rules</h2>
+      <div class="ds-row">
+        <div class="ds-token">`#header`</div>
+        <div>
+          `position: fixed` / `z-index: 900` / `display: grid (1fr auto 1fr)`<br />
+          `pointer-events: none` + 자식은 `pointer-events: all`<br />
+          `mix-blend-mode: difference`로 발광 레이어 위 가독성 확보
+        </div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">`#desktop-nav a`</div>
+        <div>
+          `font-family: PPNeueMontreal` / `text-transform: uppercase`<br />
+          기본 색: `var(--c-on-bg)`, hover: `var(--c-primary)`
+        </div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">모바일 분기</div>
+        <div>
+          `@media (max-width: 768px)`에서 `#desktop-nav` 숨김 + `#hamburger` 표시<br />
+          `lang-switcher` 숨김
+        </div>
+      </div>
+    </section>
+
+    <section class="ds-section">
+      <h2 class="ds-h2">Subpage Hero Rules</h2>
+      <div class="ds-row">
+        <div class="ds-token">`.page-hero`</div>
+        <div>`padding: clamp(140px,18vw,220px) var(--gutter) clamp(60px,8vw,100px)`</div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">`.page-title`</div>
+        <div>
+          `font-size: clamp(4rem,11vw,10rem)` / `text-transform: uppercase`<br />
+          `letter-spacing: -.02em !important`<br />
+          `.page-title span`은 기본적으로 `translateY(110%)`
+        </div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">`.hero-sub-text`</div>
+        <div>
+          `font-size: clamp(0.82rem, 1.1vw, 1rem)` / `line-height: 1.65`<br />
+          데스크톱: `max-width: min(64ch, 100%)`<br />
+          ko: `PPNeueMontreal 우선 + Pretendard fallback`
+        </div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">`.reveal`</div>
+        <div>`opacity: 0; transform: translateY(20px);` (스크롤 진입 시 gsap에서 노출)</div>
+      </div>
+    </section>
+
+    <section class="ds-section">
+      <h2 class="ds-h2">Footer Rules</h2>
+      <div class="ds-row">
+        <div class="ds-token">`#site-footer`</div>
+        <div>`min-height: 100svh; display: flex; flex-direction: column;`</div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">footer 색</div>
+        <div>
+          footer 내부 주요 요소들이 `color: var(--c-on-bg)` 기반<br />
+          `.footer-privacy:hover`는 `var(--c-primary)`
+        </div>
+      </div>
+      <div class="ds-row">
+        <div class="ds-token">언더라인</div>
+        <div>
+          `.footer-link-item span`에 `background-size` 기반 언더라인 애니메이션 적용
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

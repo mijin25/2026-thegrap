@@ -12,12 +12,7 @@ if (typeof ScrollTrigger !== 'undefined') {
   });
 }
 
-const PRIVACY_LABEL = {
-  ko: '개인정보 처리방침',
-  en: 'Privacy Policy',
-  zh: '隐私政策',
-  ja: 'プライバシーポリシー',
-};
+const PRIVACY_LABEL = 'Privacy Policy';
 
 const FOOTER_LOGO = `<svg width="167" height="40" viewBox="0 0 167 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="THE GRAP">
   <g clip-path="url(#fp-clip)">
@@ -67,28 +62,27 @@ class GrapFooter extends HTMLElement {
           </a>
         </div>
 
-        <!-- 하단 행: 카피(1~3) / SNS(4~5) / 개인정보(8) — align-items:end로 하단 기준 통일 -->
+        <!-- 하단 행: 카피 / SNS / 개인정보 -->
         <div class="footer-bottom-row">
-          <span class="footer-copy">© 2026 THE GRAP</span>
+          <span class="footer-copy">© 2026</span>
           <nav class="footer-links" aria-label="소셜 및 연락처">
             <a href="https://www.instagram.com/the.grap/" target="_blank" rel="noopener" class="footer-link-item"><span>Instagram</span></a>
               <a href="https://www.behance.net/thegrap/" target="_blank" rel="noopener" class="footer-link-item"><span>Behance</span></a>
               <a href="mailto:thegraper@thegrap.com" class="footer-link-item"><span>Email</span></a>
           </nav>
-          <a href="privacy.html" class="footer-privacy" id="footer-privacy-link">${PRIVACY_LABEL[localStorage.getItem('grap-lang')] || PRIVACY_LABEL.ko}</a>
+          <a href="privacy.html" class="footer-privacy" id="footer-privacy-link"><span>${PRIVACY_LABEL}</span></a>
         </div>
       </div>
     </footer>`;
   }
 
   _init() {
-    // ── 개인정보 처리방침 링크 언어 동기화 ──
+    // 개인정보 링크는 영어 고정
     const privacyLink = this.querySelector('#footer-privacy-link');
-    const updatePrivacy = (lang) => {
-      if (privacyLink) privacyLink.textContent = PRIVACY_LABEL[lang] || PRIVACY_LABEL.en;
-    };
-    updatePrivacy(localStorage.getItem('grap-lang') || 'ko');
-    document.addEventListener('grap:lang', e => updatePrivacy(e.detail.lang));
+    if (privacyLink) {
+      const label = privacyLink.querySelector('span');
+      if (label) label.textContent = PRIVACY_LABEL;
+    }
 
     if (typeof gsap === 'undefined') return;
     const isMobile = window.matchMedia('(max-width: 768px)').matches;

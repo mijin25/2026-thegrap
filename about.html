@@ -2,62 +2,25 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>ABOUT — THE GRAP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
-  <link rel="stylesheet" href="css/base.css?v=2" />
+  <link rel="stylesheet" href="css/base.css?v=3" />
   <script src="gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/grap-header.js"></script>
   <style>
 
 
-    /* ── 섹션 stacking: canvas(z-index:0) 위에 콘텐츠 배치 ── */
+    /* ── 섹션 stacking ── */
     .page-hero,
     .about-manifesto,
     .about-story,
     .about-cap-section,
     .about-clients,
     grap-footer { position: relative; z-index: 1; }
-
-    /* ── ABOUT: 우주(별) WebGL 배경 — 유체 레이어 없음 (마우스·블렌드 스택은 backups/about-mouse-blend-20260330 참고) ── */
-    #gradient-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      overflow: hidden;
-      isolation: isolate;
-    }
-    #gradient-canvas canvas {
-      display: block;
-      width: 100% !important;
-      height: 100% !important;
-    }
-    #gradient-canvas .about-space-canvas {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-    }
-
-    /* 로드 시 opacity 0 → WebGL 첫 페인트 후 페이드인 */
-    body.page-about {
-      opacity: 0;
-      transition: opacity 0.85s cubic-bezier(0.22, 0.1, 0.2, 1);
-    }
-    body.page-about.page-about--ready {
-      opacity: 1;
-    }
-    @media (prefers-reduced-motion: reduce) {
-      body.page-about {
-        opacity: 1;
-        transition: none;
-      }
-    }
 
     /* ── HERO ── */
     .page-hero {
@@ -67,6 +30,45 @@
       justify-content: flex-end;
       padding: 0 var(--gutter) clamp(20px, 4vw, 40px);
       overflow: hidden;
+    }
+    /* 모바일: 하단 브라우저 UI·홈 인디케이터와 서브텍스트 겹침 방지 — safe-area + 여유 */
+    @media (max-width: 768px) {
+      .page-hero {
+        min-height: 100svh;
+        padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+        padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(36px, 11vw, 56px));
+      }
+    }
+    @media (min-width: 1024px) {
+      /* 레퍼런스(Locomotive hero)처럼 우측 컬럼에 카피를 배치 */
+      .page-hero {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        align-content: end;
+        row-gap: 0;
+      }
+      .page-hero .page-title--copy,
+      .page-hero .hero-sub {
+        grid-column: 7 / 13;
+      }
+      .page-hero .page-title.page-title--copy {
+        font-size: clamp(72px, 6.6vw, 120px);
+        line-height: clamp(72px, 6.6vw, 120px);
+        letter-spacing: -0.02em;
+        max-width: 100%;
+      }
+      /* 데스크톱에서도 긴 카피가 뷰포트 밖으로 나가지 않게 줄바꿈 허용 */
+      .page-hero .page-title--copy span {
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+      .page-hero .hero-sub {
+        margin-top: 24px;
+      }
+      .page-hero .hero-sub-text {
+        max-width: 62ch;
+      }
     }
 
     /* ── HERO COPY ── */
@@ -82,37 +84,9 @@
       transform: translateY(0);
     }
 
-    @media (max-width: 480px) {
-      .page-title.page-title--copy {
-        font-size: clamp(3rem, 15vw, 4.4rem);
-        line-height: .92;
-      }
-    }
+    /* 모바일 히어로 타이틀: css/base.css */
 
-    .hero-sub {
-      margin-top: clamp(24px, 3.5vw, 48px);
-    }
-
-    .hero-sub-text {
-      font-family: 'PPNeueMontreal', sans-serif;
-      font-weight: 400;
-      font-size: clamp(0.82rem, 1.1vw, 1rem);
-      line-height: 1.65;
-      color: var(--c-on-bg);
-      max-width: 58ch;
-      word-break: keep-all;
-    }
-    html:lang(ko) .hero-sub-text { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
-    html:lang(zh-CN) .hero-sub-text { font-family: 'PPNeueMontreal', 'Noto Sans TC', 'PingFang SC', sans-serif; }
-    html:lang(ja) .hero-sub-text { font-family: 'PPNeueMontreal', 'Noto Sans JP', 'Hiragino Sans', sans-serif; }
-    /* 모바일: 본문 가독성 참고(15px / 24px 줄간격) */
-    @media (max-width: 768px) {
-      .hero-sub-text {
-        max-width: 100%;
-        font-size: 15px;
-        line-height: 24px;
-      }
-    }
+    /* hero-sub 타이포는 css/base.css 공통 규칙 사용 */
 
     /* ── MANIFESTO ── */
     .about-manifesto {
@@ -132,8 +106,12 @@
     /* 언어별 우선 폰트 — 번역 텍스트 요소 */
     html:lang(ko) .about-manifesto-text,
     html:lang(ko) .cap-service { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
-    /* Pretendard 500은 neue-haas-display 500보다 시각적으로 두꺼워 400으로 보정 */
-    html:lang(ko) .cap-service { font-weight: 400; }
+    /* capabilities 좌(cap-label)·우(cap-service) 동일 굵기 500 — 예전 400 보정은 좌측 영문 라벨과 불균형 유발 */
+    html:lang(ko) .cap-label {
+      font-family: 'Pretendard', 'PPNeueMontreal', sans-serif;
+      font-weight: 500;
+    }
+    html:lang(ko) .cap-service { font-weight: 500; }
     /* 클라이언트명은 영문 고유명사 → neue-haas 최우선, Pretendard는 한글 fallback */
     html:lang(ko) .about-client-list span { font-family: 'PPNeueMontreal', 'Pretendard', sans-serif; }
     html:lang(zh-CN) .about-manifesto-text { font-family: 'PPNeueMontreal', 'Noto Sans TC', 'PingFang SC', 'Microsoft JhengHei', sans-serif; }
@@ -175,13 +153,16 @@
     /* ── CAPABILITIES ── */
     .about-cap-section {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      padding-inline: var(--gutter);
+      column-gap: 0;
       /* align-items: stretch (기본) — 양 컬럼 높이 동일, sticky 해제 타이밍 정확 */
     }
 
     /* 좌: 높이를 우측과 동일하게 stretch — 라벨 자체에 sticky */
     .about-cap-left {
-      padding: clamp(80px,10vw,140px) var(--gutter) 0;
+      grid-column: 1 / 7;
+      padding: clamp(80px,10vw,140px) 0 0;
     }
     .cap-label {
       position: sticky;
@@ -197,7 +178,8 @@
 
     /* 우: 연속 스크롤 서비스 리스트 */
     .about-cap-right {
-      padding: clamp(80px,10vw,140px) var(--gutter) var(--cap-right-end-gap, calc(50vh - 2rem));
+      grid-column: 7 / 13;
+      padding: clamp(80px,10vw,140px) 0 var(--cap-right-end-gap, calc(50vh - 2rem));
       font-weight: 500;
       /* 마지막 아이템 중앙과 라벨 중앙을 맞추기 위해 JS에서 동적으로 보정 */
     }
@@ -314,18 +296,15 @@
 </head>
 <body class="page-about" data-template="about">
   <div id="grain"></div>
-  <div id="gradient-canvas" aria-hidden="true">
-    <canvas id="about-space-canvas" class="about-space-canvas" aria-hidden="true"></canvas>
-  </div>
 
   <grap-header active="about"></grap-header>
 
   <!-- HERO -->
   <section class="page-hero">
-    <h1 class="page-title page-title--copy"><span>Culture,</span><span>Engineered.</span></h1>
+    <h1 class="page-title page-title--copy"><span>Born in Seoul</span><span>Built for the stage</span><span>Made for what lasts</span></h1>
     <div class="hero-sub">
       <p class="hero-sub-text" data-i18n="about.hero.sub">
-        Founded in Seoul in 2013 — connecting K-POP artists with global audiences across digital experience, live performance, and artist IP.
+        2013년 서울에서 디지털 에이전시로 출발해 K-POP 공연 기획과 아티스트 IP까지 영역을 넓혀왔습니다. Performance·IP·Digital — 세 축으로 엔터테인먼트의 처음과 끝을 함께 설계합니다.
       </p>
     </div>
   </section>
@@ -435,7 +414,7 @@
 
   <grap-footer></grap-footer>
   <script src="js/grap-footer.js"></script>
-  <script src="js/i18n.js?v=6"></script>
+  <script src="js/i18n.js?v=11"></script>
   <script src="js/grap-init.js"></script>
   <script>
     /* ── Hero 타이틀: 히어로 섹션 하단에서 슬라이드업 ── */
@@ -562,27 +541,8 @@
     })();
   </script>
 
-  <script src="js/about-space-bg.js"></script>
   <script>
     (function () {
-      var revealed = false;
-      function revealAboutPage() {
-        if (revealed) return;
-        revealed = true;
-        requestAnimationFrame(function () {
-          requestAnimationFrame(function () {
-            document.body.classList.add('page-about--ready');
-          });
-        });
-      }
-      window.addEventListener('about-fluid-ready', revealAboutPage);
-      window.addEventListener('about-fluid-error', revealAboutPage);
-      /* WebGL 유체 제거됨 — 리스너 등록 뒤에 즉시 표시 */
-      window.dispatchEvent(new CustomEvent('about-fluid-ready'));
-      setTimeout(function () {
-        if (!revealed) revealAboutPage();
-      }, 5000);
-
       function syncScrollbarClass() {
         document.body.classList.toggle(
           'has-scrollbar-y',

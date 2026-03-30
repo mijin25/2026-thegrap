@@ -2,134 +2,225 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>BUSINESS — THE GRAP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet" />
   <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
-  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/base.css?v=3" />
   <script src="gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/grap-header.js"></script>
   <style>
-    /* ── BUSINESS 페이지 전용 스타일 ── */
-    .biz-intro { padding: clamp(32px,4vw,56px) var(--gutter) clamp(40px,5vw,64px); }
-    .biz-intro-text {
-      font-family: 'PPNeueMontreal', sans-serif; font-weight: 600;
-      font-size: clamp(1.75rem, 3.6vw, 4.25rem);
-      line-height: 1.25; letter-spacing: 0;
-      color: var(--c-on-bg); max-width: 1300px;
-      word-break: keep-all; overflow-wrap: break-word;
+    /* 페이지 본문 stacking */
+    .page-hero,
+    .biz-section,
+    grap-footer { position: relative; z-index: 1; }
+
+    /* ── HERO (about.html 과 동일 토큰) ── */
+    .page-hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 var(--gutter) clamp(20px, 4vw, 40px);
+      overflow: hidden;
     }
-    html:lang(ko) .biz-intro-text,
-    html:lang(ko) .biz-title { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
-    html:lang(zh-CN) .biz-intro-text,
-    html:lang(zh-CN) .biz-title { font-family: 'PPNeueMontreal', 'Noto Sans TC', 'PingFang SC', 'Microsoft JhengHei', sans-serif; }
-    html:lang(ja) .biz-intro-text,
-    html:lang(ja) .biz-title { font-family: 'PPNeueMontreal', 'Noto Sans JP', 'Hiragino Sans', sans-serif; }
-    .biz-section { padding: clamp(80px,10vw,140px) var(--gutter); }
+    @media (max-width: 768px) {
+      .page-hero {
+        min-height: 100svh;
+        padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+        padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+        padding-bottom: calc(env(safe-area-inset-bottom, 0px) + clamp(36px, 11vw, 56px));
+      }
+    }
+    @media (min-width: 1024px) {
+      .page-hero {
+        display: grid;
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+        align-content: end;
+      }
+      .page-hero .page-title--copy,
+      .page-hero .hero-sub {
+        grid-column: 7 / 13;
+      }
+    }
+
+    .page-title--copy {
+      text-transform: none;
+      display: flex;
+      flex-direction: column;
+      clip-path: inset(-0.5em -9999px -0.25em -9999px);
+    }
+    .page-title--copy span { white-space: nowrap; }
+    body.page-business .page-title--copy span {
+      transform: translateY(0);
+    }
+    /* 모바일 히어로 타이틀: css/base.css */
+
+    /* hero-sub: css/base.css 공통 */
+
+    /* ── 패널: 데스크톱 좌측 메타 sticky (about cap-left 패턴) ── */
+    .biz-section {
+      padding: 0 var(--gutter) clamp(80px, 10vw, 140px);
+    }
     .biz-row {
       display: grid;
-      grid-template-columns: 1fr 2fr;
-      gap: clamp(40px, 6vw, 80px);
-      padding: clamp(48px, 6vw, 80px) 0;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: clamp(32px, 5vw, 72px);
+      padding: clamp(56px, 7vw, 96px) 0;
       border-top: 1px solid var(--c-outline);
     }
-    .biz-row:last-child { border-bottom: 1px solid var(--c-outline); }
-    @media (max-width: 768px) {
-      .biz-row { grid-template-columns: 1fr; gap: 20px; }
+    .biz-row-meta { grid-column: 1 / 4; }
+    .biz-row-content { grid-column: 4 / 13; }
+    .biz-row:last-child {
+      border-bottom: 1px solid var(--c-outline);
     }
     .biz-row-meta {
-      display: flex; flex-direction: column; gap: 6px;
-      padding-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-top: 6px;
+      position: sticky;
+      top: max(24px, env(safe-area-inset-top, 0px));
+      align-self: start;
     }
     .biz-num {
-      font-size: var(--text-sm); letter-spacing: .1em;
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-weight: 500;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      color: var(--c-on-bg);
+      opacity: 0.35;
+    }
+    html:lang(ko) .biz-num { font-family: 'Pretendard', sans-serif; }
+    .biz-tag {
+      font-size: var(--text-sm);
+      letter-spacing: .12em;
+      text-transform: uppercase;
       color: var(--c-secondary);
     }
-    .biz-tag {
-      font-size: var(--text-sm); letter-spacing: .12em;
-      text-transform: uppercase; color: var(--c-secondary);
-    }
     .biz-title {
-      font-family: 'PPNeueMontreal', sans-serif; font-weight: 600;
-      font-size: clamp(2.5rem, 5vw, 6rem);
-      line-height: .9; letter-spacing: -.03em;
-      color: var(--c-on-bg);
-      margin-bottom: clamp(20px, 2.5vw, 32px);
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-weight: 500;
+      font-size: clamp(2.2rem, 4.5vw, 4rem);
+      line-height: 1.08;
+      letter-spacing: -0.02em;
+      color: #ffffff;
+      margin-bottom: clamp(20px, 2.2vw, 28px);
+    }
+    html:lang(ko) .biz-title {
+      font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+      font-weight: 400;
     }
     .biz-body {
-      font-size: clamp(0.9375rem, 1.2vw, 1.125rem);
-      line-height: 1.75; color: var(--c-secondary);
-      margin-bottom: 24px;
-      max-width: 560px;
+      font-size: clamp(0.9rem, 1.15vw, 1.05rem);
+      line-height: 1.65;
+      color: rgba(255, 255, 255, 0.78);
+      margin-bottom: clamp(20px, 2vw, 28px);
+      max-width: 52ch;
     }
+    html:lang(ko) .biz-body { letter-spacing: -0.01em; }
     .biz-keywords {
-      font-size: var(--text-sm); letter-spacing: .08em;
-      text-transform: uppercase; color: var(--c-secondary);
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-size: var(--text-sm);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--c-secondary);
+      line-height: 1.5;
+    }
+    html:lang(ko) .biz-keywords {
+      font-family: 'Pretendard', sans-serif;
+      letter-spacing: 0.04em;
+    }
+
+    @media (max-width: 768px) {
+      .biz-row {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        padding: clamp(40px, 10vw, 56px) 0;
+      }
+      .biz-row-meta {
+        position: static;
+        flex-direction: row;
+        align-items: baseline;
+        gap: 12px;
+        padding-top: 0;
+      }
+      .biz-num { font-size: 1rem; opacity: 0.5; }
+      .biz-title {
+        font-size: clamp(1.35rem, 5.5vw, 1.75rem);
+        line-height: 1.25;
+      }
+      .biz-body {
+        font-size: 15px;
+        line-height: 24px;
+        max-width: 100%;
+      }
     }
   </style>
 </head>
-<body>
+<body class="page-business" data-template="business">
   <div id="grain"></div>
 
   <grap-header active="business"></grap-header>
 
   <section class="page-hero">
     <h1 class="page-title page-title--copy">
-      <span data-i18n="biz.copy.line1">Stage is Culture.</span>
-      <span data-i18n="biz.copy.line2">Merch is Memory.</span>
+      <span data-i18n="biz.copy.line1">Shows that sell out</span>
+      <span data-i18n="biz.copy.line2">Merch fans keep</span>
+      <span data-i18n="biz.copy.line3">Worlds that outlast the tour</span>
     </h1>
-  </section>
-
-  <section class="biz-intro">
-    <p class="biz-intro-text reveal" data-i18n="biz.intro">K-POP 공연 기획, 아티스트 IP 굿즈, 디지털 경험. 세 가지 전문 영역으로 엔터테인먼트의 전 과정을 설계합니다.</p>
-  </section>
-
-  <section class="biz-section">
-
-    <div class="biz-row reveal">
-      <div class="biz-row-meta">
-        <span class="biz-num">01</span>
-        <span class="biz-tag" data-i18n="biz.panel1.label">공연 기획</span>
-      </div>
-      <div>
-        <h3 class="biz-title" data-i18n="biz.title1">글로벌 K-POP<br>공연 기획</h3>
-        <p class="biz-body" data-i18n="biz.panel1.desc">K-POP 콘서트, 팬미팅, 아시아 투어 전 과정을 기획·제작·운영합니다.</p>
-        <div class="biz-keywords" data-i18n="biz.keywords1">World Tour · Fan Meeting · Showcase · Festival</div>
-      </div>
+    <div class="hero-sub">
+      <p class="hero-sub-text" data-i18n="biz.hero.sub">
+        공연은 끝나도 기억은 남습니다. 더그랩은 무대 위의 에너지가 굿즈와 디지털 경험으로 이어지도록 설계합니다. Performance·IP·Digital 세 축에서 제공하는 서비스를 확인해 보세요.
+      </p>
     </div>
-
-    <div class="biz-row reveal">
-      <div class="biz-row-meta">
-        <span class="biz-num">02</span>
-        <span class="biz-tag" data-i18n="biz.panel2.label">IP 굿즈</span>
-      </div>
-      <div>
-        <h3 class="biz-title" data-i18n="biz.title2">아티스트 IP<br>글로벌 굿즈</h3>
-        <p class="biz-body" data-i18n="biz.panel2.desc">아티스트 IP 기반 굿즈를 기획하고 글로벌 유통망을 통해 팬들에게 전달합니다.</p>
-        <div class="biz-keywords" data-i18n="biz.keywords2">Limited Edition · Collaboration · Official Merch · Pop-up Store</div>
-      </div>
-    </div>
-
-    <div class="biz-row reveal">
-      <div class="biz-row-meta">
-        <span class="biz-num">03</span>
-        <span class="biz-tag" data-i18n="biz.panel3.label">디지털 경험</span>
-      </div>
-      <div>
-        <h3 class="biz-title" data-i18n="biz.title3">브랜드 &amp;<br>아티스트 시너지</h3>
-        <p class="biz-body" data-i18n="biz.panel3.desc">브랜드 아이덴티티부터 웹·앱 개발까지, 엔터테인먼트 산업에 최적화된 디지털 솔루션을 제공합니다.</p>
-        <div class="biz-keywords" data-i18n="biz.keywords3">Brand Deal · Licensing · Digital Contents · NFT / IP</div>
-      </div>
-    </div>
-
   </section>
 
   <grap-footer></grap-footer>
-  <script src="js/i18n.js?v=4"></script>
   <script src="js/grap-footer.js"></script>
+  <script src="js/i18n.js?v=11"></script>
   <script src="js/grap-init.js"></script>
+  <script>
+    /* 히어로: 타이틀 슬라이드업 + 서브텍스트 페이드 (about.html 과 동일) */
+    (function () {
+      const h1      = document.querySelector('.page-title--copy');
+      const section = document.querySelector('.page-hero');
+      if (!h1 || !section || typeof gsap === 'undefined') return;
+
+      gsap.killTweensOf(document.querySelectorAll('.page-title--copy span'));
+      gsap.set('.page-title--copy span', { y: 0 });
+
+      const h1Rect = h1.getBoundingClientRect();
+      const startY = h1Rect.height + 80;
+      gsap.fromTo(h1,
+        { y: startY },
+        { y: 0, duration: 1.6, ease: 'expo.out', delay: 0.05 }
+      );
+
+      const heroSub = section.querySelector('.hero-sub');
+      if (heroSub) {
+        gsap.fromTo(heroSub,
+          { opacity: 0, y: 18 },
+          { opacity: 1, y: 0, duration: 1.0, ease: 'power2.out', delay: 0.55 }
+        );
+      }
+    })();
+  </script>
+  <script>
+    (function () {
+      function syncScrollbarClass() {
+        document.body.classList.toggle(
+          'has-scrollbar-y',
+          document.documentElement.scrollHeight > window.innerHeight + 2
+        );
+      }
+      syncScrollbarClass();
+      window.addEventListener('resize', syncScrollbarClass);
+      window.addEventListener('load', syncScrollbarClass);
+    })();
+  </script>
 </body>
 </html>

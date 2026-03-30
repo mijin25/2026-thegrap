@@ -40,7 +40,14 @@
   scroll-behavior: smooth 는 휠/트랙패드 스크롤까지 보간해 “느리고 묵직한” 느낌을 줄 수 있음 →
   기본은 auto 로 네이티브 관성 스크롤 유지 (앵커 # 이동만 부드럽게 하려면 해당 페이지에서만 제한 적용 권장)
 */
-html { scroll-behavior: auto; scrollbar-gutter: stable; }
+html {
+  scroll-behavior: auto;
+  scrollbar-gutter: stable;
+  /* 폰트 가장자리 날카로움 완화(안티앨리어싱/렌더링 우선) */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
 body {
   background: var(--c-bg);
   color: var(--c-on-bg);
@@ -56,7 +63,8 @@ body {
 /* html + body 둘 다 지정 — body에 explicit font-family가 있어 html 상속만으론 부족 */
 html:lang(ko),
 html:lang(ko) body {
-  font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  /* ko에서도 PPNeueMontreal 우선, 한글은 Pretendard로 자연 fallback */
+  font-family: 'PPNeueMontreal', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   word-break: keep-all;
   overflow-wrap: break-word;
 }
@@ -216,7 +224,7 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
 }
 .page-label {
   font-family: 'PPNeueMontreal', sans-serif;
-  font-size: var(--text-sm); letter-spacing: .2em;
+  font-size: var(--text-sm); letter-spacing: 0;
   text-transform: uppercase; color: var(--c-secondary);
   margin-bottom: 24px;
 }
@@ -231,10 +239,72 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
 }
 .page-title span { display: inline-block; transform: translateY(110%); letter-spacing: inherit !important; }
 .page-title--copy {
+  font-weight: 500;
   text-transform: none;
   display: flex;
   flex-direction: column;
   clip-path: inset(-0.5em -9999px -0.25em -9999px);
+}
+
+/*
+  서브페이지 히어로 (index.html 은 #hero 사용 — .page-hero 없음)
+  데스크톱: 메인 타이틀 상한·서브 카피로 페이지 맥락 보강
+*/
+.page-hero .hero-sub {
+  margin-top: clamp(20px, 2.8vw, 40px);
+}
+.page-hero .hero-sub-text {
+  font-family: 'PPNeueMontreal', sans-serif;
+  font-weight: 400;
+  font-size: clamp(0.82rem, 1.1vw, 1rem);
+  line-height: 1.65;
+  color: var(--c-on-bg);
+  max-width: min(64ch, 100%);
+  word-break: keep-all;
+}
+html:lang(ko) .page-hero .hero-sub-text {
+  /* ko에서도 PPNeueMontreal 우선 + 한글은 Pretendard로 자연 fallback */
+  font-family: 'PPNeueMontreal', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+}
+html:lang(zh-CN) .page-hero .hero-sub-text {
+  font-family: 'PPNeueMontreal', 'Noto Sans TC', 'PingFang SC', sans-serif;
+}
+html:lang(ja) .page-hero .hero-sub-text {
+  font-family: 'PPNeueMontreal', 'Noto Sans JP', 'Hiragino Sans', sans-serif;
+}
+@media (min-width: 769px) {
+  .page-hero .page-title.page-title--copy {
+    font-size: clamp(3rem, 6.5vw, 7.5rem);
+    line-height: 0.96;
+    letter-spacing: -0.03em;
+  }
+  .page-hero .hero-sub-text {
+    font-size: clamp(0.9375rem, 1.15vw, 1.0625rem);
+    line-height: 1.72;
+    max-width: min(68ch, 100%);
+  }
+}
+@media (max-width: 768px) {
+  .page-hero .hero-sub-text {
+    font-size: 15px;
+    line-height: 24px;
+    max-width: 100%;
+  }
+  /* 모바일에서 긴 카피 우측 잘림 방지 */
+  .page-hero .page-title.page-title--copy {
+    max-width: 100%;
+  }
+  .page-hero .page-title.page-title--copy span {
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-break: keep-all;
+  }
+}
+@media (max-width: 480px) {
+  .page-hero .page-title.page-title--copy {
+    font-size: clamp(2rem, 10vw, 3rem);
+    line-height: 0.94;
+  }
 }
 
 /* ── REVEAL ANIMATION ── */
@@ -259,7 +329,7 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   color: var(--c-on-bg);
 }
 #site-footer .footer-privacy:hover {
-  color: var(--c-primary);
+  color: var(--c-on-bg);
   opacity: 1;
 }
 /* CTA: #site-footer 가 ID라 .footer-cta-btn:hover 만으로는 color 가 덮어쓰이지 않음 → 동일 특이도로 라임 적용 */
@@ -290,28 +360,45 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
 /* 하단 행: 카피 / SNS / 개인정보 — 동일한 하단 기준 */
 .footer-bottom-row {
   display: grid;
-  grid-template-columns: repeat(8, minmax(0, 1fr));
+  grid-template-columns: repeat(12, minmax(0, 1fr));
   column-gap: clamp(16px, 2vw, 28px);
   align-items: end; /* 세 요소의 하단 기준 통일 */
 }
 .footer-copy {
-  grid-column: 1 / 4;
+  grid-column: 1 / 5;
   font-family: 'PPNeueMontreal', sans-serif;
-  font-size: clamp(0.8rem, 0.875vw, 0.875rem); /* 데스크탑 기준 14px */
-  letter-spacing: 0.04em !important; /* 언어 전환 무관하게 자간 고정 */
+  font-weight: 500;
+  font-size: clamp(2rem, 3.333vw, 4rem); /* 1920px 기준 64px */
+  line-height: 1.08;
+  letter-spacing: 0 !important;
   align-self: end;
 }
 .footer-bottom-row .footer-links {
-  grid-column: 4 / 6;
+  grid-column: 6 / 10;
 }
 .footer-privacy {
-  grid-column: 8;
+  grid-column: 10 / 13;
   text-align: right;
-  font-size: clamp(0.8rem, 0.875vw, 0.875rem); /* 데스크탑 기준 14px */
+  font-family: 'PPNeueMontreal', sans-serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 3.333vw, 4rem); /* 1920px 기준 64px */
+  line-height: 1.08;
   text-decoration: none;
   letter-spacing: 0 !important; /* 언어 전환 무관하게 자간 고정 */
+  white-space: nowrap;
   transition: opacity .2s;
   align-self: end;
+}
+.footer-privacy span {
+  letter-spacing: 0 !important;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-repeat: no-repeat;
+  background-position: left bottom 0.06em;
+  background-size: 0% 1px;
+  transition: background-size .4s cubic-bezier(.25,.1,.25,1);
+}
+.footer-privacy:hover span {
+  background-size: 100% 1px;
 }
 /* Headline */
 .footer-hl-wrap {
@@ -359,19 +446,19 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  gap: clamp(2px, 0.8vw, 8px);
+  gap: clamp(0px, 0.25vw, 4px);
 }
 .footer-link-item {
   font-family: 'PPNeueMontreal', sans-serif; font-weight: 500;
-  font-size: clamp(2.2rem, 4.5vw, 4rem);
-  letter-spacing: -.02em;
+  font-size: clamp(2rem, 3.333vw, 4rem); /* 1920px 기준 64px */
+  letter-spacing: 0;
   text-decoration: none;
-  line-height: 1.05;
+  line-height: 1.08;
   display: block;
 }
 /* 텍스트 길이만큼만 언더라인 — span에 적용 */
 .footer-link-item span {
-  letter-spacing: -.02em !important; /* 언어 전환 무관하게 자간 고정 */
+  letter-spacing: 0 !important;
   background-image: linear-gradient(currentColor, currentColor);
   background-repeat: no-repeat;
   background-position: left bottom 0.06em;
@@ -413,6 +500,8 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
     grid-row: 2;
     text-align: right;
   }
-  .footer-links { gap: clamp(3px, 1.3vw, 8px); }
-  .footer-link-item { font-size: clamp(1.75rem, 8vw, 2.7rem); }
+  .footer-links { gap: clamp(6px, 1.3vw, 10px); }
+  .footer-copy { font-size: clamp(0.95rem, 3.8vw, 1.05rem); }
+  .footer-privacy { font-size: clamp(0.95rem, 3.8vw, 1.05rem); }
+  .footer-link-item { font-size: clamp(0.95rem, 3.8vw, 1.05rem); }
 }

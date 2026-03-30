@@ -20,10 +20,10 @@ const GRAP_I18N = {
     ja: '2013年にソウルでデジタルエージェンシーとして創業したTHE GRAPは、K‑POP公演制作とアーティストIP事業へと拡大しました。現在はグローバルブランド向けのデジタルエクスペリエンス部門と、アジア全域でK‑POP公演を制作するパフォーマンス部門を運営しています。二つの領域、一つの原則 — 観客体験への飽くなき集中。',
   },
   'about.hero.sub': {
-    ko: '2013년 서울에서 디지털 에이전시로 시작해, 라이브 공연 제작과 아티스트 IP 사업으로 영역을 확장했습니다. 디지털 경험부터 콘서트 기획까지 — K-POP 아티스트와 글로벌 팬을 잇는 모든 접점을 함께 설계합니다.',
-    en: 'Founded in Seoul in 2013 as a digital agency, we have since expanded into live performance production and artist IP. From digital experiences to concert production — we design every touchpoint connecting K-POP artists with global audiences.',
-    zh: '2013年创立于首尔的数字代理商，逐步拓展至现场演出制作与艺人IP业务。从数字体验到演唱会制作 — 我们设计连接K‑POP艺术家与全球观众的每一个接触点。',
-    ja: '2013年にソウルでデジタルエージェンシーとして創業し、ライブ公演制作とアーティストIP事業へと拡大。デジタル体験からコンサート制作まで — K‑POPアーティストとグローバルなファンをつなぐあらゆる接点を設計します。',
+    ko: '2013년 서울에서 디지털 에이전시로 출발해 K-POP 공연 기획과 아티스트 IP까지 영역을 넓혀왔습니다. Performance·IP·Digital — 세 축으로 엔터테인먼트의 처음과 끝을 함께 설계합니다.',
+    en: 'We started in Seoul in 2013 as a digital agency and have grown into live performance production and artist IP — bridging global-brand digital work with K-POP stages across Asia. Everything we do ties back to one thing: a seamless audience journey across digital, live, and merchandise. On this page you’ll find how we structure Performance, IP, and Digital, followed by clients and partners we’ve built with over the years.',
+    zh: '2013年创立于首尔，从数字代理商发展为涵盖现场演出与艺人IP的综合团队。我们以服务全球品牌的数字体验与横跨亚洲的K‑POP演出为两轴，串联数字、现场与周边，追求完整的观众体验。本页先分述 Performance、IP、Digital 的具体服务，再介绍长期合作的客户与伙伴。',
+    ja: '2013年にソウルでデジタルエージェンシーとして始まり、ライブ公演制作とアーティストIPへと領域を広げてきました。グローバルブランド向けのデジタル体験と、アジア全域のK‑POPステージをつなぐ二本柱のもと、デジタル・ライブ・グッズが途切れない観客体験を目指しています。Performance・IP・Digital のサービス内容に加え、長年ご一緒してきたクライアントとパートナーを掲載しています。',
   },
   /* Capabilities — Digital */
   'about.cap.d1': { ko: '브랜드 아이덴티티', en: 'Brand Identity', zh: '品牌视觉设计', ja: 'ブランドアイデンティティ' },
@@ -69,8 +69,7 @@ const GRAP_I18N = {
   },
 
   /* ── CONTACT PAGE ── */
-  'contact.copy.line1': { ko: "Let's Make",      en: "Let's Make",      zh: "Let's Make",      ja: "Let's Make" },
-  'contact.copy.line2': { ko: 'Something Great.', en: 'Something Great.', zh: 'Something Great.', ja: 'Something Great.' },
+  'contact.copy.line1': { ko: "Let's work together", en: "Let's work together", zh: "Let's work together", ja: "Let's work together" },
   'contact.info.label': { ko: '파트너십 문의', en: 'Get in Touch', zh: '合作咨询', ja: 'お問い合わせ' },
   'contact.heading':    { ko: '함께<br>만들어가요.', en: 'Let\'s build<br>together.', zh: '一起<br>创造吧。', ja: 'ともに<br>つくろう。' },
   'contact.body':       {
@@ -80,10 +79,10 @@ const GRAP_I18N = {
     ja: '公演企画、グッズコラボ、ブランドパートナーシップなど、あらゆるビジネスのお問い合わせを歓迎します。アイデアがあればいつでもご連絡ください。',
   },
   'contact.hero.sub': {
-    ko: '프로젝트, 공연 파트너십, 굿즈 협업 — 무엇이든 이야기해주세요.',
-    en: 'Projects, performance partnerships, merchandise collaboration — let\'s talk.',
-    zh: '项目合作、演出合作、周边联名 — 欢迎联系我们。',
-    ja: 'プロジェクト、公演パートナーシップ、グッズコラボ — なんでもご相談ください。',
+    ko: '공연 기획, 아티스트 협업, 디지털 프로덕트 — 어느 분야든 환영합니다. 아이디어의 윤곽만 있어도 충분합니다. 규모와 일정은 함께 맞춰나가면 됩니다.',
+    en: 'We work with labels, promoters, brands, and media partners — from concerts and tours to merchandise drops and digital products. Early-stage ideas are welcome; you don’t need a fixed budget or schedule to start a conversation. Check email, phone, and office details below, then use the form. Our team reviews every message and replies on business days in order of receipt.',
+    zh: '我们与厂牌、企划公司、品牌与媒体等伙伴合作，项目涵盖演出、巡演、周边与数字产品等。即使预算或排期尚未确定，也欢迎先聊聊方向。请核对下方邮箱、电话与地址后填写表单；我们会在工作日按顺序审阅并回复。',
+    ja: 'レーベル、プロモーター、ブランド、メディアなど幅広いパートナーと、公演・ツアー・グッズ・デジタルプロダクトまで協業のご相談を受け付けています。予算やスケジュールが未確定でも構いません。まずは方向性だけ共有いただいて大丈夫です。下記の連絡先を確認のうえフォームよりお送りください。担当チームが内容を確認し、営業日ベースで順次ご返信します。',
   },
   'contact.form.name': { ko: '이름', en: 'Name', zh: '姓名', ja: 'お名前' },
   'contact.form.email': { ko: '이메일', en: 'Email', zh: '电子邮件', ja: 'メールアドレス' },
@@ -92,15 +91,16 @@ const GRAP_I18N = {
   'contact.form.submit': { ko: '보내기', en: 'Send', zh: '发送', ja: '送信' },
 
   /* ── BUSINESS PAGE ── */
-  'biz.copy.line1':  { ko: 'Stage is Culture.', en: 'Stage is Culture.', zh: 'Stage is Culture.', ja: 'Stage is Culture.' },
-  'biz.copy.line2':  { ko: 'Merch is Memory.', en: 'Merch is Memory.', zh: 'Merch is Memory.', ja: 'Merch is Memory.' },
-  'biz.intro':       {
-    ko: 'K-POP 공연 기획, 아티스트 IP 굿즈, 디지털 경험. 세 가지 전문 영역으로 엔터테인먼트의 전 과정을 설계합니다.',
-    en: 'Concert production, artist IP merchandise, digital experience. Three specialized fields designing every stage of entertainment.',
-    zh: '演出制作、艺人IP周边、数字体验。三个专业领域，设计娱乐的每一个环节。',
-    ja: '公演制作、アーティストIPグッズ、デジタルエクスペリエンス。三つの専門分野でエンターテインメントの全工程を設計します。',
+  'biz.copy.line1':  { ko: 'Shows that sell out', en: 'Shows that sell out', zh: 'Shows that sell out', ja: 'Shows that sell out' },
+  'biz.copy.line2':  { ko: 'Merch fans keep', en: 'Merch fans keep', zh: 'Merch fans keep', ja: 'Merch fans keep' },
+  'biz.copy.line3':  { ko: 'Worlds that outlast the tour', en: 'Worlds that outlast the tour', zh: 'Worlds that outlast the tour', ja: 'Worlds that outlast the tour' },
+  /* 히어로 서브: 예전 biz.intro + biz.hero.sub 통합 */
+  'biz.hero.sub': {
+    ko: '공연은 끝나도 기억은 남습니다. 더그랩은 무대 위의 에너지가 굿즈와 디지털 경험으로 이어지도록 설계합니다. Performance·IP·Digital 세 축에서 제공하는 서비스를 확인해 보세요.',
+    en: 'Concert production, artist IP merchandise, and digital experience — three pillars that carry a project from first idea to the venue floor, and from physical merch to the screens fans live on. We extend the energy of the stage into products and platforms so brands and artists stay in one coherent story. The three blocks below spell out what we do in each lane and the keywords you’ll see in a typical brief.',
+    zh: 'K-POP演出制作、艺人IP周边与数字体验 — 三大板块贯穿从创意到现场、从实体周边到线上触点的完整链路。我们把舞台张力延伸到商品与数字体验，让品牌与艺人讲述同一条叙事线。以下三节分别说明各领域的典型工作，以及合作中常见的关键词。',
+    ja: 'K‑POP公演制作、アーティストIPグッズ、デジタルエクスペリエンス — 三本柱で、企画から現場運営、ファンの手元に届くプロダクトと画面までを一続きの体験として設計します。ステージの熱量をグッズとオンラインへ広げ、ブランドとアーティストが同じ物語を語れるようにします。下の三セクションでは各領域の主な業務と、実際の協業で扱うキーワードをまとめています。',
   },
-  'biz.hero.sub':    { ko: 'What We Do', en: 'What We Do', zh: 'What We Do', ja: 'What We Do' },
   'biz.title1':      { ko: '글로벌 K-POP<br>공연 기획',      en: 'Global K-POP<br>Concert Production', zh: '全球K‑POP<br>演出制作',    ja: 'グローバルK‑POP<br>公演企画' },
   'biz.title2':      { ko: '아티스트 IP<br>글로벌 굿즈',     en: 'Artist IP<br>Global Merchandise',   zh: '艺人IP<br>全球周边',      ja: 'アーティストIP<br>グローバルグッズ' },
   'biz.title3':      { ko: '브랜드 &amp;<br>아티스트 시너지', en: 'Brand &amp;<br>Artist Synergy',      zh: '品牌与<br>艺人协同',      ja: 'ブランドと<br>アーティストの<br>相乗効果' },
@@ -185,6 +185,12 @@ const GRAP_I18N = {
   /* ── WORK PAGE ── */
   'work.copy.line1': { ko: 'Move the Crowd.', en: 'Move the Crowd.', zh: 'Move the Crowd.', ja: 'Move the Crowd.' },
   'work.copy.line2': { ko: 'Own the Moment.', en: 'Own the Moment.', zh: 'Own the Moment.', ja: 'Own the Moment.' },
+  'work.hero.sub': {
+    ko: '엔터테인먼트와 브랜드 디지털을 가로지르는 프로젝트들을 유형별로 묶어 보았습니다. 라이브·브랜딩·캠페인부터 웹·앱·이커머스·공간·디지털 경험까지, 기획 단계부터 론칭 이후 운영까지 함께한 사례를 담고 있습니다. 상단 필터에서 관심 있는 분야만 골라 보거나, 전체 목록을 스크롤하며 팀이 어떤 문제를 어떻게 풀어 왔는지 살펴보세요.',
+    en: 'This grid brings together work that spans entertainment and brand-led digital — from live and campaigns to web, apps, e‑commerce, and experiential builds. Each entry reflects how we partner from concept through launch and beyond. Use the filters to focus on a discipline, or browse the full set to see how we approach briefs end to end.',
+    zh: '本页汇总跨越娱乐与品牌数字领域的项目，涵盖现场、品牌、活动、网站、应用、电商与体验等类型。每个案例都记录我们从概念到上线乃至后续协作的方式。可用顶部筛选聚焦某一类，或浏览全部以了解我们的完整工作方法。',
+    ja: 'エンターテインメントとブランドのデジタルを横断するプロジェクトを、分野別に並べています。ライブやキャンペーンからウェブ・アプリ、Eコマース、体験設計まで、企画からローンチ後の伴走までをまとめた事例です。上部フィルターで絞り込むか、一覧をスクロールしてチームの進め方をご覧ください。',
+  },
   'work.filter.all':        { ko: 'All Work',    en: 'All Work',    zh: 'All Work',    ja: 'All Work' },
   'work.filter.live':       { ko: 'Live',        en: 'Live',        zh: 'Live',        ja: 'Live' },
   'work.filter.branding':   { ko: 'Branding',    en: 'Branding',    zh: 'Branding',    ja: 'Branding' },
