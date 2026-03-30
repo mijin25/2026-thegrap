@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>THE GRAP — Global Entertainment & Merch</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -27,7 +27,8 @@
     /* ── HERO ── */
     #hero {
       position: relative;
-      width: 100vw; height: 100svh;
+      width: 100vw; height: 100dvh;
+      min-height: 100svh;
       overflow: hidden; background: var(--c-bg);
     }
     #hero-canvas {
@@ -102,9 +103,18 @@
     @media (max-width: 480px) {
       .hero-headline--desktop { display: none; }
       .hero-headline--mobile  { display: flex; flex-direction: column; }
-      .hero-headline { padding: 0 var(--gutter); bottom: 136px; }
-      .hero-line { font-size: calc((100vw - 3rem) / 5); line-height: .92; }
-      .hero-desc { font-size: var(--text-base); max-width: 260px; }
+      .hero-headline {
+        padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+        padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+        bottom: calc(env(safe-area-inset-bottom, 0px) + 124px);
+      }
+      .hero-line { font-size: calc((100vw - 2.2rem) / 4.65); line-height: .9; }
+      .hero-desc {
+        left: max(var(--gutter), env(safe-area-inset-left, 0px));
+        bottom: calc(env(safe-area-inset-bottom, 0px) + var(--gutter));
+        font-size: var(--text-base);
+        max-width: 260px;
+      }
     }
   </style>
 </head>
