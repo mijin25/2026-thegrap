@@ -2,15 +2,17 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>WORK — THE GRAP</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&display=swap" rel="stylesheet" />
   <script>(function(d){var config={kitId:'hty6die',scriptTimeout:3000,async:true},h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,'')+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)})(document);</script>
   <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/locomotive-scroll@5.0.1/dist/locomotive-scroll.css" />
   <script src="gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/locomotive-scroll@5.0.1/dist/locomotive-scroll.min.js"></script>
   <script src="js/grap-header.js"></script>
   <style>
     /* ── WORK 페이지 전용 스타일 ── */
@@ -18,10 +20,16 @@
     .work-section--no-hero { padding-top: calc(var(--header-h, 72px) + clamp(60px,8vw,120px)); }
     .work-filters {
       display: flex; flex-wrap: wrap; align-items: baseline;
-      gap: 0; margin-bottom: clamp(48px, 6vw, 88px);
+      gap: 0; margin-bottom: clamp(16px, 2vw, 24px);
+    }
+    .work-count {
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-size: 1rem; letter-spacing: 0;
+      text-transform: none; color: var(--c-on-bg);
+      margin-bottom: clamp(36px, 5vw, 72px);
     }
     .filter-btn {
-      font-family: 'PPNeueMontreal', sans-serif; font-weight: 600;
+      font-family: 'PPNeueMontreal', sans-serif; font-weight: 500;
       font-size: clamp(2rem, 4vw, 5rem);
       line-height: 1; letter-spacing: -.02em;
       color: var(--c-on-bg);
@@ -39,20 +47,159 @@
     }
     .filter-btn:hover span,
     .filter-btn.active span { background-size: 100% 1px; }
-    .work-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; max-width: 1400px; }
-    @media(max-width:900px) { .work-grid { grid-template-columns: 1fr 1fr; } }
-    @media(max-width:480px) { .work-grid { grid-template-columns: 1fr; } }
-    .work-item { position: relative; overflow: hidden; aspect-ratio: 4/5; background: #111; cursor: pointer; }
-    .work-item.featured { grid-column: 1/3; aspect-ratio: 16/7; }
-    @media(max-width:900px) { .work-item.featured { grid-column: 1/2; aspect-ratio: 4/5; } }
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: clamp(14px, 1.2vw, 20px);
+      row-gap: clamp(20px, 2vw, 32px);
+      width: 100%;
+    }
+    .work-load-more-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: clamp(44px, 6vw, 92px);
+    }
+    .work-load-more-btn {
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-weight: 500;
+      font-size: clamp(1.25rem, 2.2vw, 2.5rem);
+      line-height: 1;
+      letter-spacing: -0.01em;
+      color: var(--c-on-bg);
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 0;
+      cursor: pointer;
+      transition: opacity .25s ease;
+    }
+    .work-load-more-btn span {
+      background-image: linear-gradient(currentColor, currentColor);
+      background-repeat: no-repeat;
+      background-position: left bottom 0.08em;
+      background-size: 0% 1px;
+      transition: background-size .4s cubic-bezier(.25,.1,.25,1);
+    }
+    .work-load-more-btn:hover span {
+      background-size: 100% 1px;
+    }
+    .work-item { cursor: pointer; grid-column: span 4; }
+    /* 동적 렌더 카드가 reveal 초기상태(투명)로 남지 않게 고정 */
+    .work-section .work-item.reveal { opacity: 1; transform: none; }
+    /* 기본은 3열 구조 */
+    .work-item--large,
+    .work-item--small,
+    .work-item--wide { grid-column: span 4; }
+    @media(min-width:901px) {
+      .work-grid {
+        align-items: start;
+        row-gap: clamp(52px, 4.2vw, 84px);
+      }
+      .work-item {
+        display: block;
+        align-self: auto;
+      }
+    }
+    @media(max-width:900px) {
+      .work-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .work-item { grid-column: span 3; }
+      .work-item--large,
+      .work-item--small,
+      .work-item--wide { grid-column: span 3; }
+    }
+    @media(max-width:480px) {
+      .work-grid {
+        /* 레퍼런스 모바일처럼 좌(크게) 우(작게) 리듬 */
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        column-gap: 10px;
+        row-gap: 16px;
+      }
+      /* 모바일은 "큰(4col) + 작은(2col)"이 한 행을 꽉 채우게 고정 */
+      .work-item { grid-column: span 2; }
+      .work-item--large,
+      .work-item--wide { grid-column: span 4; }
+      .work-item--small { grid-column: span 2; }
+
+      /* 가장 큰 카드가 너무 납작해 보이는 문제 방지 */
+      .work-item--wide .work-item-img { aspect-ratio: 4 / 5; }
+
+      /* 레퍼런스처럼 작은 카드는 "셀 전체"를 꽉 채우지 않기 */
+      .work-item--small {
+        justify-self: end;
+        width: 86%;
+      }
+      .work-item--small .work-item-img {
+        width: 100%;
+      }
+    }
+    .work-item-img {
+      overflow: hidden;
+      aspect-ratio: 16 / 12;
+      background: #111;
+      position: relative;
+    }
+    /* 3열 리스트는 썸네일 비율을 동일하게 통일 */
+    .work-item--large .work-item-img,
+    .work-item--small .work-item-img,
+    .work-item--wide .work-item-img { aspect-ratio: 16 / 12; }
     .work-item-bg { width: 100%; height: 100%; transition: transform .7s cubic-bezier(.4,0,.2,1); }
     .work-item:hover .work-item-bg { transform: scale(1.04); }
-    .work-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 28px; background: linear-gradient(to top,rgba(0,0,0,.82) 0%,transparent 55%); opacity: 0; transition: opacity .4s; }
-    .work-item:hover .work-overlay { opacity: 1; }
-    .work-tag { font-size: var(--text-sm); letter-spacing: .15em; text-transform: uppercase; color: rgba(204,255,0,.85); margin-bottom: 6px; }
-    .work-name { font-family: 'PPNeueMontreal', sans-serif; font-weight: 500; font-size: clamp(1rem,2vw,1.4rem); color: var(--c-on-bg); letter-spacing: -.01em; }
-    .work-year { font-size: var(--text-sm); color: var(--c-secondary); margin-top: 4px; }
-    .work-item-bg .label { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'PPNeueMontreal', sans-serif; font-size: clamp(2rem,8vw,5rem); font-weight: 600; letter-spacing: -.04em; color: rgba(247,247,245,.04); text-transform: uppercase; }
+    .work-info { padding: 8px 0 0; }
+    .work-info-row {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 10px; margin-bottom: 2px;
+    }
+    .work-name {
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-weight: 400;
+      font-size: 1.25rem;
+      color: var(--c-on-bg);
+      letter-spacing: -0.01em;
+      text-transform: none;
+      line-height: 1.25;
+    }
+    .work-year {
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-weight: 400;
+      font-size: 1.25rem;
+      color: var(--c-on-bg);
+      letter-spacing: -0.005em;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .work-tag {
+      font-family: 'PPNeueMontreal', sans-serif;
+      font-weight: 400;
+      font-size: 1.25rem;
+      letter-spacing: -0.005em;
+      text-transform: none;
+      color: var(--c-secondary);
+      line-height: 1.3;
+      display: none;
+    }
+    @media(min-width:901px) {
+      /* 데스크톱 리스트 텍스트 크기 조정 */
+      .work-name, .work-year, .work-tag {
+        font-size: clamp(1.125rem, 1.15vw, 1.5rem);
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+      }
+      .work-count {
+        font-size: clamp(1.125rem, 1.15vw, 1.5rem);
+        line-height: 1.15;
+      }
+      .work-info-row { gap: 10px; margin-bottom: 2px; }
+    }
+    /* 텍스트는 통일해 안정감 유지 */
+    @media(max-width:900px) {
+      .work-info { padding-top: 8px; }
+      .work-name, .work-year, .work-tag { font-size: 1rem; }
+    }
+    @media(max-width:480px) {
+      .work-info { padding-top: 6px; }
+      .work-info-row { margin-bottom: 1px; gap: 6px; }
+      .work-name, .work-year, .work-tag { font-size: 0.82rem; line-height: 1.25; }
+    }
     .c1{background:linear-gradient(135deg,#181818,#282828);}
     .c2{background:linear-gradient(135deg,#141414,#242424);}
     .c3{background:linear-gradient(135deg,#1c1c1c,#2c2c2c);}
@@ -61,10 +208,11 @@
     .c6{background:linear-gradient(135deg,#121212,#222222);}
   </style>
 </head>
-<body>
+<body class="page-work">
   <div id="grain"></div>
 
   <grap-header active="work"></grap-header>
+
 
   <!-- ============================
        포트폴리오 그리드 — 수정 가능
@@ -82,85 +230,297 @@
       <button class="filter-btn" data-filter="ecommerce"><span data-i18n="work.filter.ecommerce">E-Commerce</span></button>
       <button class="filter-btn" data-filter="experience"><span data-i18n="work.filter.experience">Experience</span></button>
     </div>
+    <p class="work-count" id="workCount"></p>
     <div class="work-grid">
 
-      <div class="work-item featured" data-category="live">
-        <div class="work-item-bg c1" style="position:relative;width:100%;height:100%;"><span class="label">LIVE</span></div>
-        <div class="work-overlay">
-          <div class="work-tag">Live</div>
-          <div class="work-name">2024 World Tour — Tokyo Dome</div>
-          <div class="work-year">2024</div>
+      <div class="work-item work-item--wide reveal" data-category="live" data-scroll data-scroll-speed="0.035">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;background-image:url('https://cdn.prod.website-files.com/67722c5aae210395472679f2/6848dea5202aad5850e41e16_LGK_HK_00_Cover.jpg');background-size:cover;background-position:center;"></div>
         </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">2025 Lee Gikwang Solo Concert [Obsessed] in Hongkong</div><div class="work-year">( 2025 )</div></div><div class="work-tag">Kpop Agency, Show, Performance</div></div>
       </div>
 
-      <div class="work-item" data-category="branding">
-        <div class="work-item-bg c2" style="position:relative;width:100%;height:100%;"><span class="label">BRAND</span></div>
-        <div class="work-overlay">
-          <div class="work-tag">Branding</div>
-          <div class="work-name">X:IN 4th Mini Album</div>
-          <div class="work-year">2024</div>
+      <div class="work-item work-item--small reveal" data-category="branding" data-scroll data-scroll-speed="0.03">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;background-image:url('https://cdn.prod.website-files.com/67722c5aae210395472679f2/69aa4179f1c0eaaa06995985_XIN_4TH%20ALBUM_00_Cover.webp');background-size:cover;background-position:center;"></div>
         </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">X:IN The 4th Mini Album Design</div><div class="work-year">( 2026 )</div></div><div class="work-tag">Album Artwork, Pakage, K-POP</div></div>
       </div>
 
-      <div class="work-item" data-category="campaign">
-        <div class="work-item-bg c3" style="position:relative;width:100%;height:100%;"><span class="label">CAMPAIGN</span></div>
-        <div class="work-overlay">
-          <div class="work-tag">Campaign</div>
-          <div class="work-name">LG IFA 2024 Microsite</div>
-          <div class="work-year">2024</div>
+      <div class="work-item work-item--large reveal" data-category="branding" data-scroll data-scroll-speed="0.03">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;background-image:url('https://cdn.prod.website-files.com/67722c5aae210395472679f2/6858ad95d6d2e5f21611b765_XIN_3RD%20ALBUM_00_Cover.webp');background-size:cover;background-position:center;"></div>
         </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">X:IN The 3rd Mini Album Design</div><div class="work-year">( 2025 )</div></div><div class="work-tag">Album Artwork, Pakage, K-POP</div></div>
       </div>
 
-      <div class="work-item" data-category="app">
-        <div class="work-item-bg c4" style="position:relative;width:100%;height:100%;"><span class="label">APP</span></div>
-        <div class="work-overlay">
-          <div class="work-tag">App</div>
-          <div class="work-name">Wellune UX/UI Design</div>
-          <div class="work-year">2023</div>
+      <div class="work-item work-item--small reveal" data-category="campaign" data-scroll data-scroll-speed="0.028">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;background-image:url('https://cdn.prod.website-files.com/67722c5aae210395472679f2/685cf5959795ce7cd9ac8df5_001_V2.webp');background-size:cover;background-position:center;"></div>
         </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">Roborock Microsite</div><div class="work-year">( 2025 )</div></div><div class="work-tag">Campaign, UI/UX, Website</div></div>
       </div>
 
-      <div class="work-item" data-category="ecommerce">
-        <div class="work-item-bg c5" style="position:relative;width:100%;height:100%;"><span class="label">E-COM</span></div>
-        <div class="work-overlay">
-          <div class="work-tag">E-Commerce</div>
-          <div class="work-name">Ophily Brand Mall</div>
-          <div class="work-year">2023</div>
+      <div class="work-item work-item--wide reveal" data-category="website" data-scroll data-scroll-speed="0.025">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;background-image:url('https://cdn.prod.website-files.com/67722c5aae210395472679f2/685bd0931f172b420cdb0ace_ENT%20Website%20Builder_00.webp');background-size:cover;background-position:center;"></div>
         </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">Entertainment Website Builder</div><div class="work-year">( 2025 )</div></div><div class="work-tag">Entertainment, CMS, AI</div></div>
       </div>
 
-      <div class="work-item" data-category="experience">
-        <div class="work-item-bg c6" style="position:relative;width:100%;height:100%;"><span class="label">EXP</span></div>
-        <div class="work-overlay">
-          <div class="work-tag">Experience</div>
-          <div class="work-name">LG Science Park Tour Guide</div>
-          <div class="work-year">2023</div>
+      <div class="work-item work-item--small reveal" data-category="website" data-scroll data-scroll-speed="0.025">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;background-image:url('https://cdn.prod.website-files.com/67722c5aae210395472679f2/6858b2669388a07367707bbd_001.webp');background-size:cover;background-position:center;"></div>
         </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">ZUMP Website</div><div class="work-year">( 2024 )</div></div><div class="work-tag">UI/UX, Website</div></div>
       </div>
 
+      <div class="work-item work-item--large reveal" data-category="website" data-scroll data-scroll-speed="0.022">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;background-image:url('https://cdn.prod.website-files.com/67722c5aae210395472679f2/684f70fcafd56c7a4e78945f_001.webp');background-size:cover;background-position:center;"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">Monkey Travel Website</div><div class="work-year">( 2024 )</div></div><div class="work-tag">UI/UX, Website</div></div>
+      </div>
+
+      <div class="work-item work-item--small reveal" data-category="app" data-scroll data-scroll-speed="0.02">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;background-image:url('https://cdn.prod.website-files.com/67722c5aae210395472679f2/696609f6acf031a61032270e_LG-Pra-L_00_Cover.webp');background-size:cover;background-position:center;"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">LG Pra.L App</div><div class="work-year">( 2025 )</div></div><div class="work-tag">IoT, App, Beauty Tech, UX/UI, Motion Graphic</div></div>
+      </div>
+
+      <div class="work-item work-item--large reveal" data-category="app" data-scroll data-scroll-speed="0.018">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;background-image:url('https://cdn.prod.website-files.com/67722c5aae210395472679f2/6848e492597de959b7442cb1_Wellune_App_00_Hero_V2.webp');background-size:cover;background-position:center;"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">Wellune App</div><div class="work-year">( 2023 )</div></div><div class="work-tag">Healthcare, App, UX/UI</div></div>
+      </div>
+
+      <div class="work-item work-item--small reveal" data-category="ecommerce" data-scroll data-scroll-speed="0.016">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;background-image:url('https://cdn.prod.website-files.com/67722c5aae210395472679f2/685e4f81b4304bd8428454e9_Ohpily_00_Hero%20V2.webp');background-size:cover;background-position:center;"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">Ophily Brand Website</div><div class="work-year">( 2024 )</div></div><div class="work-tag">Beauty, E-Commerce, Website</div></div>
+      </div>
+
+      <div class="work-item work-item--small reveal" data-category="experience" data-scroll data-scroll-speed="0.014">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;background-image:url('https://cdn.prod.website-files.com/67722c5aae210395472679f2/685cf5865b39083ac80ce1d2_001.webp');background-size:cover;background-position:center;"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">ZUMP Dankook University Metaverse Campus</div><div class="work-year">( 2025 )</div></div><div class="work-tag">Education, Metaverse, Experience</div></div>
+      </div>
+
+      <div class="work-item work-item--small reveal" data-category="campaign" data-scroll data-scroll-speed="0.014">
+        <div class="work-item-img">
+          <div class="work-item-bg c2"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">Samsung EPP Referral Program</div><div class="work-year">( 2024 )</div></div><div class="work-tag">Visual Identity, Advertising</div></div>
+      </div>
+
+      <div class="work-item work-item--large reveal" data-category="branding" data-scroll data-scroll-speed="0.013">
+        <div class="work-item-img">
+          <div class="work-item-bg c3"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">Samsung SmartThings Design Assets</div><div class="work-year">( 2024 )</div></div><div class="work-tag">Graphic Assets</div></div>
+      </div>
+
+      <div class="work-item work-item--small reveal" data-category="campaign" data-scroll data-scroll-speed="0.013">
+        <div class="work-item-img">
+          <div class="work-item-bg c4"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">LG Sustainable Village QR Promotion Mobile Web</div><div class="work-year">( 2023 )</div></div><div class="work-tag">UX/UI, Web, IFA 2023</div></div>
+      </div>
+
+      <div class="work-item work-item--small reveal" data-category="campaign" data-scroll data-scroll-speed="0.012">
+        <div class="work-item-img">
+          <div class="work-item-bg c5"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">Samsung EPP Advantage Day</div><div class="work-year">( 2024 )</div></div><div class="work-tag">Visual Identity, Advertising</div></div>
+      </div>
+
+      <div class="work-item work-item--large reveal" data-category="website" data-scroll data-scroll-speed="0.012">
+        <div class="work-item-img">
+          <div class="work-item-bg c1"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">Samsung Game Portal</div><div class="work-year">( 2023 )</div></div><div class="work-tag">Proposal, Concept Design</div></div>
+      </div>
+
+      <div class="work-item work-item--small reveal" data-category="app" data-scroll data-scroll-speed="0.011">
+        <div class="work-item-img">
+          <div class="work-item-bg c6"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">Samsung Shop App Redesign Proposal</div><div class="work-year">( 2023 )</div></div><div class="work-tag">Shop, App, Commerce</div></div>
+      </div>
+
+      <div class="work-item work-item--small reveal" data-category="website" data-scroll data-scroll-speed="0.011">
+        <div class="work-item-img">
+          <div class="work-item-bg c2"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">Better Micro Website</div><div class="work-year">( 2023 )</div></div><div class="work-tag">Micro Website, Micro Interaction</div></div>
+      </div>
+
+      <div class="work-item work-item--large reveal" data-category="app" data-scroll data-scroll-speed="0.01">
+        <div class="work-item-img">
+          <div class="work-item-bg c4"></div>
+        </div>
+        <div class="work-info"><div class="work-info-row"><div class="work-name">SKON 2.0 App</div><div class="work-year">( 2023 )</div></div><div class="work-tag">UI/UX, App, Groupware, Illustration</div></div>
+      </div>
+
+    </div>
+    <div class="work-load-more-wrap">
+      <button class="work-load-more-btn" id="workLoadMoreBtn" type="button"><span>Load more</span></button>
     </div>
   </section>
 
   <grap-footer></grap-footer>
-  <script src="js/i18n.js?v=4"></script>
+  <script src="js/i18n.js?v=11"></script>
   <script src="js/grap-footer.js"></script>
   <script src="js/grap-init.js"></script>
   <script>
-    /* 필터 버튼 동작 */
-    document.querySelectorAll('.filter-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const filter = btn.dataset.filter;
-        document.querySelectorAll('.work-item').forEach(item => {
-          const match = filter === 'all' || item.dataset.category === filter;
-          item.style.display = match ? '' : 'none';
+    /* Locomotive Scroll PoC (work 페이지만 적용) */
+    (function () {
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const isMobile = window.matchMedia('(max-width: 900px)').matches;
+      if (prefersReduced || isMobile || typeof LocomotiveScroll === 'undefined') return;
+
+      try {
+        const loco = new LocomotiveScroll({
+          smooth: true,
+          lerp: 0.09,
+          wheelMultiplier: 0.95,
         });
-        /* featured 클래스: All Work일 때만 첫 번째 visible 아이템에 적용 */
-        const visible = Array.from(document.querySelectorAll('.work-item')).filter(i => i.style.display !== 'none');
-        visible.forEach((i, idx) => i.classList.toggle('featured', filter === 'all' && idx === 0));
+
+        /* 필터로 display 상태가 바뀌면 좌표 재계산 */
+        const refresh = () => loco.update();
+        window.addEventListener('load', refresh);
+        window.addEventListener('resize', refresh);
+        document.addEventListener('grap:lang', refresh);
+        window.__workLoco = loco;
+      } catch (e) {
+        console.warn('LocomotiveScroll init skipped:', e);
+      }
+    })();
+  </script>
+  <script>
+    const CMS_ENDPOINTS = [
+      'assets/data/works.json',
+      window.GRAP_WORK_CMS_API,
+      '/api/works',
+    ].filter(Boolean);
+    const WORK_INITIAL_VISIBLE = 9;
+    const WORK_LOAD_STEP = 6;
+    let workActiveFilter = 'all';
+    let workVisibleLimit = WORK_INITIAL_VISIBLE;
+    let workFilteredTotal = 0;
+
+    /* CMS 응답 항목 -> 카드 HTML */
+    function renderWorkItem(item, index) {
+      const sizeClass = ['work-item--wide', 'work-item--small', 'work-item--large'][index % 3];
+      const category = (item.category || item.Category || 'all').toLowerCase();
+      const title = item.title || item.name || item.Name || '';
+      const yearRaw = item.year || item.Year || '';
+      const year = yearRaw ? `( ${String(yearRaw).replace(/[^\d]/g, '').slice(0, 4)} )` : '';
+      const tag = item.tag || item.Industry || item['What We Did'] || '';
+      const image = item.image || item.thumbnail || item.Thumbnail || '';
+      const speed = item.scrollSpeed || '0.02';
+      const bg = image
+        ? `background-image:url('${image}');background-size:cover;background-position:center;`
+        : '';
+
+      return `<div class="work-item ${sizeClass}" data-category="${category}" data-scroll data-scroll-speed="${speed}">
+        <div class="work-item-img">
+          <div class="work-item-bg" style="width:100%;height:100%;${bg}"></div>
+        </div>
+        <div class="work-info">
+          <div class="work-info-row">
+            <div class="work-name">${title}</div>
+            <div class="work-year">${year}</div>
+          </div>
+          <div class="work-tag">${tag}</div>
+        </div>
+      </div>`;
+    }
+
+    /* 카운트 업데이트 */
+    function updateWorkCount() {
+      const n = workFilteredTotal;
+      document.getElementById('workCount').textContent = `${n} ${n === 1 ? 'Project' : 'Projects'}`;
+    }
+
+    /* 필터 + load more 적용 */
+    function applyWorkVisibility(resetLimit = false) {
+      if (resetLimit) workVisibleLimit = WORK_INITIAL_VISIBLE;
+      const allItems = Array.from(document.querySelectorAll('.work-item'));
+      const filtered = allItems.filter(item => workActiveFilter === 'all' || item.dataset.category === workActiveFilter);
+      workFilteredTotal = filtered.length;
+
+      allItems.forEach(item => { item.style.display = 'none'; });
+      filtered.forEach((item, idx) => {
+        item.style.display = idx < workVisibleLimit ? '' : 'none';
       });
-    });
+
+      const btn = document.getElementById('workLoadMoreBtn');
+      if (btn) btn.style.display = filtered.length > workVisibleLimit ? '' : 'none';
+    }
+
+    /* 필터 버튼 바인딩 */
+    function bindFilters() {
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          workActiveFilter = btn.dataset.filter;
+          applyWorkVisibility(true);
+          if (window.__workLoco) window.__workLoco.update();
+          updateWorkCount();
+        });
+      });
+    }
+
+    /* load more 버튼 동작 */
+    function bindLoadMore() {
+      const btn = document.getElementById('workLoadMoreBtn');
+      if (!btn) return;
+      btn.addEventListener('click', () => {
+        workVisibleLimit += WORK_LOAD_STEP;
+        applyWorkVisibility(false);
+        if (window.__workLoco) window.__workLoco.update();
+        updateWorkCount();
+      });
+    }
+
+    /* CMS 리스트 로드 (실패 시 기존 하드코딩 목록 유지) */
+    async function loadCmsWorks(grid) {
+      for (const endpoint of CMS_ENDPOINTS) {
+        try {
+          const res = await fetch(endpoint, { credentials: 'omit' });
+          if (!res.ok) throw new Error(`CMS API ${res.status}`);
+          const data = await res.json();
+          const items = Array.isArray(data) ? data : (Array.isArray(data.items) ? data.items : []);
+          if (!items.length) continue;
+          const sorted = [...items].sort((a, b) => {
+            const ay = parseInt(String(a.year || a.Year || '').replace(/[^\d]/g, '').slice(0, 4), 10) || 0;
+            const by = parseInt(String(b.year || b.Year || '').replace(/[^\d]/g, '').slice(0, 4), 10) || 0;
+            return by - ay;
+          });
+          grid.innerHTML = sorted.map(renderWorkItem).join('');
+          return;
+        } catch (e) {
+          console.warn(`CMS list load failed at ${endpoint}:`, e);
+        }
+      }
+    }
+
+    (async function initWorkList() {
+      const grid = document.querySelector('.work-grid');
+      if (!grid) return;
+      await loadCmsWorks(grid);
+      bindFilters();
+      bindLoadMore();
+      applyWorkVisibility(true);
+      updateWorkCount();
+      if (window.__workLoco) window.__workLoco.update();
+    })();
   </script>
 </body>
 </html>

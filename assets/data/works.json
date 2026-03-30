@@ -1,0 +1,642 @@
+[
+  {
+    "title": "VISIT SEOUL NET Brand Film",
+    "slug": "vsn",
+    "year": "2021",
+    "tag": "Video, Brand Flim",
+    "category": "experience",
+    "image": "assets/work/thumbs/vsn.webp"
+  },
+  {
+    "title": "Wellune App",
+    "slug": "wellune-app",
+    "year": "2023",
+    "tag": "App, IoT, Sleep Tech",
+    "category": "app",
+    "image": "assets/work/thumbs/wellune-app.webp"
+  },
+  {
+    "title": "Wellune for business",
+    "slug": "wellune-business",
+    "year": "2023",
+    "tag": "Sleep Tech, Dashboard",
+    "category": "website",
+    "image": "assets/work/thumbs/wellune-business.webp"
+  },
+  {
+    "title": "LG Sustainable Village QR Promotion Mobile Web",
+    "slug": "lg-qr-promotion",
+    "year": "2023",
+    "tag": "UX/UI, Web, IFA 2023",
+    "category": "app",
+    "image": "assets/work/thumbs/lg-qr-promotion.webp"
+  },
+  {
+    "title": "SKON 2.0 App",
+    "slug": "skon",
+    "year": "2023",
+    "tag": "UI/UX, App, Groupware, Illustation",
+    "category": "app",
+    "image": "assets/work/thumbs/skon.webp"
+  },
+  {
+    "title": "Better Micro Website",
+    "slug": "better",
+    "year": "2023",
+    "tag": "Micro Website, Micro Interaction",
+    "category": "website",
+    "image": "assets/work/thumbs/better.webp"
+  },
+  {
+    "title": "Ophily Brand Website",
+    "slug": "ohpily-website",
+    "year": "2024",
+    "tag": "Shopping Mall, Cafe 24",
+    "category": "ecommerce",
+    "image": "assets/work/thumbs/ohpily-website.webp"
+  },
+  {
+    "title": "HYPHEN PAY APP",
+    "slug": "hyphen-pay-app",
+    "year": "2022",
+    "tag": "Payment, App",
+    "category": "app",
+    "image": "assets/work/thumbs/hyphen-pay-app.jpg"
+  },
+  {
+    "title": "KIA K5 Beijing Motor Show",
+    "slug": "kia-k5-beijing-motor-show",
+    "year": "2010",
+    "tag": "Promotion, Opening Movie, 3D",
+    "category": "campaign",
+    "image": "assets/work/thumbs/kia-k5-beijing-motor-show.gif"
+  },
+  {
+    "title": "Samhwa Paint Website",
+    "slug": "samhwa-paint-website",
+    "year": "2020",
+    "tag": "UI/UX, Website, Admin",
+    "category": "website",
+    "image": "assets/work/thumbs/samhwa-paint-website.webp"
+  },
+  {
+    "title": "OnDream Society Website",
+    "slug": "ondream",
+    "year": "2022",
+    "tag": "UI/UX, Admin",
+    "category": "website",
+    "image": "assets/work/thumbs/ondream.webp"
+  },
+  {
+    "title": "Episode Website",
+    "slug": "episode-website",
+    "year": "2020",
+    "tag": "Website, Illustation",
+    "category": "website",
+    "image": "assets/work/thumbs/episode-website.webp"
+  },
+  {
+    "title": "Episode App 2.0",
+    "slug": "episode-app",
+    "year": "2021",
+    "tag": "Lifestyle, IoT, App",
+    "category": "app",
+    "image": "assets/work/thumbs/episode-app.webp"
+  },
+  {
+    "title": "Coway Sleep Care Jam",
+    "slug": "jam",
+    "year": "2021",
+    "tag": "Kiosk, Display",
+    "category": "experience",
+    "image": "assets/work/thumbs/jam.webp"
+  },
+  {
+    "title": "LGE ThinQ Home App",
+    "slug": "lge-thinq-home-app",
+    "year": "2022",
+    "tag": "Home IoT, App",
+    "category": "app",
+    "image": "assets/work/thumbs/lge-thinq-home-app.webp"
+  },
+  {
+    "title": "Hanhwa Life ONSURE",
+    "slug": "hanhwa-life-onsure",
+    "year": "2020",
+    "tag": "Website, Insurance",
+    "category": "website",
+    "image": "assets/work/thumbs/hanhwa-life-onsure.webp"
+  },
+  {
+    "title": "ELLE shop",
+    "slug": "elle-shop",
+    "year": "2020",
+    "tag": "App, Shop, Shopping",
+    "category": "ecommerce",
+    "image": "assets/work/thumbs/elle-shop.webp"
+  },
+  {
+    "title": "Around US Website",
+    "slug": "around-us-website",
+    "year": "2020",
+    "tag": "Entertainment, Website",
+    "category": "website",
+    "image": "assets/work/thumbs/around-us-website.webp"
+  },
+  {
+    "title": "LG Sciencepark Tour Guide UI",
+    "slug": "lg-sciencepark-tour-guide-ui",
+    "year": "2020",
+    "tag": "Robot, Tour Guide",
+    "category": "experience",
+    "image": "assets/work/thumbs/lg-sciencepark-tour-guide-ui.webp"
+  },
+  {
+    "title": "Qstorage Brand Website",
+    "slug": "qstorage-brand-website",
+    "year": "2020",
+    "tag": "Brand Website",
+    "category": "website",
+    "image": "assets/work/thumbs/qstorage-brand-website.webp"
+  },
+  {
+    "title": "Cellapy Website",
+    "slug": "cellapy-website",
+    "year": "2020",
+    "tag": "Beauty, Shopping",
+    "category": "ecommerce",
+    "image": "assets/work/thumbs/cellapy-website.webp"
+  },
+  {
+    "title": "Promota",
+    "slug": "promota",
+    "year": "2021",
+    "tag": "Digital Signage, Digital Menu",
+    "category": "app",
+    "image": "assets/work/thumbs/promota.webp"
+  },
+  {
+    "title": "Samhwa Paint Goods",
+    "slug": "samhwa-paint-goods",
+    "year": "2019",
+    "tag": "Package, Merch",
+    "category": "branding",
+    "image": "assets/work/thumbs/samhwa-paint-goods.webp"
+  },
+  {
+    "title": "DOUZONE Webuilder Template",
+    "slug": "douzone-webuilder-template",
+    "year": "2019",
+    "tag": "Web Builder, Templete",
+    "category": "ecommerce",
+    "image": "assets/work/thumbs/douzone-webuilder-template.jpg"
+  },
+  {
+    "title": "JTBC PLUS 4Media Websites",
+    "slug": "jtbc-plus-4media-websites",
+    "year": "2019",
+    "tag": "Magazine, Website",
+    "category": "experience",
+    "image": "assets/work/thumbs/jtbc-plus-4media-websites.webp"
+  },
+  {
+    "title": "Samhwa Paint Mobile Website",
+    "slug": "samhwa-paint-mobile-website",
+    "year": "2019",
+    "tag": "B2B, B2C, Corporate",
+    "category": "app",
+    "image": "assets/work/thumbs/samhwa-paint-mobile-website.webp"
+  },
+  {
+    "title": "Coway IoCare App",
+    "slug": "coway-iocare-app",
+    "year": "2017",
+    "tag": "App, IoT",
+    "category": "app",
+    "image": "assets/work/thumbs/coway-iocare-app.webp"
+  },
+  {
+    "title": "Smart Living by LG & Google Cloud",
+    "slug": "smart-living-by-lg-google-cloud",
+    "year": "2018",
+    "tag": "UI Design, Mov Production",
+    "category": "experience",
+    "image": "assets/work/thumbs/smart-living-by-lg-google-cloud.webp"
+  },
+  {
+    "title": "Spacebank Service Platform",
+    "slug": "spacebank-service-platform",
+    "year": "2019",
+    "tag": "Website, Space & Lifestyle Platform",
+    "category": "website",
+    "image": "assets/work/thumbs/spacebank-service-platform.webp"
+  },
+  {
+    "title": "SK Telecom 19′ MWC Demo App",
+    "slug": "sk-telecom-19-mwc-demo-app",
+    "year": "2019",
+    "tag": "UI/UX, Blockchain",
+    "category": "app",
+    "image": "assets/work/thumbs/sk-telecom-19-mwc-demo-app.webp"
+  },
+  {
+    "title": "SK Telecom Crypto Wallet",
+    "slug": "sk-telecom-crypto-wallet",
+    "year": "2018",
+    "tag": "Fintech, UX/UI",
+    "category": "experience",
+    "image": "assets/work/thumbs/sk-telecom-crypto-wallet.webp"
+  },
+  {
+    "title": "COWAY 19 CES Softner GUI",
+    "slug": "coway-19-ces-softner-gui",
+    "year": "2018",
+    "tag": "CES, IoT, Smart Home",
+    "category": "app",
+    "image": "assets/work/thumbs/coway-19-ces-softner-gui.webp"
+  },
+  {
+    "title": "CLOi UI",
+    "slug": "cloi-ui",
+    "year": "2018",
+    "tag": "Robot, UI/UX",
+    "category": "website",
+    "image": "assets/work/thumbs/cloi-ui.jpg"
+  },
+  {
+    "title": "YSNEAKERS X SM Entertainment",
+    "slug": "ysneakers-x-sm-entertainment",
+    "year": "2018",
+    "tag": "Entertainment, Custom Shoe UX",
+    "category": "branding",
+    "image": "assets/work/thumbs/ysneakers-x-sm-entertainment.webp"
+  },
+  {
+    "title": "Running Man Animation Website + Game GUI",
+    "slug": "running-man-animation-website-game-gui",
+    "year": "2019",
+    "tag": "Promotion Site, Game GUI",
+    "category": "website",
+    "image": "assets/work/thumbs/running-man-animation-website-game-gui.webp"
+  },
+  {
+    "title": "YSNEAKERS Official Site",
+    "slug": "ysneakers-official-site",
+    "year": "2018",
+    "tag": "Custom Shoe UX",
+    "category": "experience",
+    "image": "assets/work/thumbs/ysneakers-official-site.webp"
+  },
+  {
+    "title": "Pepper Robot UI",
+    "slug": "pepper-robot-ui",
+    "year": "2017",
+    "tag": "Robot UX/UI, LG U+",
+    "category": "website",
+    "image": "assets/work/thumbs/pepper-robot-ui.webp"
+  },
+  {
+    "title": "Shinhan Zeroland",
+    "slug": "shinhan-zeroland",
+    "year": "2017",
+    "tag": "Finance, Promotion",
+    "category": "campaign",
+    "image": "assets/work/thumbs/shinhan-zeroland.webp"
+  },
+  {
+    "title": "SK stoa",
+    "slug": "sk-stoa",
+    "year": "2018",
+    "tag": "TV, Commerce, UX/UI",
+    "category": "ecommerce",
+    "image": "assets/work/thumbs/sk-stoa.webp"
+  },
+  {
+    "title": "LG CNS CMB Cloud TV",
+    "slug": "lg-cns-cmb-cloud-tv",
+    "year": "2016",
+    "tag": "IPTV, TV, VOD",
+    "category": "website",
+    "image": "assets/work/thumbs/lg-cns-cmb-cloud-tv.webp"
+  },
+  {
+    "title": "Coway IoCare Web Service",
+    "slug": "coway-iocare-web-service",
+    "year": "2017",
+    "tag": "Dashboard, Web",
+    "category": "website",
+    "image": "assets/work/thumbs/coway-iocare-web-service.webp"
+  },
+  {
+    "title": "2025 LEE GIKWANG SOLO CONCERT [OBSESSED] IN HONGKONG",
+    "slug": "2025-lee-gikwang-solo-concert-obsessed-in-hongkong",
+    "year": "2025",
+    "tag": "Kpop Agency, Show, Performance",
+    "category": "live",
+    "image": "assets/work/thumbs/2025-lee-gikwang-solo-concert-obsessed-in-hongkong.jpg"
+  },
+  {
+    "title": "Samsung EPP Advantage Day",
+    "slug": "samsung-epp-advantage-day",
+    "year": "2024",
+    "tag": "Visual Identity, Advertising",
+    "category": "campaign",
+    "image": "assets/work/thumbs/samsung-epp-advantage-day.webp"
+  },
+  {
+    "title": "Samsung EPP Referral Program",
+    "slug": "samsung-referral",
+    "year": "2024",
+    "tag": "Visual Identity, Advertising",
+    "category": "branding",
+    "image": "assets/work/thumbs/samsung-referral.webp"
+  },
+  {
+    "title": "Samsung SmartThings Design Assets",
+    "slug": "samsung-smartthings",
+    "year": "2024",
+    "tag": "Graphic Assets",
+    "category": "app",
+    "image": "assets/work/thumbs/samsung-smartthings.webp"
+  },
+  {
+    "title": "Monkey Travel Website",
+    "slug": "monkey-travel-website",
+    "year": "2024",
+    "tag": "UI/UX, Website",
+    "category": "experience",
+    "image": "assets/work/thumbs/monkey-travel-website.webp"
+  },
+  {
+    "title": "Samsung Game Portal",
+    "slug": "samsung-game-portal",
+    "year": "2023",
+    "tag": "Proposal, Concept Design",
+    "category": "branding",
+    "image": "assets/work/thumbs/samsung-game-portal.webp"
+  },
+  {
+    "title": "Samsung Shop App Redesign Proposal",
+    "slug": "samsung-shop-app",
+    "year": "2023",
+    "tag": "Shop, App, Commerce",
+    "category": "ecommerce",
+    "image": "assets/work/thumbs/samsung-shop-app.webp"
+  },
+  {
+    "title": "ZUMP Dankook University Metaverse Campus",
+    "slug": "zump-dku",
+    "year": "2025",
+    "tag": "Metaverse, 3D Map",
+    "category": "experience",
+    "image": "assets/work/thumbs/zump-dku.webp"
+  },
+  {
+    "title": "Roborock Microsite",
+    "slug": "roborock-microsite",
+    "year": "2025",
+    "tag": "Micro Website, Promotion, Event",
+    "category": "experience",
+    "image": "assets/work/thumbs/roborock-microsite.webp"
+  },
+  {
+    "title": "X:IN THE 3RD MINI ALBUM DESIGN",
+    "slug": "xin-3rd-album",
+    "year": "2025",
+    "tag": "Album Artwork, Pakage, K-POP",
+    "category": "branding",
+    "image": "assets/work/thumbs/xin-3rd-album.webp"
+  },
+  {
+    "title": "ZUMP Website",
+    "slug": "zump-website",
+    "year": "2024",
+    "tag": "UI/UX, Website",
+    "category": "website",
+    "image": "assets/work/thumbs/zump-website.webp"
+  },
+  {
+    "title": "Entertainment Website Builder",
+    "slug": "entertainment-website-builder",
+    "year": "2025",
+    "tag": "Entertainment, CMS, AI",
+    "category": "website",
+    "image": "assets/work/thumbs/entertainment-website-builder.webp"
+  },
+  {
+    "title": "JoongAng Ilbo Native AD",
+    "slug": "joongang-ilbo-native-ad",
+    "year": "2016",
+    "tag": "AD, Brand page",
+    "category": "website",
+    "image": "assets/work/thumbs/joongang-ilbo-native-ad.webp"
+  },
+  {
+    "title": "PANTECH iSky Brand Site",
+    "slug": "pantech-isky-brand-site",
+    "year": "2016",
+    "tag": "Brand Site",
+    "category": "website",
+    "image": "assets/work/thumbs/pantech-isky-brand-site.webp"
+  },
+  {
+    "title": "Volkswagen Passat Launch Campaign",
+    "slug": "volkswagen-passat-launch-campaign",
+    "year": "2016",
+    "tag": "Campaign Site, Launch",
+    "category": "campaign",
+    "image": "assets/work/thumbs/volkswagen-passat-launch-campaign.jpg"
+  },
+  {
+    "title": "KT olleh tv play App",
+    "slug": "kt-olleh-tv-play-app",
+    "year": "2016",
+    "tag": "App, IPTV, VOD",
+    "category": "app",
+    "image": "assets/work/thumbs/kt-olleh-tv-play-app.webp"
+  },
+  {
+    "title": "HonestFund Application",
+    "slug": "honestfund-application",
+    "year": "2016",
+    "tag": "App, Finance",
+    "category": "app",
+    "image": "assets/work/thumbs/honestfund-application.webp"
+  },
+  {
+    "title": "CJ O Shopping Malaysia",
+    "slug": "cj-o-shopping-malaysia",
+    "year": "2016",
+    "tag": "App, Shopping",
+    "category": "ecommerce",
+    "image": "assets/work/thumbs/cj-o-shopping-malaysia.webp"
+  },
+  {
+    "title": "YUYU MARKET",
+    "slug": "yuyu-market",
+    "year": "2015",
+    "tag": "Web, Shopping Mall",
+    "category": "ecommerce",
+    "image": "assets/work/thumbs/yuyu-market.webp"
+  },
+  {
+    "title": "T-Map Taxi Motion Design",
+    "slug": "t-map-taxi-motion-design",
+    "year": "2015",
+    "tag": "Motion",
+    "category": "website",
+    "image": "assets/work/thumbs/t-map-taxi-motion-design.jpg"
+  },
+  {
+    "title": "Syrup Promotion",
+    "slug": "syrup-promotion",
+    "year": "2015",
+    "tag": "Event, Promotion",
+    "category": "ecommerce",
+    "image": "assets/work/thumbs/syrup-promotion.jpg"
+  },
+  {
+    "title": "DAELIM ENERGY Website",
+    "slug": "daelim-energy-website",
+    "year": "2015",
+    "tag": "Website",
+    "category": "website",
+    "image": "assets/work/thumbs/daelim-energy-website.jpg"
+  },
+  {
+    "title": "Suprema BioStation T2",
+    "slug": "suprema-biostation-t2",
+    "year": "2015",
+    "tag": "App, Security & Biometrics",
+    "category": "app",
+    "image": "assets/work/thumbs/suprema-biostation-t2.jpg"
+  },
+  {
+    "title": "M.NET MUSIC APP",
+    "slug": "m-net-music-app",
+    "year": "2015",
+    "tag": "Music App",
+    "category": "app",
+    "image": "assets/work/thumbs/m-net-music-app.jpg"
+  },
+  {
+    "title": "CJ O Shopping Mexico",
+    "slug": "cj-o-shopping-mexico",
+    "year": "2015",
+    "tag": "App, Shopping Mall",
+    "category": "ecommerce",
+    "image": "assets/work/thumbs/cj-o-shopping-mexico.jpg"
+  },
+  {
+    "title": "SUPREMA WEBSITE",
+    "slug": "suprema-website",
+    "year": "2015",
+    "tag": "Website, Security & Biometrics",
+    "category": "website",
+    "image": "assets/work/thumbs/suprema-website.jpg"
+  },
+  {
+    "title": "CJ O Shopping China",
+    "slug": "cj-o-shopping-china",
+    "year": "2015",
+    "tag": "App, Shopping Mall",
+    "category": "ecommerce",
+    "image": "assets/work/thumbs/cj-o-shopping-china.jpg"
+  },
+  {
+    "title": "LG CNS Smart Home Portal",
+    "slug": "lg-cns-smart-home-portal",
+    "year": "2015",
+    "tag": "Home IoT",
+    "category": "app",
+    "image": "assets/work/thumbs/lg-cns-smart-home-portal.jpg"
+  },
+  {
+    "title": "KAKAO PROMOTION",
+    "slug": "kakao-promotion",
+    "year": "2015",
+    "tag": "Web, Promotion",
+    "category": "website",
+    "image": "assets/work/thumbs/kakao-promotion.jpg"
+  },
+  {
+    "title": "VOLKSWAGEN NEW JETTA",
+    "slug": "volkswagen-new-jetta",
+    "year": "2014",
+    "tag": "Campaign Site, Launch",
+    "category": "campaign",
+    "image": "assets/work/thumbs/volkswagen-new-jetta.jpg"
+  },
+  {
+    "title": "SKB MOD",
+    "slug": "skb-mod",
+    "year": "2014",
+    "tag": "Tablet, Hospital",
+    "category": "website",
+    "image": "assets/work/thumbs/skb-mod.jpg"
+  },
+  {
+    "title": "Transparent Flexible Display",
+    "slug": "transparent-flexible-display",
+    "year": "2014",
+    "tag": "TFD, TV",
+    "category": "experience",
+    "image": "assets/work/thumbs/transparent-flexible-display.jpg"
+  },
+  {
+    "title": "TVING WEBSITE",
+    "slug": "tving-website",
+    "year": "2014",
+    "tag": "Web, VOD",
+    "category": "website",
+    "image": "assets/work/thumbs/tving-website.jpg"
+  },
+  {
+    "title": "B1A4 TEASER PAGE",
+    "slug": "b1a4-teaser-page",
+    "year": "2014",
+    "tag": "Web, Entertainment",
+    "category": "website",
+    "image": "assets/work/thumbs/b1a4-teaser-page.webp"
+  },
+  {
+    "title": "KAKAO AD PLATFOM CONFERENCE",
+    "slug": "kakao-ad-platfom-conference",
+    "year": "2013",
+    "tag": "Conference",
+    "category": "website",
+    "image": "assets/work/thumbs/kakao-ad-platfom-conference.webp"
+  },
+  {
+    "title": "LEE EUN GYEOL PROJECT WEBSITE",
+    "slug": "lee-eun-gyeol-project-website",
+    "year": "2013",
+    "tag": "Website",
+    "category": "website",
+    "image": "assets/work/thumbs/lee-eun-gyeol-project-website.jpg"
+  },
+  {
+    "title": "Cetaphil",
+    "slug": "cetaphil",
+    "year": "2014",
+    "tag": "Dermatology",
+    "category": "campaign",
+    "image": "assets/work/thumbs/cetaphil.webp"
+  },
+  {
+    "title": "LG Pra.L App",
+    "slug": "lg-pra-l-app",
+    "year": "2025",
+    "tag": "IoT, App, Beauty Tech, UX/UI, Motion Graphic",
+    "category": "experience",
+    "image": "assets/work/thumbs/lg-pra-l-app.webp"
+  },
+  {
+    "title": "X:IN THE 4TH MINI ALBUM DESIGN",
+    "slug": "xin-4th-mini-album",
+    "year": "2026",
+    "tag": "Album Artwork, Pakage, K-POP",
+    "category": "branding",
+    "image": "assets/work/thumbs/xin-4th-mini-album.webp"
+  }
+]
