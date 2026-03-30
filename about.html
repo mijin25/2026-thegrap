@@ -22,21 +22,41 @@
     .about-clients,
     grap-footer { position: relative; z-index: 1; }
 
-    /* ── ABOUT WEBGL BACKGROUND CANVAS ── */
-    #about-bg-canvas {
+    /* ── ABOUT: 우주(별) WebGL 배경 — 유체 레이어 없음 (마우스·블렌드 스택은 backups/about-mouse-blend-20260330 참고) ── */
+    #gradient-canvas {
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100vh;
       z-index: 0;
       pointer-events: none;
-      /* blur 제거 — 별이 선명하게 보이도록 */
+      overflow: hidden;
+      isolation: isolate;
+    }
+    #gradient-canvas canvas {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+    }
+    #gradient-canvas .about-space-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
     }
 
-    /* base.css #grain 은 z-index:9989 — 글자 위에 있으면 커서 difference 백드롭이 ‘그레인+글자’가 되어
-       흰색 위 반전이 거의 안 보임. ABOUT만 그레인을 캔버스와 같은 층으로 내려 콘텐츠(z-index:1) 뒤에 둠 */
-    #grain {
-      z-index: 0;
+    /* 로드 시 opacity 0 → WebGL 첫 페인트 후 페이드인 */
+    body.page-about {
+      opacity: 0;
+      transition: opacity 0.85s cubic-bezier(0.22, 0.1, 0.2, 1);
+    }
+    body.page-about.page-about--ready {
+      opacity: 1;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      body.page-about {
+        opacity: 1;
+        transition: none;
+      }
     }
 
     /* ── HERO ── */
@@ -44,8 +64,8 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;          /* 타이틀 하단 고정 */
-      padding: 0 var(--gutter) var(--gutter);
+      justify-content: flex-end;
+      padding: 0 var(--gutter) clamp(20px, 4vw, 40px);
       overflow: hidden;
     }
 
@@ -57,6 +77,10 @@
       clip-path: inset(-0.5em -9999px -0.25em -9999px); /* 하단 여유 확보 (디센더 보정) */
     }
     .page-title--copy span { white-space: nowrap; }
+    /* base.css .page-title span 의 translateY(110%) 리빌이 ABOUT 히어로 GSAP과 충돌 → 초기 위치 고정 */
+    body.page-about .page-title--copy span {
+      transform: translateY(0);
+    }
 
     @media (max-width: 480px) {
       .page-title.page-title--copy {
@@ -65,221 +89,10 @@
       }
     }
 
-    /* ── 커서 발광 ──
-       1) difference 코어는 DOM상 맨 아래 → 형제 screen과 일식 없이 쌓음.
-       2) 글로우에 filter:blur 쓰면 투명 중심도 번져 screen이 코어를 덮음 → mask로 중앙 구멍 뚫음.
-       3) 흰 글자 반전은 코어가 ‘글자 픽셀’과 직접 difference 해야 함 → #grain을 콘텐츠 아래로(위 참고).
-    ── */
-    @media (hover: hover) and (pointer: fine) {
-      /* 기본 화살표 유지 — cursor: none 금지. 실제 클릭 위치는 OS 커서, 글로우는 뒤늦게 따라옴 */
-      #ab-cursor {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0;
-        height: 0;
-        pointer-events: none;
-        z-index: 99999;
-        will-change: transform;
-      }
-
-      .ab-cursor-core,
-      .ab-cursor-mid,
-      .ab-cursor-bloom {
-        pointer-events: none; /* 부모 상속과 별개로 명시 — 클릭/호버는 항상 아래 요소로 */
-      }
-
-      /* 맨 아래: difference — 정사각 + 원형으로 서브픽셀·타원 왜곡 최소화 */
-      .ab-cursor-core {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 76px;
-        height: 76px;
-        aspect-ratio: 1;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background: radial-gradient(circle at 50% 50%,
-          #fff 0%,
-          rgba(255, 255, 255, 0.95) 18%,
-          rgba(255, 255, 255, 0.4) 48%,
-          rgba(255, 255, 255, 0.06) 74%,
-          rgba(255, 255, 255, 0) 88%);
-        filter: blur(5px);
-        mix-blend-mode: difference;
-        z-index: 0;
-        transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
-                    height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      /* 중간: 링만 그림 — mask로 중심 제거해 blur 번짐이 코어·글자 반전을 막지 않게 */
-      .ab-cursor-mid {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 200px;
-        height: 200px;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background: radial-gradient(circle at 50% 50%,
-          rgba(255, 255, 255, 0.5) 0%,
-          rgba(255, 255, 255, 0.32) 32%,
-          rgba(220, 255, 100, 0.38) 52%,
-          rgba(204, 255, 0, 0.45) 70%,
-          rgba(180, 255, 40, 0.14) 86%,
-          transparent 100%);
-        -webkit-mask-image: radial-gradient(circle at 50% 50%,
-          transparent 0%,
-          transparent 46%,
-          #000 58%,
-          #000 72%,
-          #000 100%);
-        mask-image: radial-gradient(circle at 50% 50%,
-          transparent 0%,
-          transparent 46%,
-          #000 58%,
-          #000 72%,
-          #000 100%);
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
-        filter: blur(14px);
-        mix-blend-mode: screen;
-        opacity: 0.95;
-        z-index: 1;
-        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      /* 바깥: 정원 링 — 280×236 타원이었을 때 전체가 가로로 눌린 느낌 나던 문제 완화 */
-      .ab-cursor-bloom {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 264px;
-        height: 264px;
-        transform: translate(-50%, -50%);
-        border-radius: 50%;
-        background: radial-gradient(circle at 50% 50%,
-          rgba(255, 255, 255, 0.32) 0%,
-          rgba(255, 255, 255, 0.22) 26%,
-          rgba(210, 255, 60, 0.5) 48%,
-          rgba(204, 255, 0, 0.38) 64%,
-          rgba(170, 255, 30, 0.16) 78%,
-          transparent 92%);
-        -webkit-mask-image: radial-gradient(circle at 50% 50%,
-          transparent 0%,
-          transparent 34%,
-          #000 50%,
-          #000 66%,
-          #000 100%);
-        mask-image: radial-gradient(circle at 50% 50%,
-          transparent 0%,
-          transparent 34%,
-          #000 50%,
-          #000 66%,
-          #000 100%);
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
-        filter: blur(54px);
-        mix-blend-mode: screen;
-        opacity: 0.94;
-        z-index: 2;
-        transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-                    opacity 0.3s ease;
-      }
-
-      #ab-cursor.is-hover .ab-cursor-bloom {
-        transform: translate(-50%, -50%) scale(1.06);
-        opacity: 0.97;
-      }
-      #ab-cursor.is-hover .ab-cursor-mid {
-        transform: translate(-50%, -50%) scale(1.04);
-      }
-      #ab-cursor.is-hover .ab-cursor-core {
-        width: 90px;
-        height: 90px;
-      }
-
-      #ab-cursor-trail {
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        z-index: 99998;
-        overflow: hidden;
-      }
-      .ab-trail-node {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 220px;
-        height: 184px;
-        border-radius: 50%;
-        background: radial-gradient(ellipse 52% 48% at 50% 50%,
-          rgba(255, 255, 255, 0.12) 0%,
-          rgba(255, 255, 255, 0.3) 32%,
-          rgba(204, 255, 0, 0.26) 52%,
-          rgba(204, 255, 0, 0.08) 72%,
-          transparent 86%);
-        -webkit-mask-image: radial-gradient(ellipse 52% 48% at 50% 50%,
-          transparent 0%,
-          transparent 22%,
-          #000 48%,
-          #000 100%);
-        mask-image: radial-gradient(ellipse 52% 48% at 50% 50%,
-          transparent 0%,
-          transparent 22%,
-          #000 48%,
-          #000 100%);
-        -webkit-mask-repeat: no-repeat;
-        mask-repeat: no-repeat;
-        filter: blur(34px);
-        mix-blend-mode: screen;
-        opacity: 0;
-        will-change: transform, opacity;
-      }
-
-      /* 좁은 데스크톱/태블릿 가로: 터치 타깃·가독성 위해 약간 축소 */
-      @media (max-width: 900px) {
-        .ab-cursor-bloom {
-          width: 220px;
-          height: 220px;
-          filter: blur(40px);
-        }
-        .ab-cursor-mid {
-          width: 150px;
-          height: 150px;
-          filter: blur(12px);
-          -webkit-mask-image: radial-gradient(circle at 50% 50%,
-            transparent 0%,
-            transparent 42%,
-            #000 60%,
-            #000 100%);
-          mask-image: radial-gradient(circle at 50% 50%,
-            transparent 0%,
-            transparent 42%,
-            #000 60%,
-            #000 100%);
-        }
-        .ab-cursor-core {
-          width: 56px;
-          height: 56px;
-          filter: blur(3px);
-        }
-        #ab-cursor.is-hover .ab-cursor-core {
-          width: 66px;
-          height: 66px;
-        }
-        .ab-trail-node {
-          width: 180px;
-          height: 152px;
-          filter: blur(26px);
-        }
-      }
-    }
-
-    /* ── HERO SUB ── */
     .hero-sub {
       margin-top: clamp(24px, 3.5vw, 48px);
     }
+
     .hero-sub-text {
       font-family: 'PPNeueMontreal', sans-serif;
       font-weight: 400;
@@ -292,8 +105,13 @@
     html:lang(ko) .hero-sub-text { font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
     html:lang(zh-CN) .hero-sub-text { font-family: 'PPNeueMontreal', 'Noto Sans TC', 'PingFang SC', sans-serif; }
     html:lang(ja) .hero-sub-text { font-family: 'PPNeueMontreal', 'Noto Sans JP', 'Hiragino Sans', sans-serif; }
+    /* 모바일: 본문 가독성 참고(15px / 24px 줄간격) */
     @media (max-width: 768px) {
-      .hero-sub-text { max-width: 100%; font-size: clamp(0.82rem, 3.5vw, 0.95rem); }
+      .hero-sub-text {
+        max-width: 100%;
+        font-size: 15px;
+        line-height: 24px;
+      }
     }
 
     /* ── MANIFESTO ── */
@@ -409,15 +227,27 @@
       /* 각 그룹: 2컬럼 그리드 (라벨 auto / 서비스 1fr) */
       .cap-group { display: grid; grid-template-columns: 1fr 1fr; margin-bottom: clamp(28px,6vw,40px); }
       .cap-anchor { display: none; }
+      /* 그룹 라벨·서비스명 동일 타입 스케일 — 구분은 굵기만(라벨 600) */
       .cap-group-label {
         display: block;
         grid-column: 1; grid-row: 1 / span 99;
-        font-family: 'PPNeueMontreal', 'Pretendard', sans-serif; font-weight: 500;
-        font-size: clamp(1rem, 4.5vw, 1.4rem); letter-spacing: -0.02em;
+        font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
+        font-weight: 600;
+        font-size: 15px;
+        line-height: 24px;
+        letter-spacing: -0.02em;
         padding-top: 3px;
         color: var(--c-on-bg);
       }
-      .cap-service { grid-column: 2; font-size: clamp(0.85rem, 3.8vw, 1.1rem); padding: clamp(4px,1.2vw,8px) 0; border-bottom: none; overflow-wrap: anywhere; }
+      .cap-service {
+        grid-column: 2;
+        font-size: 15px;
+        line-height: 24px;
+        font-weight: 500;
+        padding: clamp(4px, 1.2vw, 8px) 0;
+        border-bottom: none;
+        overflow-wrap: anywhere;
+      }
       .cap-group-gap { display: none; }
       .about-clients { padding: clamp(88px,12vw,120px) var(--gutter) clamp(72px,10vw,100px); }
 
@@ -482,9 +312,11 @@
 
   </style>
 </head>
-<body>
+<body class="page-about" data-template="about">
   <div id="grain"></div>
-  <canvas id="about-bg-canvas" aria-hidden="true"></canvas>
+  <div id="gradient-canvas" aria-hidden="true">
+    <canvas id="about-space-canvas" class="about-space-canvas" aria-hidden="true"></canvas>
+  </div>
 
   <grap-header active="about"></grap-header>
 
@@ -603,7 +435,7 @@
 
   <grap-footer></grap-footer>
   <script src="js/grap-footer.js"></script>
-  <script src="js/i18n.js?v=4"></script>
+  <script src="js/i18n.js?v=6"></script>
   <script src="js/grap-init.js"></script>
   <script>
     /* ── Hero 타이틀: 히어로 섹션 하단에서 슬라이드업 ── */
@@ -615,7 +447,6 @@
       gsap.killTweensOf(document.querySelectorAll('.page-title--copy span'));
       gsap.set('.page-title--copy span', { y: 0 });
 
-      // h1이 히어로 하단에 있으므로, 자기 높이만큼 아래에서 시작
       const h1Rect = h1.getBoundingClientRect();
       const startY = h1Rect.height + 80;
       gsap.fromTo(h1,
@@ -623,7 +454,6 @@
         { y: 0, duration: 1.6, ease: 'expo.out', delay: 0.05 }
       );
 
-      /* hero-sub: h1 슬라이드 후 페이드인 */
       const heroSub = section.querySelector('.hero-sub');
       if (heroSub) {
         gsap.fromTo(heroSub,
@@ -732,318 +562,38 @@
     })();
   </script>
 
+  <script src="js/about-space-bg.js"></script>
   <script>
-    /* ── About 배경: 성운 + 별 패럴랙스 (마우스 따라 레이어별 다른 속도로 이동) ── */
     (function () {
-      const canvas = document.getElementById('about-bg-canvas');
-      if (!canvas) return;
-
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-      if (!gl) return;
-
-      let W = window.innerWidth, H = window.innerHeight;
-      const DPR = Math.min(window.devicePixelRatio, 1.5);
-
-      function compile(type, src) {
-        const s = gl.createShader(type);
-        gl.shaderSource(s, src); gl.compileShader(s); return s;
+      var revealed = false;
+      function revealAboutPage() {
+        if (revealed) return;
+        revealed = true;
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            document.body.classList.add('page-about--ready');
+          });
+        });
       }
-      function link(vs, fs) {
-        const p = gl.createProgram();
-        gl.attachShader(p, compile(gl.VERTEX_SHADER, vs));
-        gl.attachShader(p, compile(gl.FRAGMENT_SHADER, fs));
-        gl.linkProgram(p); return p;
+      window.addEventListener('about-fluid-ready', revealAboutPage);
+      window.addEventListener('about-fluid-error', revealAboutPage);
+      /* WebGL 유체 제거됨 — 리스너 등록 뒤에 즉시 표시 */
+      window.dispatchEvent(new CustomEvent('about-fluid-ready'));
+      setTimeout(function () {
+        if (!revealed) revealAboutPage();
+      }, 5000);
+
+      function syncScrollbarClass() {
+        document.body.classList.toggle(
+          'has-scrollbar-y',
+          document.documentElement.scrollHeight > window.innerHeight + 2
+        );
       }
-
-      const QUAD_VS = `attribute vec2 a_pos; varying vec2 vUv;
-        void main(){ vUv = a_pos*0.5+0.5; gl_Position=vec4(a_pos,0.,1.); }`;
-
-      /* ── 배경 셰이더: Studio Lumio 스타일 가우시안 블롭 + 별 패럴랙스 ── */
-      const BG_FS = `
-        precision highp float;
-        uniform float uTime;
-        uniform vec2  uResolution;
-        uniform vec2  uMouse;
-        uniform float uAspect;
-        varying vec2 vUv;
-
-        float hash21(vec2 p){
-          p = fract(p * vec2(127.1, 311.7));
-          p += dot(p, p + 17.19);
-          return fract(p.x * p.y);
-        }
-
-        /* 필름 그레인: 30fps 갱신 — 살아있는 노이즈 질감 */
-        float grain(vec2 uv, float t){
-          float frame = floor(t * 30.0);
-          vec2 px = floor(uv * uResolution) + frame * vec2(127.3, 311.7);
-          px = fract(px * vec2(0.1031, 0.1030));
-          px += dot(px, px.yx + 33.33);
-          return fract((px.x + px.y) * px.x);
-        }
-
-        /* 가우시안 블롭: 원형 부드러운 빛 덩어리
-           radius = 화면 높이 대비 비율 (0.3 = 화면 높이의 30%) */
-        float blob(vec2 uv, vec2 center, float radius){
-          vec2 d = uv - center;
-          d.x *= uAspect; /* x축 aspect 보정 → 원형 */
-          return exp(-dot(d, d) / (radius * radius));
-        }
-
-        /* 흩뿌린 별 — 낮은 scale로 셀이 커서 랜덤 위치가 격자처럼 안 보임
-           scale=20이면 셀 1개가 화면의 1/20 크기 → 별이 자유롭게 흩어짐 */
-        float scatteredStars(vec2 uv, float scale, float density, float pxR){
-          vec2 grid = uv * scale;
-          vec2 cell = floor(grid);
-          vec2 f    = fract(grid);
-          float cpw = uResolution.x / scale;
-          float cph = uResolution.y / scale;
-          float result = 0.0;
-          for(int x = -1; x <= 1; x++){
-            for(int y = -1; y <= 1; y++){
-              vec2 c = cell + vec2(float(x), float(y));
-              if(hash21(c) > density) continue;
-              /* 셀 내 완전 무작위 위치 (0~1) → 격자 없는 자연스러운 산포 */
-              vec2 starPos = vec2(hash21(c + 0.1), hash21(c + 0.2));
-              vec2 pos = (vec2(float(x), float(y)) + starPos) - f;
-              float d = length(vec2(pos.x * cpw, pos.y * cph));
-              float brightness = hash21(c + 0.3) * 0.55 + 0.45;
-              /* 숨쉬기: 5~15초 주기, 꺼졌다 켜지는 대비 강하게 */
-              float speed = hash21(c + 0.4) * 0.84 + 0.42;
-              float phase = hash21(c + 0.5) * 6.28;
-              float breath = pow(sin(uTime * speed + phase) * 0.5 + 0.5, 3.0);
-              float core = smoothstep(pxR,       0.0, d);
-              float glow = smoothstep(pxR * 2.8, 0.0, d) * 0.15;
-              result += (core + glow) * brightness * breath;
-            }
-          }
-          return clamp(result, 0.0, 1.0);
-        }
-
-        void main(){
-          vec2 uv = vUv;
-          float t  = uTime;
-          vec2 m   = uMouse - 0.5; /* [-0.5, 0.5] */
-
-          /* ── 가우시안 블롭 4개 ──────────────────────────────────────
-             각 블롭: 다른 위치 + 느린 드리프트 + 개별 패럴랙스 속도
-             깊이감: 빠른 패럴랙스 = 앞쪽 블롭
-          ─────────────────────────────────────────────────────────── */
-
-          /* ── 가우시안 블롭: 중심이 화면 바깥에 위치 ──────────────────
-             화면 안으로 가장자리만 들어와 호 모양 빛이 생김.
-             드리프트 폭이 커서 들어왔다 나갔다 → 유려한 움직임
-          ─────────────────────────────────────────────────────────── */
-
-          /* 블롭 1: 왼쪽 가장자리 — 중심을 더 바깥으로, 반지름 줄임 */
-          vec2 c1 = vec2(-0.15 + sin(t*0.05)*0.10, 0.38 + cos(t*0.060)*0.09);
-          float b1 = blob(uv + m * 0.012, c1, 0.30) * 0.95;
-
-          /* 블롭 2: 오른쪽 상단 가장자리 */
-          vec2 c2 = vec2(1.15 + cos(t*0.07)*0.10, 0.20 + sin(t*0.055)*0.10);
-          float b2 = blob(uv + m * 0.020, c2, 0.32) * 0.88;
-
-          /* 블롭 3: 하단 왼쪽 가장자리 */
-          vec2 c3 = vec2(0.18 + sin(t*0.04)*0.10, 1.12 + cos(t*0.075)*0.07);
-          float b3 = blob(uv + m * 0.008, c3, 0.34) * 0.80;
-
-          /* 블롭 4: 오른쪽 하단 가장자리 */
-          vec2 c4 = vec2(1.10 + cos(t*0.06)*0.10, 0.88 + sin(t*0.065)*0.09);
-          float b4 = blob(uv + m * 0.016, c4, 0.30) * 0.75;
-
-          float nebula = clamp(b1 + b2 + b3 + b4, 0.0, 0.70);
-
-          /* 밝기: 낮게 유지 */
-          vec3 nebulaColor = vec3(0.88, 0.88, 0.92) * nebula * 0.15;
-
-          /* ── 별: 끊김 없는 무한 줌인 (두 레이어 크로스페이드) ──
-             30초 주기 레이어 X, 15초 오프셋된 레이어 Y가 번갈아
-             페이드인/아웃 → 리셋 순간 없이 무한 줌인처럼 보임
-          ────────────────────────────────────────────────────── */
-          float cX = fract(t * 0.033);          /* 레이어 X: 0→1, 30초 */
-          float cY = fract(t * 0.033 + 0.5);   /* 레이어 Y: 반 주기 오프셋 */
-
-          float zX = 1.0 - cX * 0.18;           /* 1.0 → 0.82 */
-          float zY = 1.0 - cY * 0.18;
-
-          /* 마지막 25% 구간에서 페이드아웃 → 다음 레이어로 부드럽게 전환 */
-          float aX = 1.0 - smoothstep(0.75, 1.0, cX);
-          float aY = 1.0 - smoothstep(0.75, 1.0, cY);
-
-          vec2 uvX = (uv - 0.5) * zX + 0.5;
-          vec2 uvY = (uv - 0.5) * zY + 0.5;
-
-          vec2 qX0 = uvX + m * 0.004;  vec2 qY0 = uvY + m * 0.004;
-          vec2 qX1 = uvX + m * 0.018;  vec2 qY1 = uvY + m * 0.018;
-          vec2 qX2 = uvX + m * 0.040;  vec2 qY2 = uvY + m * 0.040;
-
-          /* 밀도를 절반으로 — 두 레이어 합산이므로 총량 유지 */
-          float sA = (scatteredStars(qX0 + vec2(0.17, 0.83), 30.0, 0.25, 1.2) * aX
-                    + scatteredStars(qY0 + vec2(0.17, 0.83), 30.0, 0.25, 1.2) * aY) * 0.45;
-          float sB = (scatteredStars(qX1 + vec2(0.51, 0.27), 22.0, 0.20, 1.6) * aX
-                    + scatteredStars(qY1 + vec2(0.51, 0.27), 22.0, 0.20, 1.6) * aY) * 0.70;
-          float sC = (scatteredStars(qX2 + vec2(0.63, 0.41), 14.0, 0.13, 2.0) * aX
-                    + scatteredStars(qY2 + vec2(0.63, 0.41), 14.0, 0.13, 2.0) * aY) * 0.90;
-          float sD = (scatteredStars(qX1 + vec2(0.38, 0.72),  8.0, 0.04, 4.5) * aX
-                    + scatteredStars(qY1 + vec2(0.38, 0.72),  8.0, 0.04, 4.5) * aY) * 1.0;
-
-          float stars = clamp(sA + sB + sC + sD, 0.0, 1.0);
-          vec3 starColor = vec3(1.0) * stars;
-
-          /* 필름 그레인: 30fps 살아있는 노이즈 */
-          float gr = (grain(uv, t) - 0.5) * 0.11;
-
-          gl_FragColor = vec4(clamp(nebulaColor + starColor + gr, 0.0, 1.0), 1.0);
-        }`;
-
-      const prog = link(QUAD_VS, BG_FS);
-
-      const buf = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
-      function useQuad(p) {
-        const loc = gl.getAttribLocation(p, 'a_pos');
-        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-        gl.enableVertexAttribArray(loc);
-        gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-      }
-
-      /* 마우스 위치 (raw) */
-      const mouse  = { x: 0.5, y: 0.5 };
-      /* 스무딩된 마우스 — 느린 lerp로 부드럽게 따라옴 */
-      const smooth = { x: 0.5, y: 0.5 };
-
-      document.addEventListener('mousemove', (e) => {
-        mouse.x = e.clientX / W;
-        mouse.y = 1 - e.clientY / H;
-      });
-
-      let effectiveTime = Math.random() * 100;
-      let lastTs = performance.now();
-
-      (function loop(ts) {
-        requestAnimationFrame(loop);
-        const dt = Math.min((ts - lastTs) * 0.001, 0.05);
-        lastTs = ts;
-
-        /* 실제 시간 사용 — 별 반짝임/성운 속도가 직관적으로 제어됨 */
-        effectiveTime += dt;
-
-        /* lerp 0.08 — 자연스러운 관성, 답답하지 않게 */
-        smooth.x += (mouse.x - smooth.x) * 0.08;
-        smooth.y += (mouse.y - smooth.y) * 0.08;
-
-        gl.useProgram(prog);
-        useQuad(prog);
-        gl.viewport(0, 0, canvas.width, canvas.height);
-        gl.uniform1f(gl.getUniformLocation(prog, 'uTime'),       effectiveTime);
-        gl.uniform2f(gl.getUniformLocation(prog, 'uResolution'), canvas.width, canvas.height);
-        gl.uniform2f(gl.getUniformLocation(prog, 'uMouse'),      smooth.x, smooth.y);
-        gl.uniform1f(gl.getUniformLocation(prog, 'uAspect'),     W / H);
-        gl.drawArrays(gl.TRIANGLES, 0, 3);
-      })(lastTs);
-
-      function resize() {
-        W = window.innerWidth; H = window.innerHeight;
-        canvas.width  = W * DPR;
-        canvas.height = H * DPR;
-        canvas.style.width  = W + 'px';
-        canvas.style.height = H + 'px';
-      }
-      window.addEventListener('resize', resize);
-      resize();
+      syncScrollbarClass();
+      window.addEventListener('resize', syncScrollbarClass);
+      window.addEventListener('load', syncScrollbarClass);
     })();
   </script>
 
-  <div id="ab-cursor-trail" aria-hidden="true"></div>
-  <div id="ab-cursor" aria-hidden="true">
-    <div class="ab-cursor-core"></div>
-    <div class="ab-cursor-mid"></div>
-    <div class="ab-cursor-bloom"></div>
-  </div>
-
-  <script>
-    /* ── Trailing 글로우 ──
-       • (mx,my) = 실제 마우스(OS 화살표 위치). (cx,cy) = lerp로 지연 추적 → 글로우가 ‘뒤’를 밟는 느낌.
-       • ticker 안에서 매 프레임 gsap.to() 호출 X (트윈 누적·버벅임) → lerp + gsap.set 한 번이 정석.
-    ── */
-    (function () {
-      if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
-
-      const cursor = document.getElementById('ab-cursor');
-      const trailRoot = document.getElementById('ab-cursor-trail');
-      if (!cursor || !trailRoot || typeof gsap === 'undefined') return;
-
-      const TRAIL_LEN = 14;
-      const HIST_CAP = 64;
-      /* 낮을수록 화살표와 간격 커짐(0.08~0.18 튜닝). Pablo 느낌은 살짝 뒤처지는 쪽이 명확 */
-      const LERP = 0.11;
-
-      const trailNodes = [];
-      for (let i = 0; i < TRAIL_LEN; i++) {
-        const el = document.createElement('div');
-        el.className = 'ab-trail-node';
-        trailRoot.appendChild(el);
-        trailNodes.push(el);
-      }
-
-      const cx0 = window.innerWidth / 2;
-      const cy0 = window.innerHeight / 2;
-      let mx = cx0;
-      let my = cy0;
-      let cx = cx0;
-      let cy = cy0;
-      let prevCx = cx;
-      let prevCy = cy;
-
-      gsap.set(cursor, { xPercent: -50, yPercent: -50, x: cx, y: cy });
-
-      const hist = [];
-
-      document.addEventListener('mousemove', (e) => {
-        mx = e.clientX;
-        my = e.clientY;
-      });
-
-      document.querySelectorAll('a, button').forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('is-hover'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
-      });
-
-      gsap.ticker.add(() => {
-        cx += (mx - cx) * LERP;
-        cy += (my - cy) * LERP;
-
-        gsap.set(cursor, { x: cx, y: cy });
-
-        const dx = cx - prevCx;
-        const dy = cy - prevCy;
-        const speed = Math.sqrt(dx * dx + dy * dy);
-        prevCx = cx;
-        prevCy = cy;
-
-        hist.unshift({ x: cx, y: cy });
-        if (hist.length > HIST_CAP) hist.length = HIST_CAP;
-
-        const moveBoost = Math.min(1, speed / 1.4);
-
-        for (let i = 0; i < TRAIL_LEN; i++) {
-          const el = trailNodes[i];
-          const idx = 2 + Math.floor(i * 2.5);
-          if (idx >= hist.length || moveBoost < 0.05) {
-            el.style.opacity = '0';
-            continue;
-          }
-          const pt = hist[idx];
-          const along = i / (TRAIL_LEN - 1);
-          const fade = Math.pow(1 - along, 1.15);
-          const op = fade * 0.52 * moveBoost; /* 큰 글로우에 맞춰 잔상 가시성 소폭 상향 */
-          const sc = 0.45 + 0.55 * fade;
-          el.style.transform = `translate(${pt.x}px, ${pt.y}px) translate(-50%, -50%) scale(${sc})`;
-          el.style.opacity = String(op);
-        }
-      });
-    })();
-  </script>
 </body>
 </html>

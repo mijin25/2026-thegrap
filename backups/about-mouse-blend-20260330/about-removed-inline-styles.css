@@ -1,0 +1,36 @@
+/*
+ * about.html 에서 제거한 인라인 스타일 (마우스·difference 스택용)
+ * 복구 시 about.html <style> 안에 다시 넣을 것
+ */
+
+/* 커서 잔상 — 우주 위, additive */
+#gradient-canvas .about-cursor-trail {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+/*
+ * base.css #grain 은 z-index:9989 — 글자 위에 있으면 커서 difference 백드롭이 ‘그레인+글자’가 되어
+ * 흰색 위 반전이 거의 안 보임. ABOUT만 그레인을 캔버스와 같은 층으로 내려 콘텐츠(z-index:1) 뒤에 둠
+ */
+#grain {
+  z-index: 0;
+}
+body.page-about #grain {
+  opacity: 0.11;
+}
+
+/*
+ * 발광 캔버스와 합성: 히어로~푸터까지 동일 difference
+ */
+body.page-about .page-hero,
+body.page-about .about-manifesto,
+body.page-about .about-story,
+body.page-about .about-cap-section,
+body.page-about .about-clients,
+body.page-about grap-footer {
+  mix-blend-mode: difference;
+}

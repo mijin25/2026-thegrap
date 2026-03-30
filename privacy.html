@@ -13,61 +13,192 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/grap-header.js"></script>
   <style>
+    /*
+      레퍼런스: phi.design/privacy 편집형 법무 문서 타이포
+      컬러만 THE GRAP 토큰 유지
+    */
+    /* 데스크톱 본문 폭: phi.design/privacy 수준(~880px) */
     .privacy-wrap {
-      padding: clamp(140px,18vw,220px) var(--gutter) clamp(80px,10vw,140px);
-      max-width: 820px;
-    }
-    .privacy-label {
-      font-size: var(--text-sm); letter-spacing: .15em;
-      text-transform: uppercase; color: var(--c-secondary);
-      margin-bottom: 40px;
+      padding: clamp(120px, 16vw, 200px) var(--gutter) clamp(72px, 10vw, 120px);
+      max-width: min(880px, 100%);
+      margin: 0 auto;
     }
     .privacy-title {
-      font-family: 'PPNeueMontreal', sans-serif; font-weight: 600;
-      font-size: clamp(2rem, 5vw, 4rem);
-      line-height: .92; letter-spacing: -.03em;
-      text-transform: uppercase; color: var(--c-on-bg);
-      margin-bottom: 48px;
+      font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
+      font-weight: 600;
+      font-size: clamp(1.75rem, 4.2vw, 2.75rem);
+      line-height: 1.18;
+      letter-spacing: -0.03em;
+      text-transform: none;
+      color: var(--c-on-bg);
+      margin-bottom: clamp(20px, 3vw, 28px);
+    }
+    html:lang(ko) .privacy-title {
+      letter-spacing: -0.04em;
     }
     .privacy-meta {
-      font-size: var(--text-sm); color: var(--c-on-bg);
-      margin-bottom: 56px;
+      font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
+      font-size: clamp(0.8125rem, 1.05vw, 0.875rem);
+      line-height: 1.55;
+      color: var(--c-secondary);
+      margin-bottom: clamp(36px, 5vw, 48px);
     }
     .privacy-intro {
-      font-size: var(--text-base); line-height: 1.8;
-      color: var(--c-on-bg); margin-bottom: 56px;
+      font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
+      font-size: clamp(0.9375rem, 1.15vw, 1.0625rem);
+      line-height: 1.85;
+      color: var(--c-on-bg);
+      margin-bottom: clamp(40px, 5vw, 56px);
       word-break: keep-all;
     }
-    .privacy-block { margin-bottom: 48px; }
+    .privacy-block {
+      margin-bottom: clamp(36px, 4.5vw, 48px);
+    }
     .privacy-block h2 {
-      font-family: 'PPNeueMontreal', sans-serif; font-weight: 500;
-      font-size: clamp(1rem, 1.6vw, 1.25rem);
-      letter-spacing: -.01em; color: var(--c-on-bg);
-      margin-bottom: 16px;
+      font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
+      font-weight: 600;
+      font-size: clamp(1.0625rem, 1.35vw, 1.1875rem);
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+      color: var(--c-on-bg);
+      margin: 0 0 14px;
+    }
+    html:lang(ko) .privacy-block h2 {
+      letter-spacing: -0.03em;
+    }
+    .privacy-block h3 {
+      font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
+      font-weight: 600;
+      font-size: clamp(0.9375rem, 1.1vw, 1rem);
+      line-height: 1.4;
+      color: var(--c-on-bg);
+      margin: 1.25rem 0 0.5rem;
     }
     .privacy-block p {
-      font-size: var(--text-base); line-height: 1.8;
-      color: var(--c-on-bg); word-break: keep-all;
-      margin-bottom: 12px;
+      font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
+      font-size: clamp(0.9375rem, 1.1vw, 1rem);
+      line-height: 1.82;
+      color: var(--c-on-bg);
+      word-break: keep-all;
+      margin: 0 0 12px;
     }
-    .privacy-block ul { padding-left: 20px; margin: 8px 0 12px; }
+    .privacy-block ul {
+      margin: 6px 0 14px;
+      padding-left: 1.2em;
+      list-style: disc;
+    }
     .privacy-block li {
-      font-size: var(--text-base); line-height: 1.8;
-      color: var(--c-on-bg); margin-bottom: 6px; word-break: keep-all;
+      font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
+      font-size: clamp(0.9375rem, 1.1vw, 1rem);
+      line-height: 1.82;
+      color: var(--c-on-bg);
+      margin: 0 0 8px;
+      word-break: keep-all;
     }
-    .privacy-block strong { color: var(--c-on-bg); font-weight: 500; }
-    .privacy-contact { margin-top: 64px; padding: 32px 0; }
+    .privacy-block strong {
+      color: var(--c-on-bg);
+      font-weight: 600;
+    }
+    .privacy-wrap .privacy-block a,
+    .privacy-wrap .privacy-table-scroll a {
+      color: var(--c-primary);
+      text-decoration: none;
+      border-bottom: 1px solid color-mix(in srgb, var(--c-primary) 45%, transparent);
+      transition: opacity 0.2s ease, border-color 0.2s ease;
+    }
+    .privacy-wrap .privacy-block a:hover,
+    .privacy-wrap .privacy-table-scroll a:hover {
+      opacity: 0.88;
+      border-bottom-color: var(--c-primary);
+    }
+    @supports not (color: color-mix(in srgb, red, blue)) {
+      .privacy-wrap .privacy-block a {
+        border-bottom-color: rgba(204, 255, 0, 0.45);
+      }
+    }
+    /* 표 가로 스크롤 래퍼 (좁은 화면·다열 표) */
+    .privacy-table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin: 12px 0 20px;
+    }
+    .privacy-wrap table {
+      width: 100%;
+      min-width: 520px;
+      border-collapse: collapse;
+      font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
+      font-size: clamp(0.75rem, 0.95vw, 0.8125rem);
+      line-height: 1.55;
+      color: var(--c-on-bg);
+      margin: 0;
+    }
+    .privacy-wrap th,
+    .privacy-wrap td {
+      text-align: left;
+      vertical-align: top;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--c-outline);
+    }
+    .privacy-wrap thead th {
+      font-weight: 600;
+      color: var(--c-on-bg);
+      background: color-mix(in srgb, var(--c-on-bg) 4%, transparent);
+    }
+    @supports not (color: color-mix(in srgb, red, blue)) {
+      .privacy-wrap thead th {
+        background: rgba(255, 255, 255, 0.04);
+      }
+    }
+    .privacy-contact {
+      margin-top: 8px;
+      padding-top: clamp(24px, 3vw, 32px);
+      border-top: 1px solid var(--c-outline);
+    }
     .privacy-contact p {
-      font-size: var(--text-base); color: var(--c-on-bg); line-height: 1.9; margin-bottom: 0;
+      font-family: 'PPNeueMontreal', 'Pretendard', sans-serif;
+      font-size: clamp(0.9375rem, 1.1vw, 1rem);
+      line-height: 1.82;
+      color: var(--c-on-bg);
+      margin: 0 0 1rem;
     }
-    .privacy-contact a { color: var(--c-on-bg); text-decoration: none; transition: color .2s; }
-    .privacy-contact a:hover { color: var(--c-primary); }
+    .privacy-contact a {
+      color: var(--c-primary);
+      text-decoration: none;
+      border-bottom: 1px solid color-mix(in srgb, var(--c-primary) 45%, transparent);
+    }
+    .privacy-contact a:hover {
+      opacity: 0.88;
+    }
+    @media (max-width: 768px) {
+      .privacy-wrap {
+        padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+        padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+      }
+    }
+    /*
+      base.css의 html:lang(ko) p/li 행간(1.6)이 클래스 단독 선택자보다 우선함 →
+      법무 문서용 행간·자간을 이 페이지에서만 확정
+    */
+    html:lang(ko) .privacy-wrap .privacy-intro,
+    html:lang(ko) .privacy-wrap .privacy-block p,
+    html:lang(ko) .privacy-wrap .privacy-block li,
+    html:lang(ko) .privacy-wrap .privacy-contact p {
+      line-height: 1.82;
+      letter-spacing: -0.02em;
+    }
+    /* 법무 페이지는 텍스트 복사 허용 (전역 user-select:none 예외) */
+    .page-privacy .privacy-wrap,
+    .page-privacy .privacy-wrap * {
+      user-select: text;
+      -webkit-user-select: text;
+    }
     /* 언어별 콘텐츠 */
     [data-lang-content] { display: none; }
     [data-lang-content].active { display: block; }
   </style>
 </head>
-<body>
+<body class="page-privacy">
   <div id="grain"></div>
 
   <grap-header active=""></grap-header>
@@ -82,318 +213,811 @@
       <span data-lang-content="ja">プライバシーポリシー</span>
     </h1>
 
-    <!-- 언어별 시행일 -->
+    <!-- 언어별 공고·시행일 (phi 스타일: 한 줄 · 구분) -->
     <p class="privacy-meta">
-      <span data-lang-content="ko" class="active">시행일: 2025년 12월 3일</span>
-      <span data-lang-content="en">Effective: December 3, 2025</span>
-      <span data-lang-content="zh">生效日期：2025年12月3日</span>
-      <span data-lang-content="ja">施行日：2025年12月3日</span>
+      <span data-lang-content="ko" class="active">공고일자: 2025년 12월 3일 · 시행일자: 2025년 12월 3일</span>
+      <span data-lang-content="en">Posted: December 3, 2025 · Effective: December 3, 2025</span>
+      <span data-lang-content="zh">公布日期：2025年12月3日 · 生效日期：2025年12月3日</span>
+      <span data-lang-content="ja">公表日：2025年12月3日 · 施行日：2025年12月3日</span>
     </p>
 
-    <!-- ── 한국어 본문 ── -->
+    <!-- ── 한국어 본문 (법무 고지용 두께: 항목·표·소제목) ── -->
     <div data-lang-content="ko" class="active">
       <p class="privacy-intro">
-        더그랩(THE GRAP)은 개인정보보호법 등 관련 법령을 준수하며, 이용자의 개인정보를 보호하고
-        관련 고충을 신속하고 원활하게 처리하기 위해 본 개인정보 처리방침을 수립합니다.
+        주식회사 더그랩(이하 &ldquo;회사&rdquo;)은 「개인정보 보호법」 등 관련 법령을 준수하며, 이용자의 개인정보를 보호하고
+        권익을 보호하기 위하여 다음과 같이 개인정보 처리방침을 수립·공개합니다. 본 방침은 회사가 운영하는 웹사이트(thegrap.com 등)
+        및 이에 부수되는 온라인 서비스에 적용됩니다.
       </p>
       <div class="privacy-block">
         <h2>1. 개인정보의 처리 목적</h2>
+        <p>회사는 다음의 목적 범위에서 필요한 최소한의 개인정보를 처리합니다. 목적이 변경되는 경우에는 별도의 동의를 받는 등 법령에 따른 조치를 이행합니다.</p>
         <ul>
-          <li><strong>서비스 제공 및 운영:</strong> 필요한 콘텐츠 제공, 서비스 환경 구성, 웹사이트 전반 운영</li>
-          <li><strong>고객 문의 및 상담 응대:</strong> 문의 접수, 본인 확인, 사실 확인을 위한 연락, 민원 처리</li>
+          <li><strong>서비스 제공 및 운영:</strong> 콘텐츠 제공, 웹사이트·시스템 운영·유지보수, 이용 통계 및 서비스 품질 개선</li>
+          <li><strong>고객 문의 및 민원 처리:</strong> 문의·요청 접수, 본인 확인, 사실관계 확인을 위한 연락, 처리 결과 회신</li>
+          <li><strong>보안 및 부정 이용 방지:</strong> 접속 기록 보관, 비정상 이용 탐지·대응(해당 시)</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>2. 처리하는 개인정보 항목</h2>
-        <ul>
-          <li><strong>필수 항목:</strong> 이름(또는 회사명), 이메일 주소, 연락처, 문의 내용</li>
-          <li><strong>자동 생성 정보:</strong> IP 주소, 쿠키, 서비스 이용 기록, 접속 로그, 방문 일시</li>
-        </ul>
+        <h2>2. 처리하는 개인정보의 항목 및 수집 방법</h2>
+        <h3>1) 이용자가 직접 제공하는 경우</h3>
+        <p>문의·요청 시 등에 이용자가 입력하는 정보로, <strong>이름(또는 회사명), 이메일 주소, 연락처(전화번호 등), 문의 내용</strong> 등이 포함될 수 있습니다. 구체적 항목은 입력란·접수 화면에 안내됩니다.</p>
+        <h3>2) 서비스 이용 과정에서 자동 생성·수집되는 정보</h3>
+        <p><strong>IP 주소, 쿠키, 서비스 이용 기록, 접속 로그, 방문 일시, 브라우저·단말 정보(일부)</strong> 등이 자동으로 생성되어 수집될 수 있습니다.</p>
       </div>
       <div class="privacy-block">
         <h2>3. 개인정보의 처리 및 보유 기간</h2>
+        <p>회사는 법령에 따른 보유·이용 기간 또는 정보주체로부터 개인정보를 수집 시 동의받은 기간 내에서 개인정보를 처리·보유합니다. 각 목적이 달성되거나 보유기간이 경과한 경우 지체 없이 파기합니다. 다만 다음의 사유에 해당하는 경우에는 해당 기간까지 보관합니다.</p>
         <ul>
-          <li><strong>고객 문의:</strong> 처리 완료 후 1년 보관 (분쟁 발생 시 종결 시까지 연장)</li>
-          <li><strong>통신비밀보호법:</strong> 웹사이트 방문 기록 3개월 보관</li>
+          <li><strong>고객 문의·민원:</strong> 처리 완료 후 <strong>1년</strong> (분쟁·소송 등이 있는 경우에는 그 종료 시까지 연장 가능)</li>
+          <li><strong>웹사이트 방문·접속 기록:</strong> <strong>3개월</strong> (「통신비밀보호법」 등에 따른 통신사실확인자료)</li>
         </ul>
+        <p>관련 법령에 따라 별도 보존이 필요한 경우에는 아래와 같이 보관합니다.</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">보존 항목</th>
+                <th scope="col">보존 기간</th>
+                <th scope="col">근거 법령</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>소비자 불만 또는 분쟁처리에 관한 기록</td>
+                <td>3년</td>
+                <td>「전자상거래 등에서의 소비자보호에 관한 법률」</td>
+              </tr>
+              <tr>
+                <td>표시·광고에 관한 기록</td>
+                <td>6개월</td>
+                <td>「전자상거래 등에서의 소비자보호에 관한 법률」</td>
+              </tr>
+              <tr>
+                <td>계약 또는 청약철회, 대금결제, 재화 등의 공급에 관한 기록</td>
+                <td>5년</td>
+                <td>「전자상거래 등에서의 소비자보호에 관한 법률」</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="privacy-block">
         <h2>4. 개인정보의 제3자 제공</h2>
-        <p>이용자의 사전 동의 없이 개인정보를 외부에 제공하지 않습니다. 단, 법령에 의한 경우 예외입니다.</p>
-      </div>
-      <div class="privacy-block">
-        <h2>5. 개인정보 처리 위탁</h2>
+        <p>회사는 원칙적으로 이용자의 개인정보를 제3자에게 제공하지 않습니다. 다만, 아래의 경우에는 예외로 합니다.</p>
         <ul>
-          <li><strong>수탁 업체:</strong> Webflow, Inc.</li>
-          <li><strong>위탁 업무:</strong> 웹사이트 호스팅 서비스 제공 및 시스템 환경 운영</li>
+          <li>이용자가 사전에 동의한 경우</li>
+          <li>법령에 특별한 규정이 있거나, 수사·재판 등 법령에 따른 요청이 있는 경우</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>6. 정보주체의 권리·의무 및 행사 방법</h2>
-        <p>이용자는 열람, 정정·삭제, 처리 정지를 언제든지 요구할 수 있으며 아래 담당자에게 이메일로 요청하시면 됩니다.</p>
+        <h2>5. 개인정보 처리의 위탁</h2>
+        <p>회사는 원활한 서비스 제공을 위해 개인정보 처리 업무를 외부 전문업체에 위탁할 수 있으며, 위탁 시 관련 법령에 따라 위탁 계약서에 개인정보 보호 관련 법규 준수, 재위탁 제한, 안전성 확보 조치 등을 명시하고 관리·감독합니다. 현재 위탁 내용은 다음과 같습니다.</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">수탁자</th>
+                <th scope="col">위탁 업무의 내용</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Vercel Inc.</td>
+                <td>웹사이트 호스팅·배포(Edge·서버리스 등)·CDN 및 인프라 운영(문의·콘텐츠 전달 등 서비스 제공에 필요한 범위)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="privacy-block">
-        <h2>7. 개인정보의 파기 절차 및 방법</h2>
+        <h2>6. 개인정보의 국외 이전</h2>
+        <p>회사는 위탁 업체의 서버·인프라 위치 등에 따라 개인정보가 대한민국 이외의 국가로 이전되어 저장·처리될 수 있습니다. 이전을 거부할 경우 일부 서비스 이용이 제한될 수 있습니다. 국외 이전에 동의하지 않거나 문의가 있는 경우 아래 개인정보 보호책임자에게 연락해 주시기 바랍니다.</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">이전받는 자</th>
+                <th scope="col">이전 국가</th>
+                <th scope="col">이전 일시·방법</th>
+                <th scope="col">이전 항목</th>
+                <th scope="col">보유·이용 기간</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Vercel Inc.</td>
+                <td>미국 등 (글로벌 엣지 네트워크가 위치한 지역 포함)</td>
+                <td>서비스 이용 시 네트워크를 통한 전송·저장</td>
+                <td>위탁 목적 달성에 필요한 범위의 정보(문의 시 입력 정보, 접속·이용 기록 등)</td>
+                <td>위탁 계약 및 관련 법령에 따른 기간까지</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>7. 정보주체의 권리·의무 및 행사 방법</h2>
+        <p>정보주체는 언제든지 개인정보 열람·정정·삭제·처리정지 요구 등의 권리를 행사할 수 있습니다. 권리 행사는 「개인정보 보호법」 시행령 제41조에 따라 서면, 전자우편 등을 통하여 하실 수 있으며, 회사는 본인 확인 등 필요한 조치를 거친 후 지체 없이 조치합니다. 회사는 권리 행사를 한 자가 본인이거나 정당한 대리인인지 확인할 수 있습니다.</p>
         <ul>
-          <li>전자적 파일: 복구 불가능한 방법으로 영구 삭제</li>
-          <li>문서·출력물: 분쇄 또는 소각</li>
+          <li><strong>행사 방법:</strong> 아래 개인정보 보호책임자(또는 담당자) 이메일로 요청</li>
+          <li><strong>대리 행사:</strong> 법정대리인 또는 위임을 받은 자를 통하여 요청할 수 있습니다(위임장 등 제출이 필요할 수 있음).</li>
+          <li>권리 행사는 법령에 따라 일부 제한될 수 있습니다(다른 법령에서 수집 대상으로 명시된 정보의 삭제 요구 등).</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>8. 개인정보의 안전성 확보 조치</h2>
+        <h2>8. 개인정보의 파기 절차 및 방법</h2>
+        <p>개인정보 보유기간의 경과, 처리 목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체 없이 파기합니다.</p>
         <ul>
-          <li><strong>관리적:</strong> 내부 관리 계획 수립, 정기 교육</li>
-          <li><strong>기술적:</strong> 접근 권한 관리, 암호화, 보안 프로그램 운영</li>
-          <li><strong>물리적:</strong> 전산실·자료보관실 접근 통제</li>
+          <li><strong>파기 절차:</strong> 파기 사유가 발생한 개인정보를 선정한 후 개인정보 보호책임자의 승인을 거쳐 파기합니다.</li>
+          <li><strong>파기 방법:</strong> 전자적 파일은 복구·재생이 불가능한 방법으로 삭제하며, 종이 문서는 분쇄하거나 소각합니다.</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>9. 개인정보 보호책임자</h2>
+        <h2>9. 개인정보의 안전성 확보 조치</h2>
+        <p>회사는 개인정보의 안전성 확보를 위해 다음과 같은 조치를 취합니다.</p>
+        <ul>
+          <li><strong>관리적 조치:</strong> 내부 관리계획 수립·시행, 개인정보 취급자에 대한 최소화 및 교육</li>
+          <li><strong>기술적 조치:</strong> 접근권한 관리, 보안프로그램 적용, 접속기록 보관 및 위·변조 방지(해당 시)</li>
+          <li><strong>물리적 조치:</strong> 전산실·서버실·자료보관실 등에 대한 접근 통제</li>
+        </ul>
+      </div>
+      <div class="privacy-block">
+        <h2>10. 쿠키 및 자동으로 수집되는 정보</h2>
+        <p>회사는 이용자에게 맞춤형 서비스를 제공하거나 접속 통계를 분석하기 위해 쿠키(cookie)를 사용할 수 있습니다. 쿠키는 웹사이트 운영에 이용되는 서버가 이용자의 브라우저에 보내는 소량의 정보로, 이용자의 단말에 저장되며 서비스 접속 시 서버로 전송될 수 있습니다. 이용자는 브라우저 설정을 통해 쿠키 저장을 거부하거나 삭제할 수 있으나, 일부 기능 이용이 제한될 수 있습니다.</p>
+      </div>
+      <div class="privacy-block">
+        <h2>11. 개인정보 보호책임자 및 담당 부서</h2>
+        <p>회사는 개인정보 처리에 관한 업무를 총괄하여 책임지고, 개인정보 관련 민원처리 및 피해구제를 위하여 아래와 같이 개인정보 보호책임자를 지정합니다.</p>
         <div class="privacy-contact">
           <p>
-            <strong>개인정보 보호책임자 (CPO)</strong><br>
+            <strong>개인정보 보호책임자</strong><br>
             성명: 김정권 (대표이사) &nbsp;|&nbsp; 이메일: <a href="mailto:thegraper@thegrap.com">thegraper@thegrap.com</a>
           </p>
-          <br>
           <p>
-            <strong>개인정보 보호담당자</strong><br>
+            <strong>개인정보 보호 담당자</strong><br>
             성명: 서미진 &nbsp;|&nbsp; 이메일: <a href="mailto:irene@thegrap.com">irene@thegrap.com</a>
           </p>
         </div>
       </div>
       <div class="privacy-block">
-        <h2>10. 개인정보 처리방침 변경 고지</h2>
-        <p>변경 시 최소 7일 전 웹사이트 공지를 통해 안내하며, 중대한 변경의 경우 30일 전 사전 고지합니다.</p>
+        <h2>12. 권익침해 구제방법</h2>
+        <p>정보주체는 아래 기관에 개인정보 침해에 대한 신고·상담·분쟁조정 등을 요청할 수 있습니다.</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">기관</th>
+                <th scope="col">연락처</th>
+                <th scope="col">웹사이트</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>개인정보 침해신고센터</td>
+                <td>(국번없이) 118</td>
+                <td><a href="https://privacy.kisa.or.kr" target="_blank" rel="noopener noreferrer">privacy.kisa.or.kr</a></td>
+              </tr>
+              <tr>
+                <td>개인정보 분쟁조정위원회</td>
+                <td>1833-6972</td>
+                <td><a href="https://www.kopico.go.kr" target="_blank" rel="noopener noreferrer">www.kopico.go.kr</a></td>
+              </tr>
+              <tr>
+                <td>대검찰청 사이버수사과</td>
+                <td>(국번없이) 1301</td>
+                <td><a href="https://www.spo.go.kr" target="_blank" rel="noopener noreferrer">www.spo.go.kr</a></td>
+              </tr>
+              <tr>
+                <td>경찰청 사이버안전국</td>
+                <td>(국번없이) 182</td>
+                <td><a href="https://ecrm.police.go.kr" target="_blank" rel="noopener noreferrer">ecrm.police.go.kr</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>13. 개인정보 처리방침의 변경</h2>
+        <p>본 개인정보 처리방침은 시행일로부터 적용되며, 법령·내부 정책 또는 서비스 변경에 따라 내용의 추가·삭제·수정이 있을 수 있습니다. 변경 시에는 웹사이트 공지 등을 통해 사전에 안내하며, 중요한 변경의 경우 최소 7일 전(이용자 권리에 중대한 영향을 미치는 경우 30일 전) 고지합니다.</p>
       </div>
     </div>
 
-    <!-- ── 영문 본문 (EN / CN / JP 공통) ── -->
+    <!-- ── 영문 본문 (구조·한국어판 대응) ── -->
     <div data-lang-content="en">
       <p class="privacy-intro">
-        THE GRAP has established this privacy policy to protect user personal information
-        and process related complaints swiftly, in compliance with the Personal Information Protection Act.
+        THE GRAP Co., Ltd. (&ldquo;Company&rdquo;) complies with the Personal Information Protection Act and other applicable laws,
+        and establishes and publishes this Privacy Policy to protect users&rsquo; personal information and rights.
+        This Policy applies to the website (including thegrap.com) and related online services operated by the Company.
       </p>
       <div class="privacy-block">
-        <h2>1. Purpose of Personal Information Processing</h2>
+        <h2>1. Purposes of Processing Personal Information</h2>
+        <p>The Company processes the minimum personal information necessary within the following purposes. If purposes change, the Company will take measures required by law, such as obtaining separate consent.</p>
         <ul>
-          <li><strong>Service provision:</strong> Content delivery, service environment, and website operations</li>
-          <li><strong>Customer inquiries:</strong> Inquiry handling, identity verification, and complaint resolution</li>
+          <li><strong>Service provision and operation:</strong> Content delivery, website and system operation and maintenance, usage statistics and service quality improvement</li>
+          <li><strong>Customer inquiries and complaints:</strong> Receiving inquiries and requests, identity verification, fact-finding contacts, and responses</li>
+          <li><strong>Security and abuse prevention:</strong> Retention of access records and detection of abnormal use (where applicable)</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>2. Personal Information Items Processed</h2>
+        <h2>2. Items Processed and Methods of Collection</h2>
+        <h3>1) Information provided directly by users</h3>
+        <p>When users submit inquiries or requests, information such as <strong>name (or company name), email address, contact number, and inquiry details</strong> may be collected. Specific items are indicated on the relevant forms or screens.</p>
+        <h3>2) Automatically generated information</h3>
+        <p><strong>IP address, cookies, service usage records, access logs, visit time, and partial browser or device information</strong> may be automatically generated and collected.</p>
+      </div>
+      <div class="privacy-block">
+        <h2>3. Processing and Retention Period</h2>
+        <p>The Company processes and retains personal information within the period of consent or as required by law. When the purpose is achieved or the retention period expires, personal information is destroyed without delay, except where retention is required as follows.</p>
         <ul>
-          <li><strong>Required:</strong> Name (or company name), email address, contact number, inquiry details</li>
-          <li><strong>Auto-generated:</strong> IP address, cookies, service usage records, access logs</li>
+          <li><strong>Customer inquiries and complaints:</strong> <strong>1 year</strong> after handling is completed (may be extended until disputes are resolved)</li>
+          <li><strong>Website visit and access records:</strong> <strong>3 months</strong> (communications data under applicable laws such as the Communications Secrets Protection Act)</li>
+        </ul>
+        <p>Where separate retention is required by law, the Company retains data as follows.</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Items</th>
+                <th scope="col">Retention period</th>
+                <th scope="col">Legal basis</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Records on consumer complaints or dispute resolution</td>
+                <td>3 years</td>
+                <td>Act on the Consumer Protection in Electronic Commerce, etc.</td>
+              </tr>
+              <tr>
+                <td>Records on display and advertising</td>
+                <td>6 months</td>
+                <td>Act on the Consumer Protection in Electronic Commerce, etc.</td>
+              </tr>
+              <tr>
+                <td>Records on contracts, withdrawals, payments, and supply of goods, etc.</td>
+                <td>5 years</td>
+                <td>Act on the Consumer Protection in Electronic Commerce, etc.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>4. Provision of Personal Information to Third Parties</h2>
+        <p>In principle, the Company does not provide personal information to third parties without prior consent, except in the following cases.</p>
+        <ul>
+          <li>Where the user has given prior consent</li>
+          <li>Where required by law, or upon lawful requests such as for investigation or trial</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>3. Retention Period</h2>
+        <h2>5. Entrustment of Processing</h2>
+        <p>The Company may entrust personal information processing to external service providers to operate services smoothly. When entrusting, the Company specifies matters such as compliance with privacy laws, restrictions on re-entrustment, and security measures in contracts and supervises the processors. Current entrustment is as follows.</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Processor</th>
+                <th scope="col">Scope of entrusted work</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Vercel Inc.</td>
+                <td>Website hosting, deployment (including edge and serverless), CDN, and infrastructure (to the extent necessary for inquiries, content delivery, etc.)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>6. Overseas Transfer of Personal Information</h2>
+        <p>Depending on the location of servers and infrastructure of entrusted providers, personal information may be transferred to and stored or processed outside the Republic of Korea. Refusal may limit some services. For questions or objections, please contact the privacy officer below.</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Recipient</th>
+                <th scope="col">Country</th>
+                <th scope="col">Timing and method</th>
+                <th scope="col">Items</th>
+                <th scope="col">Retention and use period</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Vercel Inc.</td>
+                <td>United States, etc. (including regions where Vercel&rsquo;s global edge network operates)</td>
+                <td>Transmission and storage via networks when using the service</td>
+                <td>Information necessary for entrusted purposes (inquiry inputs, access and usage records, etc.)</td>
+                <td>Until the period required by contract and applicable laws</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>7. Rights of Data Subjects and How to Exercise Them</h2>
+        <p>Data subjects may request access, correction, deletion, suspension of processing, and other rights under applicable laws. Requests may be made in writing, by email, or other methods under the Enforcement Decree of the Personal Information Protection Act. The Company may verify that the requester is the data subject or a lawful representative. The Company takes action without undue delay after necessary verification.</p>
         <ul>
-          <li><strong>Customer inquiries:</strong> 1 year after resolution (extended if disputes arise)</li>
-          <li><strong>Website visit records:</strong> 3 months (Communications Secrets Protection Act)</li>
+          <li><strong>How to exercise:</strong> Email the privacy officer or contact person listed below</li>
+          <li><strong>Representation:</strong> Legal guardians or authorized representatives may act on behalf of users (documentation such as a power of attorney may be required)</li>
+          <li>Rights may be restricted by law in certain cases.</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>4. Third-Party Information Sharing</h2>
-        <p>We do not provide personal information to external parties without prior consent, except as required by law.</p>
-      </div>
-      <div class="privacy-block">
-        <h2>5. Processing Delegation</h2>
+        <h2>8. Procedures and Methods for Destruction</h2>
+        <p>When personal information becomes unnecessary due to expiry of the retention period or achievement of the purpose of processing, the Company destroys it without delay.</p>
         <ul>
-          <li><strong>Contractor:</strong> Webflow, Inc.</li>
-          <li><strong>Scope:</strong> Website hosting and system environment operations</li>
+          <li><strong>Procedure:</strong> Personal information subject to destruction is selected and destroyed after approval by the privacy officer</li>
+          <li><strong>Method:</strong> Electronic files are deleted in an irreversible manner; paper documents are shredded or incinerated</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>6. Data Subject Rights</h2>
-        <p>Users may request access, correction, deletion, or suspension of processing at any time by contacting the officer below.</p>
-      </div>
-      <div class="privacy-block">
-        <h2>7. Destruction Procedures</h2>
+        <h2>9. Security Measures</h2>
+        <p>The Company implements the following measures to ensure the security of personal information.</p>
         <ul>
-          <li>Electronic files: Permanently deleted using irreversible methods</li>
-          <li>Documents: Shredded or incinerated</li>
+          <li><strong>Administrative:</strong> Internal management plans, minimization of personnel with access, and training</li>
+          <li><strong>Technical:</strong> Access control, security programs, and retention of access records and integrity measures (where applicable)</li>
+          <li><strong>Physical:</strong> Access control for server rooms and document storage</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>8. Safety Measures</h2>
-        <ul>
-          <li><strong>Administrative:</strong> Internal management plans and regular training</li>
-          <li><strong>Technical:</strong> Access control, encryption, security program updates</li>
-          <li><strong>Physical:</strong> Controlled access to server and document storage areas</li>
-        </ul>
+        <h2>10. Cookies and Automatically Collected Information</h2>
+        <p>The Company may use cookies to provide customized experiences or analyze access statistics. Cookies are small pieces of data sent by servers to browsers and may be stored on the user&rsquo;s device. Users may refuse or delete cookies through browser settings; some features may be limited.</p>
       </div>
       <div class="privacy-block">
-        <h2>9. Privacy Officer</h2>
+        <h2>11. Privacy Officer and Contact</h2>
+        <p>The Company designates the following privacy officer to oversee personal information processing and handle complaints and remedies.</p>
         <div class="privacy-contact">
           <p>
-            <strong>Chief Privacy Officer (CPO)</strong><br>
-            Kim Jung-kwon (CEO) &nbsp;|&nbsp; <a href="mailto:thegraper@thegrap.com">thegraper@thegrap.com</a>
+            <strong>Privacy Officer</strong><br>
+            Kim Jung-kwon (CEO) &nbsp;|&nbsp; Email: <a href="mailto:thegraper@thegrap.com">thegraper@thegrap.com</a>
           </p>
-          <br>
           <p>
-            <strong>Data Protection Officer</strong><br>
-            Seo Mi-jin &nbsp;|&nbsp; <a href="mailto:irene@thegrap.com">irene@thegrap.com</a>
+            <strong>Privacy Contact</strong><br>
+            Seo Mi-jin &nbsp;|&nbsp; Email: <a href="mailto:irene@thegrap.com">irene@thegrap.com</a>
           </p>
         </div>
       </div>
       <div class="privacy-block">
-        <h2>10. Policy Change Notification</h2>
-        <p>Changes will be announced at least 7 days in advance. Significant changes affecting user rights will be notified 30 days in advance.</p>
+        <h2>12. Remedies for Infringement of Rights</h2>
+        <p>Users may contact the following institutions for reporting, consultation, or dispute resolution regarding personal information infringement.</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Institution</th>
+                <th scope="col">Contact</th>
+                <th scope="col">Website</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Personal Information Infringement Report Center</td>
+                <td>118 (without area code)</td>
+                <td><a href="https://privacy.kisa.or.kr" target="_blank" rel="noopener noreferrer">privacy.kisa.or.kr</a></td>
+              </tr>
+              <tr>
+                <td>Personal Information Dispute Mediation Committee</td>
+                <td>1833-6972</td>
+                <td><a href="https://www.kopico.go.kr" target="_blank" rel="noopener noreferrer">www.kopico.go.kr</a></td>
+              </tr>
+              <tr>
+                <td>Supreme Prosecutors&rsquo; Office Cyber Investigation Department</td>
+                <td>1301 (without area code)</td>
+                <td><a href="https://www.spo.go.kr" target="_blank" rel="noopener noreferrer">www.spo.go.kr</a></td>
+              </tr>
+              <tr>
+                <td>National Police Agency Cyber Bureau</td>
+                <td>182 (without area code)</td>
+                <td><a href="https://ecrm.police.go.kr" target="_blank" rel="noopener noreferrer">ecrm.police.go.kr</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>13. Changes to This Privacy Policy</h2>
+        <p>This Policy applies from the effective date and may be amended due to laws, internal policies, or service changes. The Company will notify users in advance via website notices. Important changes that materially affect user rights will be announced at least 7 days in advance (or 30 days in advance where required).</p>
       </div>
     </div>
 
-    <!-- CN·JP → 영문과 동일 콘텐츠 (복사) -->
-    <!-- ── 중국어 간체 본문 ── -->
+    <!-- ── 중국어 간체 본문 (구조·한국어판 대응) ── -->
     <div data-lang-content="zh">
       <p class="privacy-intro">
-        THE GRAP依据《个人信息保护法》等相关法规，为保护用户个人信息、迅速妥善处理相关申诉，特制定本隐私政策。
+        THE GRAP株式会社（以下简称&ldquo;公司&rdquo;）遵守《个人信息保护法》等相关法律法规，为保护用户个人信息与合法权益，制定并公布本隐私政策。
+        本政策适用于公司运营的网站（包括 thegrap.com 等）及相关在线服务。
       </p>
       <div class="privacy-block">
         <h2>1. 个人信息处理目的</h2>
+        <p>公司在下列目的范围内处理所需的最低限度个人信息。处理目的变更时，将依法另行取得同意或采取其他必要措施。</p>
         <ul>
-          <li><strong>服务提供与运营：</strong>提供必要内容、构建服务环境、运营网站整体</li>
-          <li><strong>客户咨询与服务：</strong>接受咨询、本人确认、事实核查联络、处理投诉</li>
+          <li><strong>服务提供与运营：</strong>内容提供、网站与系统运维、使用统计与服务质量改进</li>
+          <li><strong>客户咨询与投诉：</strong>受理咨询与请求、身份核实、事实确认联络及回复</li>
+          <li><strong>安全与防止滥用：</strong>保存访问记录、发现与应对异常使用（如适用）</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>2. 处理的个人信息项目</h2>
+        <h2>2. 处理的个人信息项目及收集方式</h2>
+        <h3>1）用户直接提供的信息</h3>
+        <p>用户提交咨询或请求时，可能收集<strong>姓名（或公司名称）、电子邮箱、联系方式、咨询内容</strong>等；具体项目以输入界面提示为准。</p>
+        <h3>2）自动产生并收集的信息</h3>
+        <p>可能自动收集<strong>IP 地址、Cookie、服务使用记录、访问日志、访问时间、部分浏览器或终端信息</strong>等。</p>
+      </div>
+      <div class="privacy-block">
+        <h2>3. 处理及保存期限</h2>
+        <p>公司在征得同意的期限或法定期限内处理并保存个人信息；目的达成或保存期限届满后，除法律另有规定外将及时删除。另有法定保存义务时，按下表保存。</p>
         <ul>
-          <li><strong>必填项目：</strong>姓名（或公司名称）、电子邮件地址、联系方式、咨询内容</li>
-          <li><strong>自动生成信息：</strong>IP地址、Cookie、服务使用记录、访问日志、访问时间</li>
+          <li><strong>客户咨询与投诉：</strong>处理完成后<strong>1年</strong>（存在争议时可延长至争议解决）</li>
+          <li><strong>网站访问记录：</strong><strong>3个月</strong>（依据《通信秘密保护法》等）</li>
+        </ul>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">保存项目</th>
+                <th scope="col">保存期限</th>
+                <th scope="col">法律依据</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>消费者投诉或争议处理相关记录</td>
+                <td>3年</td>
+                <td>《电子商务消费者保护法等》</td>
+              </tr>
+              <tr>
+                <td>标识·广告相关记录</td>
+                <td>6个月</td>
+                <td>《电子商务消费者保护法等》</td>
+              </tr>
+              <tr>
+                <td>合同或撤销要约、付款、供货等记录</td>
+                <td>5年</td>
+                <td>《电子商务消费者保护法等》</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>4. 向第三方提供个人信息</h2>
+        <p>原则上不向第三方提供个人信息，但下列情形除外。</p>
+        <ul>
+          <li>事先征得用户同意</li>
+          <li>法律法规另有规定，或依法配合侦查、审判等机关</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>3. 个人信息处理及保留期限</h2>
+        <h2>5. 委托处理个人信息</h2>
+        <p>为顺利提供服务，公司可将处理业务委托给外部，并在合同中约定遵守个人信息相关法律、限制再委托、采取安全措施等事项并进行监督。当前委托如下。</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">受托方</th>
+                <th scope="col">委托内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Vercel Inc.</td>
+                <td>网站托管与部署（含 Edge／无服务器等）、CDN 及基础设施（咨询、内容传输等所需范围）</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>6. 个人信息跨境传输</h2>
+        <p>因受托方服务器、基础设施所在地等原因，个人信息可能被传输至韩国境外保存或处理。拒绝传输可能导致部分功能受限；如有疑问请联系下方负责人。</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">接收方</th>
+                <th scope="col">国家/地区</th>
+                <th scope="col">传输时间与方式</th>
+                <th scope="col">项目</th>
+                <th scope="col">保存与使用期限</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Vercel Inc.</td>
+                <td>美国等（含全球边缘网络所在地区）</td>
+                <td>使用服务时通过网络传输与保存</td>
+                <td>实现委托目的所需信息（咨询填写内容、访问与使用记录等）</td>
+                <td>至合同及相关法规规定的期限</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>7. 信息主体的权利与行使方式</h2>
+        <p>用户可依法行使查阅、更正·删除、限制处理等权利；可通过书面、电子邮件等方式提出。公司可在核实本人或正当代理人身份后及时处理。权利依法可能受到限制。</p>
         <ul>
-          <li><strong>客户咨询：</strong>处理完成后保留1年（发生纠纷时延长至纠纷解决）</li>
-          <li><strong>通信秘密保护法：</strong>网站访问记录保留3个月</li>
+          <li><strong>行使方式：</strong>向下列个人信息保护负责人（或担当）发送电子邮件</li>
+          <li><strong>代理行使：</strong>法定代理人或经授权人可代为行使（可能需提交授权委托书等）</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>4. 个人信息第三方提供</h2>
-        <p>未经用户事先同意，不向外部提供个人信息。但法律法规规定的情形除外。</p>
-      </div>
-      <div class="privacy-block">
-        <h2>5. 个人信息处理委托</h2>
+        <h2>8. 销毁程序及方法</h2>
+        <p>保存期限届满或处理目的达成等不再需要时，公司将及时销毁。</p>
         <ul>
-          <li><strong>受托方：</strong>Webflow, Inc.</li>
-          <li><strong>委托业务：</strong>网站托管服务提供及系统环境运营</li>
+          <li><strong>程序：</strong>选定应销毁信息后，经个人信息保护负责人批准后销毁</li>
+          <li><strong>方法：</strong>电子文件以不可恢复方式删除；纸质文件粉碎或焚烧</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>6. 信息主体的权利义务及行使方法</h2>
-        <p>用户可随时请求查阅、更正·删除、暂停处理，请通过电子邮件联系以下负责人。</p>
-      </div>
-      <div class="privacy-block">
-        <h2>7. 个人信息销毁程序及方法</h2>
+        <h2>9. 安全保护措施</h2>
+        <p>公司采取下列措施保障个人信息安全。</p>
         <ul>
-          <li>电子文件：以不可恢复的方式永久删除</li>
-          <li>文件·打印件：粉碎或焚烧</li>
+          <li><strong>管理措施：</strong>内部管理计划、限定接触人员、教育</li>
+          <li><strong>技术措施：</strong>访问权限管理、安全软件、访问记录保存及防篡改（如适用）</li>
+          <li><strong>物理措施：</strong>机房、资料保管场所出入控制</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>8. 个人信息安全保护措施</h2>
-        <ul>
-          <li><strong>管理层面：</strong>制定内部管理计划、定期培训</li>
-          <li><strong>技术层面：</strong>访问权限管理、加密、安全程序运营</li>
-          <li><strong>物理层面：</strong>机房及资料保管室访问控制</li>
-        </ul>
+        <h2>10. Cookie 与自动收集信息</h2>
+        <p>公司可使用 Cookie 提供个性化服务或统计访问情况。用户可通过浏览器设置拒绝或删除 Cookie，部分功能可能受限。</p>
       </div>
       <div class="privacy-block">
-        <h2>9. 个人信息保护负责人</h2>
+        <h2>11. 个人信息保护负责人及联系方式</h2>
+        <p>公司指定下列人员负责个人信息处理相关事务及投诉处理。</p>
         <div class="privacy-contact">
           <p>
-            <strong>首席隐私官 (CPO)</strong><br>
-            Kim Jung-kwon（CEO）&nbsp;|&nbsp; <a href="mailto:thegraper@thegrap.com">thegraper@thegrap.com</a>
+            <strong>个人信息保护负责人</strong><br>
+            Kim Jung-kwon（代表）&nbsp;|&nbsp; 邮箱：<a href="mailto:thegraper@thegrap.com">thegraper@thegrap.com</a>
           </p>
-          <br>
           <p>
             <strong>个人信息保护担当</strong><br>
-            Seo Mi-jin &nbsp;|&nbsp; <a href="mailto:irene@thegrap.com">irene@thegrap.com</a>
+            Seo Mi-jin &nbsp;|&nbsp; 邮箱：<a href="mailto:irene@thegrap.com">irene@thegrap.com</a>
           </p>
         </div>
       </div>
       <div class="privacy-block">
-        <h2>10. 隐私政策变更通知</h2>
-        <p>变更时将提前至少7天通过网站公告告知，重大变更将提前30天预先通知。</p>
+        <h2>12. 权益侵害救济途径</h2>
+        <p>用户可就个人信息侵害向下列机构申请举报、咨询或争议调解。</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">机构</th>
+                <th scope="col">联系方式</th>
+                <th scope="col">网站</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>个人信息侵害举报中心</td>
+                <td>118（不加区号）</td>
+                <td><a href="https://privacy.kisa.or.kr" target="_blank" rel="noopener noreferrer">privacy.kisa.or.kr</a></td>
+              </tr>
+              <tr>
+                <td>个人信息争议调解委员会</td>
+                <td>1833-6972</td>
+                <td><a href="https://www.kopico.go.kr" target="_blank" rel="noopener noreferrer">www.kopico.go.kr</a></td>
+              </tr>
+              <tr>
+                <td>大检察厅网络犯罪调查科</td>
+                <td>1301（不加区号）</td>
+                <td><a href="https://www.spo.go.kr" target="_blank" rel="noopener noreferrer">www.spo.go.kr</a></td>
+              </tr>
+              <tr>
+                <td>警察厅网络安全局</td>
+                <td>182（不加区号）</td>
+                <td><a href="https://ecrm.police.go.kr" target="_blank" rel="noopener noreferrer">ecrm.police.go.kr</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>13. 隐私政策的变更</h2>
+        <p>本政策自施行日起适用，可能因法律法规、内部政策或服务变更而修订；修订时将通过网站公告等方式提前告知。对用户权利有重大影响的变更，将至少提前7日（或依法30日）公告。</p>
       </div>
     </div>
 
-    <!-- ── 일본어 본문 ── -->
+    <!-- ── 일본어 본문 (구조·한국어판 대응) ── -->
     <div data-lang-content="ja">
       <p class="privacy-intro">
-        THE GRAPは、個人情報保護法等の関連法令を遵守し、利用者の個人情報を保護し、関連する苦情を迅速かつ円滑に処理するため、本プライバシーポリシーを策定しております。
+        株式会社THE GRAP（以下「当社」といいます。）は、「個人情報保護法」その他関連法令を遵守し、利用者の個人情報を保護するため、本プライバシーポリシーを定め公開します。
+        本ポリシーは、当社が運営するウェブサイト（thegrap.com 等）および関連オンラインサービスに適用されます。
       </p>
       <div class="privacy-block">
         <h2>1. 個人情報の処理目的</h2>
+        <p>当社は、次の目的の範囲で必要な最小限の個人情報を処理します。目的が変更される場合は、法令に従い同意の取得等の措置を講じます。</p>
         <ul>
-          <li><strong>サービスの提供・運営：</strong>必要なコンテンツの提供、サービス環境の構成、ウェブサイト全般の運営</li>
-          <li><strong>お客様対応：</strong>お問い合わせ受付、本人確認、事実確認のための連絡、苦情処理</li>
+          <li><strong>サービスの提供・運営：</strong>コンテンツの提供、ウェブサイト・システムの運用・保守、利用統計および品質向上</li>
+          <li><strong>お客様対応：</strong>お問い合わせ・依頼の受付、本人確認、事実関係確認の連絡、回答</li>
+          <li><strong>セキュリティ・不正利用防止：</strong>接続記録の保存、異常利用の検知・対応（該当する場合）</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>2. 処理する個人情報の項目</h2>
-        <ul>
-          <li><strong>必須項目：</strong>氏名（または会社名）、メールアドレス、連絡先、お問い合わせ内容</li>
-          <li><strong>自動生成情報：</strong>IPアドレス、Cookie、サービス利用記録、アクセスログ、訪問日時</li>
-        </ul>
+        <h2>2. 処理する個人情報の項目および収集方法</h2>
+        <h3>1）利用者が直接提供する情報</h3>
+        <p>お問い合わせ等において、<strong>氏名（または会社名）、メールアドレス、連絡先、お問い合わせ内容</strong>等を入力いただく場合があります。具体的な項目は入力画面に表示します。</p>
+        <h3>2）サービス利用過程で自動生成・収集される情報</h3>
+        <p><strong>IPアドレス、Cookie、サービス利用記録、アクセスログ、訪問日時、ブラウザ・端末情報（一部）</strong>等が自動的に生成・収集される場合があります。</p>
       </div>
       <div class="privacy-block">
         <h2>3. 個人情報の処理および保有期間</h2>
+        <p>当社は、法令に定める保有・利用期間または利用者の同意を得た期間内で個人情報を処理・保有します。目的の達成または保有期間の経過後は遅滞なく消去します。ただし、次の事由がある場合は当該期間まで保管します。</p>
         <ul>
-          <li><strong>お問い合わせ：</strong>処理完了後1年間保管（紛争発生時は解決まで延長）</li>
-          <li><strong>通信秘密保護法：</strong>ウェブサイト訪問記録3ヶ月保管</li>
+          <li><strong>お客様のお問い合わせ・苦情：</strong>処理完了後<strong>1年間</strong>（紛争等がある場合は終了まで延長する場合があります）</li>
+          <li><strong>ウェブサイトの訪問・接続記録：</strong><strong>3ヶ月間</strong>（「通信秘密保護法」等に基づく通信事実確認資料）</li>
         </ul>
+        <p>関連法令に基づき別途保存が必要な場合は、次のとおり保管します。</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">保存項目</th>
+                <th scope="col">保存期間</th>
+                <th scope="col">根拠法令</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>消費者の苦情または紛争処理に関する記録</td>
+                <td>3年</td>
+                <td>「電子商取引等における消費者保護に関する法律」等</td>
+              </tr>
+              <tr>
+                <td>表示・広告に関する記録</td>
+                <td>6ヶ月</td>
+                <td>「電子商取引等における消費者保護に関する法律」等</td>
+              </tr>
+              <tr>
+                <td>契約または申込みの撤回、代金決済、財貨等の供給に関する記録</td>
+                <td>5年</td>
+                <td>「電子商取引等における消費者保護に関する法律」等</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="privacy-block">
         <h2>4. 個人情報の第三者提供</h2>
-        <p>利用者の事前同意なく個人情報を外部に提供しません。ただし、法令による場合は例外とします。</p>
+        <p>当社は、原則として利用者の個人情報を第三者に提供しません。ただし、次の場合は例外とします。</p>
+        <ul>
+          <li>利用者が事前に同意した場合</li>
+          <li>法令に特別の規定がある場合、または捜査・裁判等に関する法令に基づく要請がある場合</li>
+        </ul>
       </div>
       <div class="privacy-block">
         <h2>5. 個人情報処理の委託</h2>
+        <p>当社は、円滑なサービス提供のため、個人情報の処理業務を外部に委託することがあります。委託にあたっては、法令に従い契約に個人情報の保護に関する事項を明記し、管理・監督します。現在の委託内容は次のとおりです。</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">受託者</th>
+                <th scope="col">委託する業務の内容</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Vercel Inc.</td>
+                <td>ウェブサイトのホスティング・デプロイ（Edge・サーバーレス等）・CDN およびインフラ運用（お問い合わせ・コンテンツ伝達等に必要な範囲）</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>6. 個人情報の国外移転</h2>
+        <p>受託事業者のサーバー・インフラの所在地等により、個人情報が大韓民国以外の国に移転され、保存・処理される場合があります。移転を拒否する場合、一部のサービス利用が制限されることがあります。ご不明な点は下記の個人情報保護責任者までお問い合わせください。</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">移転先</th>
+                <th scope="col">移転先国</th>
+                <th scope="col">移転の時期・方法</th>
+                <th scope="col">移転項目</th>
+                <th scope="col">保有・利用期間</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Vercel Inc.</td>
+                <td>米国等（グローバルエッジネットワークが稼働する地域を含む）</td>
+                <td>サービス利用時にネットワークを通じた送信・保存</td>
+                <td>委託目的の達成に必要な範囲の情報（お問い合わせ入力内容、接続・利用記録等）</td>
+                <td>委託契約および関連法令に定める期間まで</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>7. 情報主体の権利・義務および行使方法</h2>
+        <p>情報主体は、個人情報の閲覧、訂正・削除、処理の停止等の権利を行使できます。権利の行使は「個人情報保護法」施行令第41条に従い、書面、電子メール等により行うことができます。当社は、本人確認等必要な措置を経た後、遅滞なく対応します。権利の行使を行う者が本人または正当な代理人であるかを確認することがあります。</p>
         <ul>
-          <li><strong>受託事業者：</strong>Webflow, Inc.</li>
-          <li><strong>委託業務：</strong>ウェブサイトホスティングサービスの提供およびシステム環境の運営</li>
+          <li><strong>行使方法：</strong>下記の個人情報保護責任者（または担当者）に電子メールでご請求ください</li>
+          <li><strong>代理行使：</strong>法定代理人または委任を受けた者による行使も可能です（委任状等の提出を求める場合があります）</li>
+          <li>権利の行使は法令により一部制限されることがあります。</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>6. 情報主体の権利・義務および行使方法</h2>
-        <p>利用者はいつでも閲覧、訂正・削除、処理停止を請求することができ、下記の担当者にメールにてご連絡ください。</p>
-      </div>
-      <div class="privacy-block">
-        <h2>7. 個人情報の廃棄手続きおよび方法</h2>
+        <h2>8. 個人情報の廃棄手続きおよび方法</h2>
+        <p>保有期間の経過、処理目的の達成等により個人情報が不要となった場合は、遅滞なく廃棄します。</p>
         <ul>
-          <li>電子ファイル：復元不可能な方法で永久削除</li>
-          <li>書類・印刷物：裁断または焼却</li>
+          <li><strong>手続き：</strong>廃棄事由の発生した個人情報を選定し、個人情報保護責任者の承認を経て廃棄します</li>
+          <li><strong>方法：</strong>電子ファイルは復旧・再生が不可能な方法で削除し、紙文書は裁断または焼却します</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>8. 個人情報の安全性確保措置</h2>
+        <h2>9. 個人情報の安全性確保措置</h2>
+        <p>当社は、個人情報の安全性確保のため、次の措置を講じます。</p>
         <ul>
-          <li><strong>管理的：</strong>内部管理計画の策定、定期的な教育</li>
-          <li><strong>技術的：</strong>アクセス権限管理、暗号化、セキュリティプログラムの運営</li>
-          <li><strong>物理的：</strong>サーバー室・資料保管室へのアクセス制御</li>
+          <li><strong>管理的措置：</strong>内部管理計画の策定・実施、個人情報を取り扱う者の最小化および教育</li>
+          <li><strong>技術的措置：</strong>アクセス権限の管理、セキュリティプログラムの適用、接続記録の保存および改ざん防止（該当する場合）</li>
+          <li><strong>物理的措置：</strong>電算室・サーバー室・資料保管室等へのアクセス統制</li>
         </ul>
       </div>
       <div class="privacy-block">
-        <h2>9. 個人情報保護責任者</h2>
+        <h2>10. Cookieおよび自動的に収集される情報</h2>
+        <p>当社は、利用者に合わせたサービスの提供または接続統計の分析のため、Cookieを使用することがあります。Cookieはサーバーがブラウザに送信する少量の情報であり、端末に保存され、サービス接続時に送信される場合があります。ブラウザの設定によりCookieの保存を拒否・削除できますが、一部機能が制限されることがあります。</p>
+      </div>
+      <div class="privacy-block">
+        <h2>11. 個人情報保護責任者および担当部署</h2>
+        <p>当社は、個人情報の処理に関する業務を総括して責任を負い、苦情処理および被害救済のため、次のとおり個人情報保護責任者を定めます。</p>
         <div class="privacy-contact">
           <p>
-            <strong>個人情報保護責任者（CPO）</strong><br>
-            Kim Jung-kwon（CEO）&nbsp;|&nbsp; <a href="mailto:thegraper@thegrap.com">thegraper@thegrap.com</a>
+            <strong>個人情報保護責任者</strong><br>
+            氏名：Kim Jung-kwon（代表）&nbsp;|&nbsp; メール：<a href="mailto:thegraper@thegrap.com">thegraper@thegrap.com</a>
           </p>
-          <br>
           <p>
             <strong>個人情報保護担当者</strong><br>
-            Seo Mi-jin &nbsp;|&nbsp; <a href="mailto:irene@thegrap.com">irene@thegrap.com</a>
+            氏名：Seo Mi-jin &nbsp;|&nbsp; メール：<a href="mailto:irene@thegrap.com">irene@thegrap.com</a>
           </p>
         </div>
       </div>
       <div class="privacy-block">
-        <h2>10. プライバシーポリシーの変更通知</h2>
-        <p>変更の際は最低7日前にウェブサイトのお知らせを通じてご案内し、重大な変更の場合は30日前に事前通知いたします。</p>
+        <h2>12. 権利侵害に対する救済方法</h2>
+        <p>情報主体は、次の機関に個人情報の侵害に関する申告、相談、紛争解決等を求めることができます。</p>
+        <div class="privacy-table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">機関</th>
+                <th scope="col">連絡先</th>
+                <th scope="col">ウェブサイト</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>個人情報侵害申告センター</td>
+                <td>118（市外局番なし）</td>
+                <td><a href="https://privacy.kisa.or.kr" target="_blank" rel="noopener noreferrer">privacy.kisa.or.kr</a></td>
+              </tr>
+              <tr>
+                <td>個人情報紛争調停委員会</td>
+                <td>1833-6972</td>
+                <td><a href="https://www.kopico.go.kr" target="_blank" rel="noopener noreferrer">www.kopico.go.kr</a></td>
+              </tr>
+              <tr>
+                <td>大検察庁サイバー捜査課</td>
+                <td>1301（市外局番なし）</td>
+                <td><a href="https://www.spo.go.kr" target="_blank" rel="noopener noreferrer">www.spo.go.kr</a></td>
+              </tr>
+              <tr>
+                <td>警察庁サイバー安全局</td>
+                <td>182（市外局番なし）</td>
+                <td><a href="https://ecrm.police.go.kr" target="_blank" rel="noopener noreferrer">ecrm.police.go.kr</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="privacy-block">
+        <h2>13. プライバシーポリシーの変更</h2>
+        <p>本ポリシーは施行日から適用され、法令・内部方針またはサービスの変更により内容が追加・削除・修正される場合があります。変更時にはウェブサイトのお知らせ等により事前にご案内し、利用者の権利に重大な影響を与える変更については、少なくとも7日前（重大な場合は30日前）に告知します。</p>
       </div>
     </div>
 
@@ -411,6 +1035,10 @@
         zh: '隐私政策 — THE GRAP',
         ja: 'プライバシーポリシー — THE GRAP',
       }[lang] || 'Privacy Policy — THE GRAP';
+
+      // html lang → :lang() / html:lang() 타이포와 접근성 일치
+      document.documentElement.lang =
+        lang === 'zh' ? 'zh-Hans' : lang === 'ja' ? 'ja' : lang === 'en' ? 'en' : 'ko';
 
       document.querySelectorAll('[data-lang-content]').forEach(el => {
         el.classList.toggle('active', el.dataset.langContent === lang);

@@ -4,6 +4,14 @@
  * <script src="js/grap-footer.js"> body 끝, grap-init.js 앞에 추가
  */
 
+// ScrollTrigger 전역 설정 — index 등 grap-init 없는 페이지에서도 푸터 연동 시 스크롤 부하 완화
+if (typeof ScrollTrigger !== 'undefined') {
+  ScrollTrigger.config({
+    ignoreMobileResize: true,
+    limitCallbacks: true,
+  });
+}
+
 const PRIVACY_LABEL = {
   ko: '개인정보 처리방침',
   en: 'Privacy Policy',

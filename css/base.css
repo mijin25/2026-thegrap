@@ -36,7 +36,11 @@
 
 /* ── RESET ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
-html { scroll-behavior: smooth; scrollbar-gutter: stable; }
+/*
+  scroll-behavior: smooth 는 휠/트랙패드 스크롤까지 보간해 “느리고 묵직한” 느낌을 줄 수 있음 →
+  기본은 auto 로 네이티브 관성 스크롤 유지 (앵커 # 이동만 부드럽게 하려면 해당 페이지에서만 제한 적용 권장)
+*/
+html { scroll-behavior: auto; scrollbar-gutter: stable; }
 body {
   background: var(--c-bg);
   color: var(--c-on-bg);
@@ -44,6 +48,8 @@ body {
   font-family: 'PPNeueMontreal', 'Pretendard', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
   line-height: 1.6;
   overflow-x: hidden;
+  /* 세로 스크롤만 — 터치/휠 제스처를 브라우저 기본에 맡김 */
+  overscroll-behavior-y: auto;
 }
 
 /* ── LANGUAGE FONT STACKS ── */
@@ -114,18 +120,18 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
 }
 
 /* ── HEADER ── */
+/* 발광 레이어(#gradient-canvas 등)와 겹칠 때 가독성 — 로고·네비·우측을 한 덩어리로 difference (자식 각각 X) */
 #header {
   position: fixed; top: 0; left: 0; right: 0; z-index: 900;
   padding: clamp(16px, 2.5vw, 36px);
   display: grid; grid-template-columns: 1fr auto 1fr;
   align-items: center;
   pointer-events: none;
+  mix-blend-mode: difference;
 }
 #header > * { pointer-events: all; }
-.header-logo { color: var(--c-on-bg); text-decoration: none; justify-self: start; display: flex; mix-blend-mode: difference; }
+.header-logo { color: var(--c-on-bg); text-decoration: none; justify-self: start; display: flex; }
 .header-logo svg { width: clamp(80px,5vw,100px); height: auto; }
-#desktop-nav { mix-blend-mode: difference; }
-#header-right { mix-blend-mode: difference; }
 
 /* ── DESKTOP NAV ── */
 #desktop-nav {
@@ -236,12 +242,35 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
 
 /* ── FOOTER ── */
 #site-footer {
-  background: var(--c-bg);
+  position: relative;
+  background: transparent;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
 }
+#site-footer .footer-hero .fhl,
+#site-footer .footer-hero .fhl-inner,
+#site-footer .footer-cta-btn,
+#site-footer .footer-bottom-row,
+#site-footer .footer-bottom-row .footer-copy,
+#site-footer .footer-bottom-row .footer-link-item,
+#site-footer .footer-bottom-row .footer-link-item span,
+#site-footer .footer-privacy {
+  color: var(--c-on-bg);
+}
+#site-footer .footer-privacy:hover {
+  color: var(--c-primary);
+  opacity: 1;
+}
+/* CTA: #site-footer 가 ID라 .footer-cta-btn:hover 만으로는 color 가 덮어쓰이지 않음 → 동일 특이도로 라임 적용 */
+#site-footer .footer-cta-btn:hover,
+#site-footer .footer-cta-btn:hover span {
+  color: var(--c-primary);
+  opacity: 1;
+}
 .footer-inner {
+  position: relative;
+  z-index: 1;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -269,7 +298,6 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   grid-column: 1 / 4;
   font-family: 'PPNeueMontreal', sans-serif;
   font-size: clamp(0.8rem, 0.875vw, 0.875rem); /* 데스크탑 기준 14px */
-  color: var(--c-on-bg);
   letter-spacing: 0.04em !important; /* 언어 전환 무관하게 자간 고정 */
   align-self: end;
 }
@@ -280,13 +308,11 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   grid-column: 8;
   text-align: right;
   font-size: clamp(0.8rem, 0.875vw, 0.875rem); /* 데스크탑 기준 14px */
-  color: var(--c-on-bg);
   text-decoration: none;
   letter-spacing: 0 !important; /* 언어 전환 무관하게 자간 고정 */
-  transition: color .2s;
+  transition: opacity .2s;
   align-self: end;
 }
-.footer-privacy:hover { color: var(--c-primary); }
 /* Headline */
 .footer-hl-wrap {
   width: min(100%, 1100px);
@@ -299,7 +325,6 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   line-height: 1.02;
   letter-spacing: -0.02em !important;
   text-transform: none;
-  color: var(--c-on-bg);
   overflow: visible;
 }
 .fhl-inner {
@@ -318,13 +343,15 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   margin-top: clamp(18px, 2vw, 28px);
   font-size: clamp(0.875rem, 1vw, 1rem); /* 데스크탑 기준 16px */
   letter-spacing: 0.01em;
-  color: var(--c-on-bg);
   text-decoration: none;
   transition: opacity 0.2s ease, color 0.2s ease;
   width: fit-content;
   opacity: 0.84;
 }
-.footer-cta-btn:hover { opacity: 1; color: var(--c-primary); }
+.footer-cta-btn:hover {
+  opacity: 1;
+  text-decoration: none;
+}
 
 
 /* 오른쪽: 소셜/연락처 대형 링크 */
@@ -338,7 +365,7 @@ html:lang(ja) p:not([class*="title"]):not([class*="hl"]):not([class*="manifesto"
   font-family: 'PPNeueMontreal', sans-serif; font-weight: 500;
   font-size: clamp(2.2rem, 4.5vw, 4rem);
   letter-spacing: -.02em;
-  color: var(--c-on-bg); text-decoration: none;
+  text-decoration: none;
   line-height: 1.05;
   display: block;
 }

@@ -14,6 +14,7 @@
   // ── Reveal on scroll ──
   if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
+    /* ScrollTrigger 전역 설정은 grap-footer.js 로드 시 1회 적용 (index 포함) */
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
     const revealItems = Array.from(document.querySelectorAll('.reveal'));
 
@@ -28,20 +29,46 @@
     const pending = revealItems.filter((el) => el.dataset.revealReady !== '1');
     if (!pending.length) return;
 
-    // 배치 단위로 순차 노출해 "읽는 순서"가 자연스럽게 이어지도록 정리
-    ScrollTrigger.batch(pending, {
-      start: isMobile ? 'top 90%' : 'top 86%',
-      once: true,
-      onEnter: (batch) => {
-        gsap.to(batch, {
-          opacity: 1,
-          y: 0,
-          duration: isMobile ? 0.55 : 0.8,
-          ease: 'power2.out',
-          stagger: isMobile ? 0.05 : 0.08,
-          overwrite: 'auto',
-        });
-      },
+    /*
+      읽기 순서 정렬: 위→아래, 같은 행(인라인 줄바꿈)은 왼→오른쪽.
+      ScrollTrigger.batch 는 묶음 콜백·stagger 순서가 시각 순서와 어긋날 수 있어 요소별 트리거로 전환.
+    */
+    const sy = window.scrollY || window.pageYOffset || 0;
+    const rowTolerancePx = 4;
+    pending.sort((a, b) => {
+      const ra = a.getBoundingClientRect();
+      const rb = b.getBoundingClientRect();
+      const ay = ra.top + sy;
+      const by = rb.top + sy;
+      if (Math.abs(ay - by) < rowTolerancePx) {
+        return ra.left - rb.left;
+      }
+      return ay - by;
+    });
+
+    const startLine = isMobile ? 'top 91%' : 'top 88%';
+
+    pending.forEach((el) => {
+      ScrollTrigger.create({
+        trigger: el,
+        start: startLine,
+        once: true,
+        onEnter: () => {
+          gsap.to(el, {
+            opacity: 1,
+            y: 0,
+            duration: isMobile ? 0.52 : 0.68,
+            ease: 'power2.out',
+            overwrite: 'auto',
+          });
+        },
+      });
+    });
+
+    window.addEventListener('load', () => {
+      if (typeof ScrollTrigger !== 'undefined') {
+        ScrollTrigger.refresh();
+      }
     });
   }
 })();
